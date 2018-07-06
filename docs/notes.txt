@@ -1,4 +1,4 @@
-- A user creates a subscription and manages his/hers subscriptions.
+- An user creates a subscription and manages his/hers subscriptions.
 - A subscription is "notify me on new content created that is tagged ..."
   (which includes both new content with interest tag, or old content that gets
   the interest tag),
