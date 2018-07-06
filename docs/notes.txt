@@ -1,0 +1,36 @@
+- A user creates a subscription and manages his/hers subscriptions.
+- A subscription is "notify me on new content created that is tagged ..."
+  (which includes both new content with interest tag, or old content that gets
+  the interest tag),
+  "notify me on any changes that affect content with interest tag".
+
+- Do we want to offer a user the possibility to filter based on portal
+  location or content type? I think these are too low level and even if a user
+  gets extra emails, he can filter (maybe we express some specific info in
+  mail subject such as “New Indicator created”)
+
+- based on content rule(s), when a content item is edited (or published etc.)
+  a ping (RabbitMQ) will be generated containing the url of edited object,
+  the recorded action (edited, published etc.) and other needed info
+  (tags, title, author, change of diff, date, etc.)
+
+- Why a ping based on a content rule? The site administrator can decide for
+  which content types this notification mechanism applies, thus applying
+  a “sane default” for the users
+
+- an asynchronous script will process the pings (retrieve them from RabbitMQ)
+  in order to send notification for all subscribed users in that case
+  (tag + action).
+
+- Global persistent utility that holds the catalog.
+    Result = catalog.query(tag=’education’, event=’created’)
+    Result = [list of brains]
+    Brain = userid, email address, etc.
+
+- Based on the result processing, the async script extracts a list of user
+  emails. It then triggers a new custom event (which will be processed by a
+  content rule), to allow customization of notification mechanism.
+  So, for example, if there are 20 users subscribed to a tag “water”,
+  the async script will trigger the event for each one of these users and the
+  content rule will then react to the event, sending a notification
+  (email, slack message, etc).
