@@ -17,7 +17,7 @@
       name="default"
       title="eea.notifications"
       directory="profiles/default"
-      description="Initialization"
+      description="Installs the EEA Notifications package."
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
