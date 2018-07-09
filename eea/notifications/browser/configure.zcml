@@ -7,10 +7,10 @@
   <!-- Test view -->
   <browser:page
     for="*"
-    name="view"
+    name="zzz-test-view"
     template="templates/test.pt"
     class="views.TestView"
-    layer="eea.notifications.interfaces.IEEANotificationsInstalled"
+    layer="eea.notifications.interfaces.installed.IEEANotificationsInstalled"
     permission="zope2.View"
     />
 
