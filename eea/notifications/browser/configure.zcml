@@ -9,7 +9,7 @@
     for="*"
     name="zzz-test-view"
     template="templates/test.pt"
-    class="views.TestView"
+    class=".views.TestView"
     layer="eea.notifications.interfaces.layers.IEEANotificationsInstalled"
     permission="zope2.View"
     />
