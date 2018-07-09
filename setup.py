@@ -22,7 +22,7 @@ setup(name='eea.notifications',
       url='https://github.com/eea/eea.notifications.git',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
-      namespace_packages=['notifications', ],
+      namespace_packages=['eea', ],
       include_package_data=True,
       zip_safe=False,
       install_requires=[
