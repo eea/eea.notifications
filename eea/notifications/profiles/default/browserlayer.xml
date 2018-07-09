@@ -1,6 +1,6 @@
 <layers>
   <layer
     name="eea.notifications"
-    interface="eea.notifications.interfaces.IEEANotificationsInstalled"
+    interface="eea.notifications.interfaces.layers.IEEANotificationsInstalled"
     />
 </layers>
