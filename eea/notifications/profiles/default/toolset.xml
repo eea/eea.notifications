@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<tool-setup>
+  <required
+    tool_id="eea_notifications_catalog"
+    class="eea.notifications.catalogtool.EEANotificationsCatalogTool"/>
+</tool-setup>
