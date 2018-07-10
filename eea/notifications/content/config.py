@@ -17,5 +17,5 @@ def ENVPATH(name, default=None):
 ENV_HOST_NAME = ENVPATH(
     'EEA_NOTIFICATIONS_ENV_HOST_NAME', 'climate-adapt.eea.europa.eu')
 
-ENV_HOST_NAME = ENVPATH(
+ENV_PLONE_NAME = ENVPATH(
     'EEA_NOTIFICATIONS_ENV_PLONE_NAME', '/cca')
