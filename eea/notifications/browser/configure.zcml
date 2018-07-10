@@ -8,7 +8,7 @@
     for="*"
     name="notifications_center"
     template="templates/notifications_center.pt"
-    class=".views.TestView"
+    class=".notifications_center.NotificationsCenter"
     layer="eea.notifications.interfaces.layers.IEEANotificationsInstalled"
     permission="cmf.ManagePortal"
     />
