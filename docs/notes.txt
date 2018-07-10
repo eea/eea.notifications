@@ -34,3 +34,8 @@
   the async script will trigger the event for each one of these users and the
   content rule will then react to the event, sending a notification
   (email, slack message, etc).
+
+TODO
+- Add LICENSE file.
+- Add documentation on configuring ENV vars and running the notifications
+  center script.

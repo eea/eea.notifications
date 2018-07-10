@@ -36,4 +36,4 @@ setup(
     notifications_center = \
     eea.notifications.browser.notifications_center:notifications_center
     """,
-      )
+)
