@@ -54,7 +54,6 @@ def notifications_center_operations(site):
     """ All the operations of Notifications Center happen here
         Callable by both: browser view and script
     """
-    import pdb; pdb.set_trace()
     print "ZZZ Notified 1"
     print "ZZZ Notified 2"
     print "ZZZ Notified 3"
