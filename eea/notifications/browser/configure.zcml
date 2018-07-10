@@ -4,14 +4,13 @@
   xmlns:faceted="http://namespaces.zope.org/faceted"
   i18n_domain="eea.notifications">
 
-  <!-- Test view -->
   <browser:page
     for="*"
-    name="zzz-test-view"
-    template="templates/test.pt"
+    name="notifications_center"
+    template="templates/notifications_center.pt"
     class=".views.TestView"
     layer="eea.notifications.interfaces.layers.IEEANotificationsInstalled"
-    permission="zope2.View"
+    permission="cmf.ManagePortal"
     />
 
 </configure>
