@@ -5,6 +5,7 @@
 from Globals import InitializeClass
 from Products.ZCatalog.ZCatalog import ZCatalog
 from Products.CMFPlone.CatalogTool import CatalogTool
+from eea.notifications.interfaces.catalog import IEEANotificationsCatalogTool
 
 
 class EEANotificationsCatalogTool(CatalogTool):
