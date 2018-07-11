@@ -19,4 +19,22 @@
 
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+    source="1.0.0"
+    destination="1.0.1"
+    profile="eea.notifications:default">
+
+    <genericsetup:upgradeDepends
+      title="Import toolset."
+      description="Import toolset in order to install the catalog."
+      import_steps="toolset"
+      />
+
+    <genericsetup:upgradeStep
+      title="Install the catalog."
+      description="Install notifications Catalog tool."
+      handler="eea.notifications.upgrades.evolve101.run"
+      />
+
+  </genericsetup:upgradeSteps>
 </configure>
