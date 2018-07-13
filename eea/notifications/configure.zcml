@@ -21,4 +21,12 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="Uninstall EEA Notifications"
+      directory="profiles/uninstall"
+      description="Uninstall EEA Notifications."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   </configure>
