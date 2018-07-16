@@ -6,18 +6,20 @@
   metal:use-macro="context/main_template/macros/master">
   <body>
     <div metal:fill-slot="content-core">
-      <div class="user-tags-container"
+      <div class="user-preferences-container"
            tal:define="notifications_catalog python:view.notifications_catalog;
                        user_id python: view.user_id;
                        tags python:notifications_catalog.all_tags();
-                       selected python:notifications_catalog.selected_tags(user_id);">
-        <h2>Tags subscription</h2>
+                       selected_tags python:notifications_catalog.selected_tags(user_id);
+                       events python:notifications_catalog.all_events();
+                       selected_events python:notifications_catalog.selected_events(user_id);">
+        <h2>Subscription preferences</h2>
         <form method="post">
           <div class="form-group">
             <label for="tags-list">Tags list</label>
             <select multiple name="tags-list">
               <tal:options tal:repeat="tag python:tags">
-                <tal:option tal:define="is_selected python:tag[0] in selected">
+                <tal:option tal:define="is_selected python:tag[0] in selected_tags">
                   <option tal:condition="python:is_selected is True"
                           tal:attributes="value python:tag[0];"
                           tal:content="python:tag[1]"
@@ -32,9 +34,30 @@
                 </tal:option>
               </tal:options>
             </select>
-            <p>Select multiple content tags and subscribe.</p>
+            <p>Select multiple content tags.</p>
           </div>
 
+          <div class="form-group">
+            <label for="events-list">Events list</label>
+            <select multiple name="events-list">
+              <tal:options tal:repeat="tag python:events">
+                <tal:option tal:define="is_selected python:tag[0] in selected_events">
+                  <option tal:condition="python:is_selected is True"
+                          tal:attributes="value python:tag[0];"
+                          tal:content="python:tag[1]"
+                          selected>
+                    Added
+                  </option>
+                  <option tal:condition="python:is_selected is False"
+                          tal:attributes="value python:tag[0]"
+                          tal:content="python:tag[1]">
+                    Added
+                  </option>
+                </tal:option>
+              </tal:options>
+            </select>
+            <p>Select multiple content events types.</p>
+          </div>
           <button name="submit" type="submit" class="btn btn-default">
             Subscribe
           </button>

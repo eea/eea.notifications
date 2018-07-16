@@ -15,9 +15,9 @@
 
   <browser:page
     for="plone.app.layout.navigation.interfaces.INavigationRoot"
-    name="user_tags"
-    template="templates/user_tags_form.pt"
-    class=".user_tags_form.UserTagsForm"
+    name="user_preferences"
+    template="templates/user_preferences_form.pt"
+    class=".user_preferences_form.UserPreferencesForm"
     layer="eea.notifications.interfaces.layers.IEEANotificationsInstalled"
     permission="cmf.SetOwnProperties"
     />

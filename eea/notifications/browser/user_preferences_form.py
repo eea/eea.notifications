@@ -1,14 +1,15 @@
-""" The user's form for managing tags subscriptions
+""" The user's form for managing tags and events subscriptions
 """
 from Products.Five.browser import BrowserView
 from eea.notifications.catalogtool import get_catalog
 from plone import api
 
 
-class UserTagsForm(BrowserView):
-    """ User tags form
+class UserPreferencesForm(BrowserView):
+    """ User's preferences form
         User subscribes to a list of tags (from all content tags available).
-        """
+        Also selects the events he wants to follow.
+    """
 
     @property
     def notifications_catalog(self):
@@ -29,4 +30,12 @@ class UserTagsForm(BrowserView):
             else:
                 tags = value
             self.notifications_catalog.set_tags(tags, self.user_id)
+
+            events = []
+            value = self.request.form.get('events-list', [])
+            if isinstance(value, basestring):
+                events.append(value)
+            else:
+                events = value
+            self.notifications_catalog.set_events(events, self.user_id)
         return self.index()

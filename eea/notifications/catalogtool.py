@@ -117,7 +117,28 @@ class EEANotificationsCatalogTool(CatalogTool):
         """
         user = api.user.get(user_id)
         user.setProperties(eea_notifications_tags=tags)
-        print "Saved: {0} for {1}".format(tags, user_id)
+
+    def all_events(self):
+        """ The list of available content events
+        """
+        # [TODO] WIP
+        return [
+            ('added', 'Added'),
+            ('edited', 'Edited'),
+            ('deleted', 'Deleted'),
+        ]
+
+    def selected_events(self, user_id):
+        """ The list of user selected events
+        """
+        user = api.user.get(user_id)
+        return user.getProperty("eea_notifications_events")
+
+    def set_events(self, events, user_id):
+        """ Save user preferences
+        """
+        user = api.user.get(user_id)
+        user.setProperties(eea_notifications_events=events)
 
 
 InitializeClass(EEANotificationsCatalogTool)
