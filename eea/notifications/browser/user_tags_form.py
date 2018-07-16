@@ -21,6 +21,7 @@ class UserTagsForm(BrowserView):
         return api.user.get_current().getId()
 
     def __call__(self):
+        import pdb; pdb.set_trace()
         if "submit" in self.request.form:
             tags = []
             value = self.request.form.get('tags-list', [])

@@ -37,4 +37,15 @@
       />
 
   </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1.0.1"
+      destination="1.0.2"
+      profile="eea.notifications:default">
+
+      <genericsetup:upgradeDepends
+        title="Upgrade step for eea.notifications: add memberdata fields used to store preferences (tags, events)."
+        import_steps="memberdata-properties"
+        />
+  </genericsetup:upgradeSteps>
 </configure>

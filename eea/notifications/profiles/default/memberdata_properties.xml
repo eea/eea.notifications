@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<object name="portal_memberdata">
+  <property name="eea_notifications_tags" type="lines"></property>
+  <property name="eea_notifications_events" type="lines"></property>
+</object>
