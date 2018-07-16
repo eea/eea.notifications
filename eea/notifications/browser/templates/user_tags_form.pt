@@ -7,8 +7,10 @@
   <body>
     <div metal:fill-slot="content-core">
       <div class="user-tags-container"
-           tal:define="tags python:view.all_tags;
-                       selected python:view.selected_tags;">
+           tal:define="notifications_catalog python:view.notifications_catalog;
+                       user_id python: view.user_id;
+                       tags python:notifications_catalog.all_tags();
+                       selected python:notifications_catalog.selected_tags(user_id);">
         <h2>Tags subscription</h2>
         <form method="post">
           <div class="form-group">

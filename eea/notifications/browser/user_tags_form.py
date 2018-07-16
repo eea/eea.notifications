@@ -1,6 +1,7 @@
 """ The user's form for managing tags subscriptions
 """
 from Products.Five.browser import BrowserView
+from eea.notifications.catalogtool import get_catalog
 from plone import api
 
 
@@ -10,30 +11,14 @@ class UserTagsForm(BrowserView):
         """
 
     @property
-    def all_tags(self):
-        """ The list of available content tags
-        """
-        # [TODO] WIP
-        return [
-            ('education', 'Education'),
-            ('security', 'Security'),
-            ('agriculture', 'Agriculture'),
-            ('books', 'Books'),
-            ('lorem-ipsum', 'Lorem ipsum')
-        ]
+    def notifications_catalog(self):
+        return get_catalog(self.context)
 
     @property
-    def selected_tags(self):
-        """ The list of user selected tags
+    def user_id(self):
+        """ The current user's id
         """
-        # [TODO] WIP
-        return ['education', 'books']
-
-    def set_tags(self, tags, user_id):
-        """ Save user preferences
-        """
-        # [TODO] WIP
-        print "Saved: {0} for {1}".format(tags, user_id)
+        return api.user.get_current().getId()
 
     def __call__(self):
         if "submit" in self.request.form:
@@ -43,6 +28,5 @@ class UserTagsForm(BrowserView):
                 tags.append(value)
             else:
                 tags = value
-            user_id = api.user.get_current().getId()
-            self.set_tags(tags, user_id)
+            self.notifications_catalog.set_tags(tags, self.user_id)
         return self.index()

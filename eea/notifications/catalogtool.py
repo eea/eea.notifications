@@ -2,14 +2,21 @@
     Global persistent utility that holds the catalog
 """
 
-from AccessControl import ClassSecurityInfo
-from Globals import InitializeClass
 # from Products.CMFCore.permissions import ManagePortal
 # from Products.CMFCore.utils import getToolByName
+from AccessControl import ClassSecurityInfo
+from Globals import InitializeClass
 from Products.CMFPlone.CatalogTool import CatalogTool
 from Products.ZCatalog.ZCatalog import ZCatalog
 from eea.notifications.interfaces.catalog import IEEANotificationsCatalogTool
+from plone import api
 from zope.interface import implements
+
+
+def get_catalog(context):
+    """ Return the Notifications catalog
+    """
+    return api.portal.get_tool(name="eea_notifications_catalog")
 
 
 class EEANotificationsCatalogTool(CatalogTool):
@@ -86,6 +93,30 @@ class EEANotificationsCatalogTool(CatalogTool):
     #         obj_metatypes=(),
     #
     #         search_sub=True, apply_func=indexObject)
+
+    def all_tags(self):
+        """ The list of available content tags
+        """
+        # [TODO] WIP
+        return [
+            ('education', 'Education'),
+            ('security', 'Security'),
+            ('agriculture', 'Agriculture'),
+            ('books', 'Books'),
+            ('lorem-ipsum', 'Lorem ipsum')
+        ]
+
+    def selected_tags(self, user_id):
+        """ The list of user selected tags
+        """
+        # [TODO] WIP
+        return ['education', 'books']
+
+    def set_tags(self, tags, user_id):
+        """ Save user preferences
+        """
+        # [TODO] WIP
+        print "Saved: {0} for {1}".format(tags, user_id)
 
 
 InitializeClass(EEANotificationsCatalogTool)
