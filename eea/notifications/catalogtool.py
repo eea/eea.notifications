@@ -109,13 +109,14 @@ class EEANotificationsCatalogTool(CatalogTool):
     def selected_tags(self, user_id):
         """ The list of user selected tags
         """
-        # [TODO] WIP
-        return ['education', 'books']
+        user = api.user.get(user_id)
+        return user.getProperty("eea_notifications_tags")
 
     def set_tags(self, tags, user_id):
         """ Save user preferences
         """
-        # [TODO] WIP
+        user = api.user.get(user_id)
+        user.setProperties(eea_notifications_tags=tags)
         print "Saved: {0} for {1}".format(tags, user_id)
 
 
