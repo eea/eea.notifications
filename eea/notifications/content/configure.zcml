@@ -3,4 +3,6 @@
     xmlns:five="http://namespaces.zope.org/five"
     i18n_domain="eea.notifications">
 
-  </configure>
+  <adapter name="getTags" factory=".indexers.getTags" />
+
+</configure>
