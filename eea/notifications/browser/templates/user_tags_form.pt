@@ -1,1 +1,21 @@
-User tags
+<div class="user-tags-container"
+     tal:define="tags python:view.get_tags()">
+  <h2>Tags subscription</h2>
+  <form method="post">
+    <div class="form-group">
+      <label for="tags-list">Tags list</label>
+      <select multiple name="tags-list">
+        <option tal:repeat="tag python:tags"
+                tal:attributes="value python:tag[0]"
+                tal:content="python:tag[1]">
+          Education
+        </option>
+      </select>
+      <p>Select multiple content tags and subscribe.</p>
+    </div>
+
+    <button name="submit" type="submit" class="btn btn-default">
+      Subscribe
+    </button>
+  </form>
+</div>
