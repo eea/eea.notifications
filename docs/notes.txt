@@ -27,6 +27,9 @@
     Result = [list of brains]
     Brain = userid, email address, etc.
 
+- use memberdata to store user's preferences (tags, events)
+- when a memberdata is updated -> the values reindexed in custom catalog
+
 - Based on the result processing, the async script extracts a list of user
   emails. It then triggers a new custom event (which will be processed by a
   content rule), to allow customization of notification mechanism.
