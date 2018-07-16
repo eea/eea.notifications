@@ -1,6 +1,7 @@
 """ The user's form for managing tags subscriptions
 """
 from Products.Five.browser import BrowserView
+from plone import api
 
 
 class UserTagsForm(BrowserView):
@@ -20,11 +21,11 @@ class UserTagsForm(BrowserView):
             ('lorem-ipsum', 'Lorem ipsum')
         ]
 
-    def set_tags(self, tags):
+    def set_tags(self, tags, user_id):
         """ Save user preferences
         """
         # [TODO] WIP
-        print "Saved: {0}".format(tags)
+        print "Saved: {0} for {1}".format(tags, user_id)
 
     def __call__(self):
         if "submit" in self.request.form:
@@ -34,5 +35,6 @@ class UserTagsForm(BrowserView):
                 tags.append(value)
             else:
                 tags = value
-            self.set_tags(tags)
+            user_id = api.user.get_current().getId()
+            self.set_tags(tags, user_id)
         return self.index()
