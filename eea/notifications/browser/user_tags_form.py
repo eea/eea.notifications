@@ -9,7 +9,8 @@ class UserTagsForm(BrowserView):
         User subscribes to a list of tags (from all content tags available).
         """
 
-    def get_tags(self):
+    @property
+    def all_tags(self):
         """ The list of available content tags
         """
         # [TODO] WIP
@@ -20,6 +21,13 @@ class UserTagsForm(BrowserView):
             ('books', 'Books'),
             ('lorem-ipsum', 'Lorem ipsum')
         ]
+
+    @property
+    def selected_tags(self):
+        """ The list of user selected tags
+        """
+        # [TODO] WIP
+        return ['education', 'books']
 
     def set_tags(self, tags, user_id):
         """ Save user preferences

@@ -1,21 +1,47 @@
-<div class="user-tags-container"
-     tal:define="tags python:view.get_tags()">
-  <h2>Tags subscription</h2>
-  <form method="post">
-    <div class="form-group">
-      <label for="tags-list">Tags list</label>
-      <select multiple name="tags-list">
-        <option tal:repeat="tag python:tags"
-                tal:attributes="value python:tag[0]"
-                tal:content="python:tag[1]">
-          Education
-        </option>
-      </select>
-      <p>Select multiple content tags and subscribe.</p>
-    </div>
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  i18n:domain="eea.notifications"
+  metal:use-macro="context/main_template/macros/master">
+  <body>
+    <div metal:fill-slot="content-core">
+      <div class="user-tags-container"
+           tal:define="tags python:view.all_tags;
+                       selected python:view.selected_tags;">
+        <h2>Tags subscription</h2>
+        <form method="post">
+          <div class="form-group">
+            <label for="tags-list">Tags list</label>
+            <select multiple name="tags-list">
+              <tal:options tal:repeat="tag python:tags">
+                <tal:option tal:define="is_selected python:tag[0] in selected">
+                  <option tal:condition="python:is_selected is True"
+                          tal:attributes="value python:tag[0];"
+                          tal:content="python:tag[1]"
+                          selected>
+                    Education
+                  </option>
+                  <option tal:condition="python:is_selected is False"
+                          tal:attributes="value python:tag[0]"
+                          tal:content="python:tag[1]">
+                    Education
+                  </option>
+                </tal:option>
+              </tal:options>
+            </select>
+            <p>Select multiple content tags and subscribe.</p>
+          </div>
 
-    <button name="submit" type="submit" class="btn btn-default">
-      Subscribe
-    </button>
-  </form>
-</div>
+          <button name="submit" type="submit" class="btn btn-default">
+            Subscribe
+          </button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+
+
