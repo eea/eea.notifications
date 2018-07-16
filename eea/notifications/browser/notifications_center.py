@@ -2,6 +2,7 @@
 """
 
 from Products.Five.browser import BrowserView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from eea.notifications.content.config import ENV_HOST_NAME
 from eea.notifications.content.config import ENV_PLONE_NAME
 from plone import api
@@ -54,8 +55,9 @@ def notifications_center():
 class NotificationsCenter(BrowserView):
     """ Notifications Center as view
     """
-
     def __call__(self):
         site = api.portal.get()
 
         notifications_center_operations(site)
+
+        return self.index()
