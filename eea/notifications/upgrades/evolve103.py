@@ -1,5 +1,5 @@
 from eea.notifications.catalogtool import get_catalog
-from eea.notifications.content.utils import LOGGER
+from eea.notifications.utils import LOGGER
 
 
 def run(context):

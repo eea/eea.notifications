@@ -2,9 +2,8 @@
 """
 
 from Products.Five.browser import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from eea.notifications.content.config import ENV_HOST_NAME
-from eea.notifications.content.config import ENV_PLONE_NAME
+from eea.notifications.config import ENV_HOST_NAME
+from eea.notifications.config import ENV_PLONE_NAME
 from plone import api
 
 
