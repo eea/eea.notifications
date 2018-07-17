@@ -12,4 +12,5 @@ def run(context):
             index = index  # The Happy PEP
         except KeyError:
             catalog.addIndex('getTags', 'FieldIndex')
+            catalog.reindexIndex(('getTags'), REQUEST=None)
             LOGGER.info("Added 'getTags' index to eea_notifications_catalog")
