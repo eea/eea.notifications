@@ -1,9 +1,47 @@
+from OFS.interfaces import IObjectManager
+from Products.Archetypes.config import TOOL_NAME as ARCHETYPETOOLNAME
 from Products.CMFCore.utils import getToolByName
 from eea.notifications.catalogtool import get_catalog
 from eea.notifications.utils import LOGGER
 from plone.indexer.decorator import indexer
 from zope.component import provideAdapter
 from zope.interface import Interface
+import transaction
+
+
+TEST_META_TYPES = [
+    'File',
+    'File (Blob)',
+    'Folder',
+    'Image',
+    'Page Template',
+]
+
+
+def walk_folder(folder):
+    for idx, ob in folder.ZopeFind(
+            folder, obj_metatypes=TEST_META_TYPES, search_sub=0):
+        yield ob
+
+        if IObjectManager.providedBy(ob):
+            for sub_ob in walk_folder(ob):
+                yield sub_ob
+
+
+def catalog_rebuild(context):
+    catalog = get_catalog(context)
+
+    def add_to_catalog(ob):
+        catalog.catalog_object(ob, '/'.join(ob.getPhysicalPath()))
+
+    catalog.manage_catalogClear()
+    root = context
+    for i, ob in enumerate(walk_folder(root)):
+        if i % 10000 == 0:
+            transaction.savepoint()
+            root._p_jar.cacheGC()
+            LOGGER.info('savepoint at %d records', i)
+        add_to_catalog(ob)
 
 
 def run(context):
@@ -78,3 +116,11 @@ def run(context):
                         friendlyName='getTags',
                         description='getTags description here',
                         enabled=True)
+
+            at = getToolByName(context, ARCHETYPETOOLNAME)
+            at.setCatalogsByType(
+                'MetaType',
+                ['portal_catalog', 'eea_notifications_catalog', ]
+            )
+
+            catalog_rebuild(catalog.unrestrictedTraverse('/'))
