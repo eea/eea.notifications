@@ -1,5 +1,9 @@
+from Products.CMFCore.utils import getToolByName
 from eea.notifications.catalogtool import get_catalog
 from eea.notifications.utils import LOGGER
+from plone.indexer.decorator import indexer
+from zope.component import provideAdapter
+from zope.interface import Interface
 
 
 def run(context):
@@ -51,7 +55,26 @@ def run(context):
             catalog.reindexIndex(('Title'), REQUEST=None)
             LOGGER.info("Added 'Title' to eea_notifications_catalog.")
 
+            def test_index(object, **kw):
+                return "TODO ZZZ"
+
+            test_indexer = indexer(Interface)(test_index)
+            provideAdapter(test_indexer, name='getTags')
+            # [x for x in catalog.Indexes['indexname'].uniqueValues()]
             catalog.addIndex('getTags', 'FieldIndex')
             catalog.addColumn('getTags')
             catalog.reindexIndex(('getTags'), REQUEST=None)
             LOGGER.info("Added 'getTags' to eea_notifications_catalog.")
+
+            atct_config = getToolByName(context, 'portal_atct', None)
+            atct_config.updateIndex(
+                        'getTags',
+                        friendlyName='getTags',
+                        description='getTags description here',
+                        enabled=True,
+                        criteria='ATSimpleIntCriterion')
+            atct_config.updateMetadata(
+                        'getTags',
+                        friendlyName='getTags',
+                        description='getTags description here',
+                        enabled=True)
