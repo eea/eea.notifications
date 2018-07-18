@@ -88,8 +88,9 @@ class EEANotificationsCatalogTool(CatalogTool):
         """
         tags = self.uniqueValuesFor("getTags")
         flatten_list = [item for sublist in tags for item in sublist]
+        sorted_unique_tags = sorted(list(set(flatten_list)))
 
-        return [(x, x.title()) for x in flatten_list]
+        return [(x, x) for x in sorted_unique_tags]
 
     def selected_tags(self, user_id):
         """ The list of user selected tags
