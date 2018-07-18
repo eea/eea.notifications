@@ -1,47 +1,42 @@
-from OFS.interfaces import IObjectManager
 from Products.Archetypes.config import TOOL_NAME as ARCHETYPETOOLNAME
 from Products.CMFCore.utils import getToolByName
 from eea.notifications.catalogtool import get_catalog
 from eea.notifications.utils import LOGGER
+from plone import api
 from plone.indexer.decorator import indexer
 from zope.component import provideAdapter
 from zope.interface import Interface
 import transaction
 
 
-TEST_META_TYPES = [
-    'File',
-    'File (Blob)',
-    'Folder',
-    'Image',
-    'Page Template',
-]
-
-
-def walk_folder(folder):
-    for idx, ob in folder.ZopeFind(
-            folder, obj_metatypes=TEST_META_TYPES, search_sub=0):
-        yield ob
-
-        if IObjectManager.providedBy(ob):
-            for sub_ob in walk_folder(ob):
-                yield sub_ob
+def list_portal_types():
+    site = api.portal.get()
+    portal_types = getToolByName(site, "portal_types")
+    return portal_types.listContentTypes()
 
 
 def catalog_rebuild(context):
-    catalog = get_catalog(context)
+    portal_catalog = api.portal.get_tool('portal_catalog')
+    eea_notifications_catalog = get_catalog(context)
 
-    def add_to_catalog(ob):
-        catalog.catalog_object(ob, '/'.join(ob.getPhysicalPath()))
-
-    catalog.manage_catalogClear()
-    root = context
-    for i, ob in enumerate(walk_folder(root)):
-        if i % 10000 == 0:
-            transaction.savepoint()
-            root._p_jar.cacheGC()
-            LOGGER.info('savepoint at %d records', i)
-        add_to_catalog(ob)
+    for portal_type in list_portal_types():
+        brains = portal_catalog(portal_type=portal_type)
+        brains_len = len(brains)
+        LOGGER.info('Found %s brains.', brains_len)
+        objects = (brain.getObject() for brain in brains)
+        for idx, item in enumerate(objects, start=1):
+            eea_notifications_catalog.catalog_object(
+                item,
+                idxs=(
+                    'portal_type',
+                    'Title',
+                    'getTags',
+                ),
+                update_metadata=1
+            )
+            if idx % 50 == 0:
+                LOGGER.info('Done %s/%s.', idx, brains_len)
+        transaction.savepoint()
 
 
 def run(context):
@@ -123,4 +118,4 @@ def run(context):
                 ['portal_catalog', 'eea_notifications_catalog', ]
             )
 
-            catalog_rebuild(catalog.unrestrictedTraverse('/'))
+            catalog_rebuild(api.portal.get())
