@@ -42,4 +42,4 @@ TODO
 - Add LICENSE file.
 - Add documentation on configuring ENV vars and running the notifications
   center script.
-- catalog configuration (evolve101)
+- fix: new added tags to appear in user preferences form
