@@ -42,11 +42,16 @@ def run(context):
             title_extras.lexicon_id = 'plone_lexicon'
 
             catalog.addIndex('portal_type', 'FieldIndex')
-            catalog.addIndex('Title', "ZCTextIndex", title_extras)
-
             catalog.addColumn('portal_type')
+            catalog.reindexIndex(('portal_type'), REQUEST=None)
+            LOGGER.info("Added 'portal_type' to eea_notifications_catalog.")
+
+            catalog.addIndex('Title', "ZCTextIndex", title_extras)
             catalog.addColumn('Title')
+            catalog.reindexIndex(('Title'), REQUEST=None)
+            LOGGER.info("Added 'Title' to eea_notifications_catalog.")
 
             catalog.addIndex('getTags', 'FieldIndex')
+            catalog.addColumn('getTags')
             catalog.reindexIndex(('getTags'), REQUEST=None)
-            LOGGER.info("Added 'getTags' index to eea_notifications_catalog")
+            LOGGER.info("Added 'getTags' to eea_notifications_catalog.")
