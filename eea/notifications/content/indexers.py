@@ -4,4 +4,10 @@ from Products.CMFCore.interfaces import IContentish
 
 @indexer(IContentish)
 def getTags(obj):
-    return "[TODO] WIP list of tags"
+    """ To be improved if we want to include other fields
+    """
+    try:
+        tags = obj.subject
+    except Exception:
+        tags = ()
+    return tags
