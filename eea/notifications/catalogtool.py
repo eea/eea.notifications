@@ -86,14 +86,10 @@ class EEANotificationsCatalogTool(CatalogTool):
     def all_tags(self):
         """ The list of available content tags
         """
-        # [TODO] WIP
-        return [
-            ('education', 'Education'),
-            ('security', 'Security'),
-            ('agriculture', 'Agriculture'),
-            ('books', 'Books'),
-            ('lorem-ipsum', 'Lorem ipsum')
-        ]
+        tags = self.uniqueValuesFor("getTags")
+        flatten_list = [item for sublist in tags for item in sublist]
+
+        return [(x, x.title()) for x in flatten_list]
 
     def selected_tags(self, user_id):
         """ The list of user selected tags

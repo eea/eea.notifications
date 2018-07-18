@@ -2,6 +2,7 @@
 """
 
 from Products.Five.browser import BrowserView
+from eea.notifications.catalogtool import get_catalog
 from eea.notifications.config import ENV_HOST_NAME
 from eea.notifications.config import ENV_PLONE_NAME
 from plone import api
