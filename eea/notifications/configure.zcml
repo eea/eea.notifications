@@ -19,6 +19,7 @@
       directory="profiles/default"
       description="Installs the EEA Notifications package."
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      post_handler=".upgrades.evolve11.run"
       />
 
   <genericsetup:registerProfile
