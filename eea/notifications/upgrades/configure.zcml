@@ -9,49 +9,18 @@
 
   <genericsetup:upgradeSteps
     source="*"
-    destination="1.0.0"
+    destination="1.1"
     profile="eea.notifications:default">
 
     <genericsetup:upgradeDepends
-      title="Upgrade step for eea.notifications: import rolemap browserlayer"
-      import_steps="rolemap browserlayer"
+      title="Upgrade step for eea.notifications: install."
+      import_steps="rolemap browserlayer toolset memberdata-properties"
       />
-
-  </genericsetup:upgradeSteps>
-
-  <genericsetup:upgradeSteps
-    source="1.0.0"
-    destination="1.0.1"
-    profile="eea.notifications:default">
-
-    <genericsetup:upgradeDepends
-      title="Import toolset."
-      description="Import toolset in order to install the catalog."
-      import_steps="toolset"
-      />
-
-  </genericsetup:upgradeSteps>
-
-  <genericsetup:upgradeSteps
-      source="1.0.1"
-      destination="1.0.2"
-      profile="eea.notifications:default">
-
-      <genericsetup:upgradeDepends
-        title="Upgrade step for eea.notifications: add memberdata fields used to store preferences (tags, events)."
-        import_steps="memberdata-properties"
-        />
-  </genericsetup:upgradeSteps>
-
-  <genericsetup:upgradeSteps
-    source="1.0.2"
-    destination="1.0.3"
-    profile="eea.notifications:default">
 
     <genericsetup:upgradeStep
       title="Install the catalog."
       description="Configure eea notifications catalog."
-      handler="eea.notifications.upgrades.evolve103.run"
+      handler="eea.notifications.upgrades.evolve11.run"
       />
 
   </genericsetup:upgradeSteps>
