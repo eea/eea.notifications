@@ -2,6 +2,7 @@
 """
 from eea.notifications.catalogtool import get_catalog
 from plone import api
+import transaction
 
 
 def update_catalog(obj, event):
@@ -16,3 +17,4 @@ def update_catalog(obj, event):
         ),
         update_metadata=1
     )
+    transaction.commit()
