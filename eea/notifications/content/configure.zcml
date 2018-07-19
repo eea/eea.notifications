@@ -5,4 +5,8 @@
 
   <adapter name="getTags" factory=".indexers.getTags" />
 
+  <subscriber
+    for="Products.CMFCore.interfaces.IContentish
+         zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+    handler=".events.update_catalog" />
 </configure>
