@@ -2,41 +2,9 @@ from Products.Archetypes.config import TOOL_NAME as ARCHETYPETOOLNAME
 from Products.CMFCore.utils import getToolByName
 from eea.notifications.catalogtool import get_catalog
 from eea.notifications.utils import LOGGER
-from plone import api
 from plone.indexer.decorator import indexer
 from zope.component import provideAdapter
 from zope.interface import Interface
-import transaction
-
-
-def list_portal_types():
-    site = api.portal.get()
-    portal_types = getToolByName(site, "portal_types")
-    return portal_types.listContentTypes()
-
-
-def catalog_rebuild(context):
-    portal_catalog = api.portal.get_tool('portal_catalog')
-    eea_notifications_catalog = get_catalog(context)
-
-    for portal_type in list_portal_types():
-        brains = portal_catalog(portal_type=portal_type)
-        brains_len = len(brains)
-        LOGGER.info('Found %s brains.', brains_len)
-        objects = (brain.getObject() for brain in brains)
-        for idx, item in enumerate(objects, start=1):
-            eea_notifications_catalog.catalog_object(
-                item,
-                idxs=(
-                    'portal_type',
-                    'Title',
-                    'getTags',
-                ),
-                update_metadata=1
-            )
-            if idx % 50 == 0:
-                LOGGER.info('Done %s/%s.', idx, brains_len)
-        transaction.savepoint()
 
 
 def run(context):
@@ -118,4 +86,4 @@ def run(context):
                 ['portal_catalog', 'eea_notifications_catalog', ]
             )
 
-            catalog_rebuild(api.portal.get())
+            catalog.catalog_rebuild()

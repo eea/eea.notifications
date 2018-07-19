@@ -9,8 +9,11 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.CatalogTool import CatalogTool
 from Products.ZCatalog.ZCatalog import ZCatalog
 from eea.notifications.interfaces.catalog import IEEANotificationsCatalogTool
+from eea.notifications.utils import LOGGER
+from eea.notifications.utils import list_content_types
 from plone import api
 from zope.interface import implements
+import transaction
 
 
 def get_catalog(context):
@@ -82,6 +85,29 @@ class EEANotificationsCatalogTool(CatalogTool):
             obj_metatypes=(),
 
             search_sub=True, apply_func=indexObject)
+
+    def catalog_rebuild(context):
+        portal_catalog = api.portal.get_tool('portal_catalog')
+        eea_notifications_catalog = get_catalog(context)
+
+        for portal_type in list_content_types():
+            brains = portal_catalog(portal_type=portal_type)
+            brains_len = len(brains)
+            LOGGER.info('Found %s brains.', brains_len)
+            objects = (brain.getObject() for brain in brains)
+            for idx, item in enumerate(objects, start=1):
+                eea_notifications_catalog.catalog_object(
+                    item,
+                    idxs=(
+                        'portal_type',
+                        'Title',
+                        'getTags',
+                    ),
+                    update_metadata=1
+                )
+                if idx % 50 == 0:
+                    LOGGER.info('Done %s/%s.', idx, brains_len)
+            transaction.savepoint()
 
     def all_tags(self):
         """ The list of available content tags
