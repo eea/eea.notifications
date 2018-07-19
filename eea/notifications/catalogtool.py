@@ -5,7 +5,6 @@
 from AccessControl import ClassSecurityInfo
 from Globals import InitializeClass
 from Products.CMFCore.permissions import ManagePortal
-from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.CatalogTool import CatalogTool
 from Products.ZCatalog.ZCatalog import ZCatalog
 from eea.notifications.interfaces.catalog import IEEANotificationsCatalogTool
@@ -77,7 +76,7 @@ class EEANotificationsCatalogTool(CatalogTool):
 
         self.manage_catalogClear()
 
-        portal = getToolByName(self, 'portal_url').getPortalObject()
+        portal = api.portal.get()
         portal.ZopeFindAndApply(
             portal,
             # """ put your meta_type here """,

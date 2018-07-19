@@ -1,7 +1,7 @@
 from Products.Archetypes.config import TOOL_NAME as ARCHETYPETOOLNAME
-from Products.CMFCore.utils import getToolByName
 from eea.notifications.catalogtool import get_catalog
 from eea.notifications.utils import LOGGER
+from plone import api
 from plone.indexer.decorator import indexer
 from zope.component import provideAdapter
 from zope.interface import Interface
@@ -67,20 +67,20 @@ def run(context):
             catalog.reindexIndex(('getTags'), REQUEST=None)
             LOGGER.info("Added 'getTags' to eea_notifications_catalog.")
 
-            atct_config = getToolByName(context, 'portal_atct', None)
-            atct_config.updateIndex(
+            atct = api.portal.get_tool(name="portal_atct")
+            atct.updateIndex(
                         'getTags',
                         friendlyName='getTags',
                         description='getTags description here',
                         enabled=True,
                         criteria='ATSimpleIntCriterion')
-            atct_config.updateMetadata(
+            atct.updateMetadata(
                         'getTags',
                         friendlyName='getTags',
                         description='getTags description here',
                         enabled=True)
 
-            at = getToolByName(context, ARCHETYPETOOLNAME)
+            at = api.portal.get_tool(name=ARCHETYPETOOLNAME)
             at.setCatalogsByType(
                 'MetaType',
                 ['portal_catalog', 'eea_notifications_catalog', ]
