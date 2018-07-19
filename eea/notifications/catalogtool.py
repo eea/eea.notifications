@@ -48,9 +48,7 @@ class EEANotificationsCatalogTool(CatalogTool):
     def enumerateIndexes(self):
         """Returns indexes used by catalog"""
         return (
-            ('portal_type', 'FieldIndex', ()),
-            ('Title', 'ZCTextIndex', ()),
-            ('getTags', 'FieldIndex', ()),
+            ('getTags', 'KeywordIndex', ()),
             )
 
     security.declarePublic('enumerateMetadata')
@@ -58,8 +56,6 @@ class EEANotificationsCatalogTool(CatalogTool):
     def enumerateMetadata(self):
         """Returns metadata used by catalog"""
         return (
-            'portal_type',
-            'Title',
             'getTags',
            )
 
@@ -98,8 +94,6 @@ class EEANotificationsCatalogTool(CatalogTool):
                 eea_notifications_catalog.catalog_object(
                     item,
                     idxs=(
-                        'portal_type',
-                        'Title',
                         'getTags',
                     ),
                     update_metadata=1
@@ -112,10 +106,8 @@ class EEANotificationsCatalogTool(CatalogTool):
         """ The list of available content tags
         """
         tags = self.uniqueValuesFor("getTags")
-        flatten_list = [item for sublist in tags for item in sublist]
-        sorted_unique_tags = sorted(list(set(flatten_list)))
 
-        return [(x, x) for x in sorted_unique_tags]
+        return [(x, x) for x in sorted(tags)]
 
     def selected_tags(self, user_id):
         """ The list of user selected tags
