@@ -15,7 +15,7 @@ from zope.interface import implements
 import transaction
 
 
-def get_catalog(context):
+def get_catalog():
     """ Return the Notifications catalog
     """
     return api.portal.get_tool(name="eea_notifications_catalog")
@@ -83,7 +83,7 @@ class EEANotificationsCatalogTool(CatalogTool):
 
     def catalog_rebuild(context):
         portal_catalog = api.portal.get_tool('portal_catalog')
-        eea_notifications_catalog = get_catalog(context)
+        eea_notifications_catalog = get_catalog()
 
         for portal_type in list_content_types():
             brains = portal_catalog(portal_type=portal_type)

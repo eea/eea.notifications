@@ -7,7 +7,7 @@ from plone import api
 def run(context):
     """ Configure catalog
     """
-    catalog = get_catalog(context)
+    catalog = get_catalog()
     if catalog is not None:
         try:
             index = catalog._catalog.getIndex('getTags')

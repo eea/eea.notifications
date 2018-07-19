@@ -13,7 +13,7 @@ class UserPreferencesForm(BrowserView):
 
     @property
     def notifications_catalog(self):
-        return get_catalog(self.context)
+        return get_catalog()
 
     @property
     def user_id(self):
