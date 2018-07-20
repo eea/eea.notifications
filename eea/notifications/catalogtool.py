@@ -87,6 +87,30 @@ class EEANotificationsCatalogTool(CatalogTool):
         portal_catalog = api.portal.get_tool('portal_catalog')
         eea_notifications_catalog = get_catalog()
 
+        md = api.portal.get_tool("portal_memberdata")
+        _members = md._members
+
+        for idx, user_id in enumerate(_members.iterkeys()):
+            print "{0}: {1}".format(idx, user_id)
+            user_member_data = _members.get(user_id)
+
+            if user_member_data is not None:
+                try:
+                    tags = user_member_data.eea_notifications_tags
+                except Exception:
+                    tags = []
+                if len(tags) > 0:
+                    user = api.user.get(user_id)
+                    try:
+                        eea_notifications_catalog.catalog_object(
+                            user,
+                            idxs=('getUserTags'),
+                            update_metadata=1
+                        )
+                    except:
+                        pass  # KeyError: 'g' and IIndexableObject false...
+                        # TODO fix it
+
         for portal_type in list_content_types():
             brains = portal_catalog(portal_type=portal_type)
             brains_len = len(brains)
@@ -95,10 +119,7 @@ class EEANotificationsCatalogTool(CatalogTool):
             for idx, item in enumerate(objects, start=1):
                 eea_notifications_catalog.catalog_object(
                     item,
-                    idxs=(
-                        'getTags',
-                        'getUserTags',
-                    ),
+                    idxs=('getTags',),
                     update_metadata=1
                 )
                 if idx % 50 == 0:
