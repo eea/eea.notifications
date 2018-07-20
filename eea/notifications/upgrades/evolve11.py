@@ -43,17 +43,34 @@ def run(context):
             catalog.reindexIndex(('getTags'), REQUEST=None)
             LOGGER.info("Added 'getTags' to eea_notifications_catalog.")
 
+            catalog.addIndex('getUserTags', 'KeywordIndex')
+            catalog.addColumn('getUserTags')
+            catalog.reindexIndex(('getUserTags'), REQUEST=None)
+            LOGGER.info("Added 'getUserTags' to eea_notifications_catalog.")
+
             atct = api.portal.get_tool(name="portal_atct")
             atct.updateIndex(
                         'getTags',
                         friendlyName='getTags',
-                        description='getTags description here',
+                        description='getTags',
                         enabled=True,
                         criteria='ATSimpleIntCriterion')
             atct.updateMetadata(
                         'getTags',
                         friendlyName='getTags',
-                        description='getTags description here',
+                        description='getTags',
+                        enabled=True)
+
+            atct.updateIndex(
+                        'getUserTags',
+                        friendlyName='getUserTags',
+                        description='getUserTags',
+                        enabled=True,
+                        criteria='ATSimpleIntCriterion')
+            atct.updateMetadata(
+                        'getUserTags',
+                        friendlyName='getUserTags',
+                        description='getUserTags',
                         enabled=True)
 
             at = api.portal.get_tool(name=ARCHETYPETOOLNAME)

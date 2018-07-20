@@ -49,6 +49,7 @@ class EEANotificationsCatalogTool(CatalogTool):
         """Returns indexes used by catalog"""
         return (
             ('getTags', 'KeywordIndex', ()),
+            ('getUserTags', 'KeywordIndex', ()),
             )
 
     security.declarePublic('enumerateMetadata')
@@ -57,6 +58,7 @@ class EEANotificationsCatalogTool(CatalogTool):
         """Returns metadata used by catalog"""
         return (
             'getTags',
+            'getUserTags'
            )
 
     security.declareProtected(ManagePortal, 'clearFindAndRebuild')
@@ -95,6 +97,7 @@ class EEANotificationsCatalogTool(CatalogTool):
                     item,
                     idxs=(
                         'getTags',
+                        'getUserTags',
                     ),
                     update_metadata=1
                 )

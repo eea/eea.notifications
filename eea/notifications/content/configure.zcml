@@ -4,6 +4,7 @@
     i18n_domain="eea.notifications">
 
   <adapter name="getTags" factory=".indexers.getTags" />
+  <adapter name="getUserTags" factory=".indexers.getUserTags" />
 
   <subscriber
     for="Products.CMFCore.interfaces.IContentish

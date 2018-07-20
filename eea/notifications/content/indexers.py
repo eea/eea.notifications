@@ -1,5 +1,6 @@
-from plone.indexer.decorator import indexer
 from Products.CMFCore.interfaces import IContentish
+from Products.CMFCore.interfaces import IMemberData
+from plone.indexer.decorator import indexer
 
 
 @indexer(IContentish)
@@ -11,3 +12,10 @@ def getTags(obj):
     except Exception:
         tags = ()
     return tags
+
+
+@indexer(IMemberData)
+def getUserTags(obj):
+    """ The tags an user subscribed to
+    """
+    return obj.getProperty("eea_notifications_tags")
