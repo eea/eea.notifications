@@ -101,15 +101,11 @@ class EEANotificationsCatalogTool(CatalogTool):
                     tags = []
                 if len(tags) > 0:
                     user = api.user.get(user_id)
-                    try:
-                        eea_notifications_catalog.catalog_object(
-                            user,
-                            idxs=('getUserTags'),
-                            update_metadata=1
-                        )
-                    except:
-                        pass  # KeyError: 'g' and IIndexableObject false...
-                        # TODO fix it
+                    eea_notifications_catalog.catalog_object(
+                        user,
+                        idxs=('getUserTags',),
+                        update_metadata=1
+                    )
 
         for portal_type in list_content_types():
             brains = portal_catalog(portal_type=portal_type)
