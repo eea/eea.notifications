@@ -89,16 +89,17 @@ class EEANotificationsCatalogTool(CatalogTool):
 
         md = api.portal.get_tool("portal_memberdata")
         _members = md._members
+        _properties = api.portal.get()[
+            'acl_users']['mutable_properties']._storage
 
         for idx, user_id in enumerate(_members.iterkeys()):
             print "{0}: {1}".format(idx, user_id)
             user_member_data = _members.get(user_id)
+            user_properties = _properties.get(user_id, dict())
 
             if user_member_data is not None:
-                try:
-                    tags = user_member_data.eea_notifications_tags
-                except Exception:
-                    tags = []
+                tags = user_properties.get('eea_notifications_tags', [])
+
                 if len(tags) > 0:
                     user = api.user.get(user_id)
                     eea_notifications_catalog.catalog_object(
