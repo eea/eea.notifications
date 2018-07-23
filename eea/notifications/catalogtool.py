@@ -10,9 +10,14 @@ from Products.ZCatalog.ZCatalog import ZCatalog
 from eea.notifications.interfaces.catalog import IEEANotificationsCatalogTool
 from eea.notifications.utils import LOGGER
 from eea.notifications.utils import list_content_types
+from persistent.dict import PersistentDict
 from plone import api
+from zope.annotation import IAnnotations
 from zope.interface import implements
 import transaction
+
+
+TAGS_KEY = "eea.notifications.tags"
 
 
 def get_catalog():
@@ -83,9 +88,11 @@ class EEANotificationsCatalogTool(CatalogTool):
 
             search_sub=True, apply_func=indexObject)
 
-    def catalog_rebuild(context):
-        portal_catalog = api.portal.get_tool('portal_catalog')
-        eea_notifications_catalog = get_catalog()
+    def update_users_tags(self):
+        """ Synchronize annotations with memberdata field
+        """
+        tags_annot = IAnnotations(api.portal.get()).setdefault(
+            TAGS_KEY, PersistentDict({}))
 
         md = api.portal.get_tool("portal_memberdata")
         _members = md._members
@@ -100,13 +107,13 @@ class EEANotificationsCatalogTool(CatalogTool):
             if user_member_data is not None:
                 tags = user_properties.get('eea_notifications_tags', [])
 
-                if len(tags) > 0:
-                    user = api.user.get(user_id)
-                    eea_notifications_catalog.catalog_object(
-                        user,
-                        idxs=('getUserTags',),
-                        update_metadata=1
-                    )
+                tags_annot[user_id] = tags
+
+        transaction.commit()
+
+    def catalog_rebuild(context):
+        portal_catalog = api.portal.get_tool('portal_catalog')
+        eea_notifications_catalog = get_catalog()
 
         for portal_type in list_content_types():
             brains = portal_catalog(portal_type=portal_type)
@@ -122,6 +129,8 @@ class EEANotificationsCatalogTool(CatalogTool):
                 if idx % 50 == 0:
                     LOGGER.info('Done %s/%s.', idx, brains_len)
             transaction.savepoint()
+
+        eea_notifications_catalog.update_users_tags()
 
     def all_tags(self):
         """ The list of available content tags
