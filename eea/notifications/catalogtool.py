@@ -11,6 +11,7 @@ from eea.notifications.interfaces.catalog import IEEANotificationsCatalogTool
 from eea.notifications.utils import LOGGER
 from eea.notifications.utils import list_content_types
 from persistent.dict import PersistentDict
+from persistent.list import PersistentList
 from plone import api
 from zope.annotation import IAnnotations
 from zope.interface import implements
@@ -88,8 +89,9 @@ class EEANotificationsCatalogTool(CatalogTool):
 
             search_sub=True, apply_func=indexObject)
 
-    def update_users_tags(self):
-        """ Synchronize annotations with memberdata field
+    def update_users_tags(self, user_id=None):
+        """ Synchronize annotations with memberdata field for all users
+            or for given user
         """
         tags_annot = IAnnotations(api.portal.get()).setdefault(
             TAGS_KEY, PersistentDict({}))
@@ -99,15 +101,24 @@ class EEANotificationsCatalogTool(CatalogTool):
         _properties = api.portal.get()[
             'acl_users']['mutable_properties']._storage
 
-        for idx, user_id in enumerate(_members.iterkeys()):
-            print "{0}: {1}".format(idx, user_id)
+        if user_id is None:
+            for idx, user_id in enumerate(_members.iterkeys()):
+                print "{0}: {1}".format(idx, user_id)
+                user_member_data = _members.get(user_id)
+                user_properties = _properties.get(user_id, dict())
+
+                if user_member_data is not None:
+                    tags = user_properties.get('eea_notifications_tags', [])
+
+                    tags_annot[user_id] = PersistentList(tags)
+
+        else:
             user_member_data = _members.get(user_id)
             user_properties = _properties.get(user_id, dict())
 
             if user_member_data is not None:
                 tags = user_properties.get('eea_notifications_tags', [])
-
-                tags_annot[user_id] = tags
+                tags_annot[user_id] = PersistentList(tags)
 
         transaction.commit()
 
@@ -142,14 +153,24 @@ class EEANotificationsCatalogTool(CatalogTool):
     def selected_tags(self, user_id):
         """ The list of user selected tags
         """
-        user = api.user.get(user_id)
-        return user.getProperty("eea_notifications_tags")
+        tags_annot = IAnnotations(api.portal.get()).get(TAGS_KEY, None)
+        if not TAGS_KEY:
+            return []
+
+        return tags_annot.get(user_id, [])
+        # The same with:
+        # user = api.user.get(user_id)
+        # return user.getProperty("eea_notifications_tags")
 
     def set_tags(self, tags, user_id):
         """ Save user preferences
         """
         user = api.user.get(user_id)
         user.setProperties(eea_notifications_tags=tags)
+
+        transaction.commit()
+
+        self.update_users_tags(user_id=user_id)
 
     def all_events(self):
         """ The list of available content events
