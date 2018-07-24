@@ -9,20 +9,20 @@
   <subscriber
     for="Products.CMFCore.interfaces.IContentish
          zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-    handler=".events.add_or_update_in_catalog" />
+    handler=".events.object_modified" />
 
   <subscriber
     for="Products.CMFCore.interfaces.IContentish
          zope.lifecycleevent.interfaces.IObjectMovedEvent"
-    handler=".events.add_or_update_in_catalog" />
+    handler=".events.object_moved" />
 
   <subscriber
     for="Products.CMFCore.interfaces.IContentish
          zope.lifecycleevent.interfaces.IObjectAddedEvent"
-    handler=".events.add_or_update_in_catalog" />
+    handler=".events.object_added" />
 
   <subscriber
     for="Products.CMFCore.interfaces.IContentish
          zope.lifecycleevent.interfaces.IObjectRemovedEvent"
-    handler=".events.remove_from_catalog" />
+    handler=".events.object_removed" />
 </configure>
