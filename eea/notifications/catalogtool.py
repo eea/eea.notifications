@@ -236,7 +236,14 @@ class EEANotificationsCatalogTool(CatalogTool):
                     events).issubset(x[1])]
             return set(has_tags).intersection(set(has_events))
         elif mode == "or":
-            return []  # WIP
+            has_tags = [
+                x[0] for x in tags_annot.items() if len(
+                    set(tags).intersection(set(x[1]))) > 0]
+            has_events = [
+                x[0] for x in events_annot.items() if len(
+                    set(events).intersection(set(x[1]))) > 0]
+
+            return set(has_tags).intersection(set(has_events))
 
 
 InitializeClass(EEANotificationsCatalogTool)

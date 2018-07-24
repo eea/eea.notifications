@@ -2,6 +2,7 @@
 """
 
 from Products.Five.browser import BrowserView
+from eea.notifications.catalogtool import get_catalog
 from eea.notifications.config import ENV_HOST_NAME
 from eea.notifications.config import ENV_PLONE_NAME
 from plone import api
@@ -38,14 +39,12 @@ def notifications_center_operations(site):
     """ All the operations of Notifications Center happen here
         Callable by both: browser view and script
     """
-    from eea.notifications.catalogtool import get_catalog
-    import pdb; pdb.set_trace()
     catalog = get_catalog()
     catalog.set_tags(tags=['Austria'], user_id='tibiadmin')
     catalog.set_events(events=['deleted'], user_id='tibiadmin')
     users = catalog.search_users_by_preferences(
-        events=['edited', 'deleted'],
-        tags=['Austria', 'DRM'],
+        events=['deleted', 'edited'],
+        tags=['Austria'],
         mode="or"
     )
     print users
