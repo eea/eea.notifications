@@ -98,26 +98,28 @@ class EEANotificationsCatalogTool(CatalogTool):
 
         md = api.portal.get_tool("portal_memberdata")
         _members = md._members
-        _properties = api.portal.get()[
-            'acl_users']['mutable_properties']._storage
 
         if user_id is None:
             for idx, user_id in enumerate(_members.iterkeys()):
                 print "{0}: {1}".format(idx, user_id)
                 user_member_data = _members.get(user_id)
-                user_properties = _properties.get(user_id, dict())
 
                 if user_member_data is not None:
-                    tags = user_properties.get('eea_notifications_tags', [])
+                    try:
+                        tags = user_member_data.eea_notifications_tags
+                    except AttributeError:
+                        tags = []
 
                     tags_annot[user_id] = PersistentList(tags)
 
         else:
             user_member_data = _members.get(user_id)
-            user_properties = _properties.get(user_id, dict())
 
             if user_member_data is not None:
-                tags = user_properties.get('eea_notifications_tags', [])
+                try:
+                    tags = user_member_data.eea_notifications_tags
+                except AttributeError:
+                    tags = []
                 tags_annot[user_id] = PersistentList(tags)
 
         transaction.commit()
@@ -167,8 +169,6 @@ class EEANotificationsCatalogTool(CatalogTool):
         """
         user = api.user.get(user_id)
         user.setProperties(eea_notifications_tags=tags)
-
-        transaction.commit()
 
         self.update_users_tags(user_id=user_id)
 
