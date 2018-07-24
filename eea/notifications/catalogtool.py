@@ -109,6 +109,7 @@ class EEANotificationsCatalogTool(CatalogTool):
                 user_member_data = _members.get(user_id)
 
                 if user_member_data is not None:
+                    # TODO Not sure the real values are saved
                     try:
                         tags = user_member_data.eea_notifications_tags
                     except AttributeError:
@@ -123,19 +124,14 @@ class EEANotificationsCatalogTool(CatalogTool):
 
                     events_annot[user_id] = PersistentList(events)
         else:
-            user_member_data = _members.get(user_id)
-
+            user_member_data = api.user.get(user_id)
             if user_member_data is not None:
-                try:
-                    tags = user_member_data.eea_notifications_tags
-                except AttributeError:
-                    tags = []
+                tags = user_member_data.getProperty('eea_notifications_tags')
                 tags_annot[user_id] = PersistentList(tags)
 
-                try:
-                    events = user_member_data.eea_notifications_events
-                except AttributeError:
-                    events = []
+                events = user_member_data.getProperty(
+                    'eea_notifications_events')
+
                 events_annot[user_id] = PersistentList(events)
         transaction.commit()
 
@@ -240,7 +236,6 @@ class EEANotificationsCatalogTool(CatalogTool):
                     events).issubset(x[1])]
             return set(has_tags).intersection(set(has_events))
         elif mode == "or":
-            import pdb; pdb.set_trace()
             return []  # WIP
 
 

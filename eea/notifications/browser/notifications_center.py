@@ -39,6 +39,7 @@ def notifications_center_operations(site):
         Callable by both: browser view and script
     """
     from eea.notifications.catalogtool import get_catalog
+    import pdb; pdb.set_trace()
     catalog = get_catalog()
     catalog.set_tags(tags=['Austria'], user_id='tibiadmin')
     catalog.set_events(events=['deleted'], user_id='tibiadmin')
