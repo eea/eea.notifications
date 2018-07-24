@@ -19,6 +19,7 @@ import transaction
 
 
 TAGS_KEY = "eea.notifications.tags"
+EVENTS_KEY = "eea.notifications.events"
 
 
 def get_catalog():
@@ -89,12 +90,15 @@ class EEANotificationsCatalogTool(CatalogTool):
 
             search_sub=True, apply_func=indexObject)
 
-    def update_users_tags(self, user_id=None):
+    def update_users_preferences(self, user_id=None):
         """ Synchronize annotations with memberdata field for all users
             or for given user
         """
         tags_annot = IAnnotations(api.portal.get()).setdefault(
             TAGS_KEY, PersistentDict({}))
+
+        events_annot = IAnnotations(api.portal.get()).setdefault(
+            EVENTS_KEY, PersistentDict({}))
 
         md = api.portal.get_tool("portal_memberdata")
         _members = md._members
@@ -112,6 +116,12 @@ class EEANotificationsCatalogTool(CatalogTool):
 
                     tags_annot[user_id] = PersistentList(tags)
 
+                    try:
+                        events = user_member_data.eea_notifications_events
+                    except AttributeError:
+                        events = []
+
+                    events_annot[user_id] = PersistentList(events)
         else:
             user_member_data = _members.get(user_id)
 
@@ -122,6 +132,11 @@ class EEANotificationsCatalogTool(CatalogTool):
                     tags = []
                 tags_annot[user_id] = PersistentList(tags)
 
+                try:
+                    events = user_member_data.eea_notifications_events
+                except AttributeError:
+                    events = []
+                events_annot[user_id] = PersistentList(events)
         transaction.commit()
 
     def catalog_rebuild(context):
@@ -143,7 +158,7 @@ class EEANotificationsCatalogTool(CatalogTool):
                     LOGGER.info('Done %s/%s.', idx, brains_len)
             transaction.savepoint()
 
-        eea_notifications_catalog.update_users_tags()
+        eea_notifications_catalog.update_users_preferences()
 
     def all_tags(self):
         """ The list of available content tags
@@ -156,7 +171,7 @@ class EEANotificationsCatalogTool(CatalogTool):
         """ The list of user selected tags
         """
         tags_annot = IAnnotations(api.portal.get()).get(TAGS_KEY, None)
-        if not TAGS_KEY:
+        if tags_annot is None:
             return []
 
         return tags_annot.get(user_id, [])
@@ -170,7 +185,7 @@ class EEANotificationsCatalogTool(CatalogTool):
         user = api.user.get(user_id)
         user.setProperties(eea_notifications_tags=tags)
 
-        self.update_users_tags(user_id=user_id)
+        self.update_users_preferences(user_id=user_id)
 
     def all_events(self):
         """ The list of available content events
@@ -185,14 +200,22 @@ class EEANotificationsCatalogTool(CatalogTool):
     def selected_events(self, user_id):
         """ The list of user selected events
         """
-        user = api.user.get(user_id)
-        return user.getProperty("eea_notifications_events")
+        events_annot = IAnnotations(api.portal.get()).get(EVENTS_KEY, None)
+        if events_annot is None:
+            return []
+
+        return events_annot.get(user_id, [])
+        # The same with:
+        # user = api.user.get(user_id)
+        # return user.getProperty("eea_notifications_events")
 
     def set_events(self, events, user_id):
         """ Save user preferences
         """
         user = api.user.get(user_id)
         user.setProperties(eea_notifications_events=events)
+
+        self.update_users_preferences(user_id=user_id)
 
 
 InitializeClass(EEANotificationsCatalogTool)
