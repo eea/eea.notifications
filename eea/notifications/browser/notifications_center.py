@@ -39,10 +39,13 @@ def notifications_center_operations(site):
         Callable by both: browser view and script
     """
     from eea.notifications.catalogtool import get_catalog
-    users = get_catalog().search_users_by_preferences(
+    catalog = get_catalog()
+    catalog.set_tags(tags=['Austria'], user_id='tibiadmin')
+    catalog.set_events(events=['deleted'], user_id='tibiadmin')
+    users = catalog.search_users_by_preferences(
         events=['edited', 'deleted'],
         tags=['Austria', 'DRM'],
-        mode="and"
+        mode="or"
     )
     print users
     print "ZZZ Notified 1"

@@ -183,7 +183,7 @@ class EEANotificationsCatalogTool(CatalogTool):
         """ Save user preferences
         """
         user = api.user.get(user_id)
-        user.setProperties(eea_notifications_tags=tags)
+        user.setMemberProperties({'eea_notifications_tags': tags})
 
         self.update_users_preferences(user_id=user_id)
 
@@ -213,7 +213,7 @@ class EEANotificationsCatalogTool(CatalogTool):
         """ Save user preferences
         """
         user = api.user.get(user_id)
-        user.setProperties(eea_notifications_events=events)
+        user.setMemberProperties({'eea_notifications_events': events})
 
         self.update_users_preferences(user_id=user_id)
 
@@ -231,7 +231,6 @@ class EEANotificationsCatalogTool(CatalogTool):
 
         mode = mode.lower()
         if mode == "and":
-            print "ALL"
             has_tags = [
                 x[0] for x in tags_annot.items() if set(
                     tags).issubset(x[1])]
@@ -241,6 +240,7 @@ class EEANotificationsCatalogTool(CatalogTool):
                     events).issubset(x[1])]
             return set(has_tags).intersection(set(has_events))
         elif mode == "or":
+            import pdb; pdb.set_trace()
             return []  # WIP
 
 
