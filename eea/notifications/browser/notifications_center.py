@@ -38,6 +38,13 @@ def notifications_center_operations(site):
     """ All the operations of Notifications Center happen here
         Callable by both: browser view and script
     """
+    from eea.notifications.catalogtool import get_catalog
+    users = get_catalog().search_users_by_preferences(
+        events=['edited', 'deleted'],
+        tags=['Austria', 'DRM'],
+        mode="and"
+    )
+    print users
     print "ZZZ Notified 1"
     print "ZZZ Notified 2"
     print "ZZZ Notified 3"

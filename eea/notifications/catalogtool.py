@@ -217,5 +217,31 @@ class EEANotificationsCatalogTool(CatalogTool):
 
         self.update_users_preferences(user_id=user_id)
 
+    def search_users_by_preferences(self, events=[], tags=[], mode="or"):
+        """ Return subscribers (list of usernames) for given events and tags
+
+            mode: or - on of the criteria matches
+                  and - only users subscribed to all given events and tags
+        """
+        tags_annot = IAnnotations(api.portal.get()).setdefault(
+            TAGS_KEY, PersistentDict({}))
+
+        events_annot = IAnnotations(api.portal.get()).setdefault(
+            EVENTS_KEY, PersistentDict({}))
+
+        mode = mode.lower()
+        if mode == "and":
+            print "ALL"
+            has_tags = [
+                x[0] for x in tags_annot.items() if set(
+                    tags).issubset(x[1])]
+
+            has_events = [
+                x[0] for x in events_annot.items() if set(
+                    events).issubset(x[1])]
+            return set(has_tags).intersection(set(has_events))
+        elif mode == "or":
+            return []  # WIP
+
 
 InitializeClass(EEANotificationsCatalogTool)
