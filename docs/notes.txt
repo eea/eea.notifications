@@ -22,13 +22,14 @@ WIP - an asynchronous script will process the pings (retrieve them from RabbitMQ
   in order to send notification for all subscribed users in that case
   (tag + action).
 
-WIP - Global persistent utility that holds the catalog.
+OK - Global persistent utility that holds the catalog.
+  https://community.plone.org/t/index-simple-data-in-a-custom-catalog/6911/3
     Result = catalog.query(tag=’education’, event=’created’)
     Result = [list of brains]
     Brain = userid, email address, etc.
 
 OK - use memberdata to store user's preferences (tags, events)
-TODO - when a memberdata is updated -> the values reindexed in custom catalog
+OK - when a memberdata is updated -> the values reindexed in custom catalog
 
 TODO - Based on the result processing, the async script extracts a list of user
   emails. It then triggers a new custom event (which will be processed by a
@@ -42,7 +43,6 @@ TODO
 - Add LICENSE file.
 - Add documentation on configuring ENV vars and running the notifications
   center script.
-- catalog: index user preferences fields
 - improve texts in user preferences form
 - improve UI in user preferences form
 - content rules
