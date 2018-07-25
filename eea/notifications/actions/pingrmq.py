@@ -2,8 +2,6 @@
 """
 
 from OFS.SimpleItem import SimpleItem
-from Products.Five.browser import BrowserView
-from eea.notifications.utils import LOGGER
 from plone.app.contentrules.browser.formhelper import AddForm
 from plone.app.contentrules.browser.formhelper import EditForm
 from plone.contentrules.rule.interfaces import IExecutable
@@ -53,14 +51,8 @@ class PingRMQActionExecutor(object):
         test_setting = self.element.test_setting
         obj = self.event.object
         container = obj.getParentNode()
-        noasync_msg = 'No instance for async operations was defined.'
 
-        print(event, test_setting, obj, container, noasync_msg)
-
-        def pingRMQ(test_setting, obj_url, create):
-            """ Ping the RabbitMQ service
-            """
-            LOGGER.info("ZZZ Ping done")
+        print(event, test_setting, obj, container)
 
         # create = IObjectAddedEvent.providedBy(event)
 
@@ -88,21 +80,3 @@ class PingRMQEditForm(EditForm):
     label = u"Edit Ping RabbitMQ Action"
     description = u"A ping RabbitMQ action."
     form_name = u"Configure element"
-
-
-class PingRMQView(BrowserView):
-    """ Ping RabbitMQ View
-    """
-    def __call__(self, url, **kwargs):
-        context = self.context
-        options = {}
-        options['create'] = False
-        options['test_setting'] = 'something test_setting'
-        options['obj_url'] = url
-        ping_RMQ(context, options)
-
-
-def ping_RMQ(context, options):
-    """ Ping RabbitMQ
-    """
-    LOGGER.info("ZZZ Ping RabbitMQ")

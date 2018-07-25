@@ -12,13 +12,6 @@
   <adapter factory=".pingrmq.PingRMQActionExecutor" />
 
   <browser:page
-      for="*"
-      name="ping_rmq"
-      class=".pingrmq.PingRMQView"
-      permission="cmf.ModifyPortalContent"
-    />
-
-  <browser:page
       for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
       name="eea.notifications.actions.PingRMQ"
       class=".pingrmq.PingRMQAddForm"
