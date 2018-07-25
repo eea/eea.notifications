@@ -38,7 +38,7 @@
       description="Ping RMQ"
       for="*"
       event="*"
-      addview="eea.notification.actions.PingRMQ"
+      addview="eea.notifications.actions.PingRMQ"
       editview="edit"
       schema=".pingrmq.IPingRMQAction"
       factory=".pingrmq.PingRMQAction"
