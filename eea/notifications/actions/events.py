@@ -3,10 +3,11 @@
 from eea.notifications.catalogtool import get_catalog
 from eea.notifications.interfaces.pingrmq import IPingRMQEvent
 from eea.notifications.utils import LOGGER
+from zope import event
 from zope.interface import implementer
 
 
-def add_or_update_in_catalog(obj, event):
+def add_or_update_in_catalog(obj, evt):
     """ Reindex object in EEA Notifications Catalog
     """
     get_catalog().catalog_object(
@@ -18,38 +19,38 @@ def add_or_update_in_catalog(obj, event):
     )
 
 
-def remove_from_catalog(obj, event):
+def remove_from_catalog(obj, evt):
     """ Remove object from EEA Notifications Catalog
     """
     get_catalog().uncatalog_object(obj.absolute_url_path())
 
 
-def object_modified(obj, event):
+def object_modified(obj, evt):
     """ Content was modified
     """
-    add_or_update_in_catalog(obj, event)
-    LOGGER.info("ZZZ Content was modified.")
+    add_or_update_in_catalog(obj, evt)
+    event.notify(PingRMQEvent(obj))
 
 
-def object_moved(obj, event):
+def object_moved(obj, evt):
     """ Content was moved
     """
-    add_or_update_in_catalog(obj, event)
-    LOGGER.info("ZZZ Content was moved.")
+    add_or_update_in_catalog(obj, evt)
+    event.notify(PingRMQEvent(obj))
 
 
-def object_added(obj, event):
+def object_added(obj, evt):
     """ Content was added
     """
-    add_or_update_in_catalog(obj, event)
-    LOGGER.info("ZZZ Content was added.")
+    add_or_update_in_catalog(obj, evt)
+    event.notify(PingRMQEvent(obj))
 
 
-def object_removed(obj, event):
+def object_removed(obj, evt):
     """ Content was removed
     """
-    remove_from_catalog(obj, event)
-    LOGGER.info("ZZZ Content was removed.")
+    remove_from_catalog(obj, evt)
+    event.notify(PingRMQEvent(obj))
 
 
 @implementer(IPingRMQEvent)
@@ -58,3 +59,4 @@ class PingRMQEvent(object):
     """
     def __init__(self, context, **kwargs):
         self.object = context
+        LOGGER.info("PingRMQEvent ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZz")
