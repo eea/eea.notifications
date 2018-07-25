@@ -6,23 +6,4 @@
   <adapter name="getTags" factory=".indexers.getTags" />
   <adapter name="getUserTags" factory=".indexers.getUserTags" />
 
-  <subscriber
-    for="Products.CMFCore.interfaces.IContentish
-         zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-    handler=".events.object_modified" />
-
-  <subscriber
-    for="Products.CMFCore.interfaces.IContentish
-         zope.lifecycleevent.interfaces.IObjectMovedEvent"
-    handler=".events.object_moved" />
-
-  <subscriber
-    for="Products.CMFCore.interfaces.IContentish
-         zope.lifecycleevent.interfaces.IObjectAddedEvent"
-    handler=".events.object_added" />
-
-  <subscriber
-    for="Products.CMFCore.interfaces.IContentish
-         zope.lifecycleevent.interfaces.IObjectRemovedEvent"
-    handler=".events.object_removed" />
 </configure>
