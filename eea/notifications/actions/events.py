@@ -1,7 +1,9 @@
 """ Events
 """
 from eea.notifications.catalogtool import get_catalog
+from eea.notifications.interfaces.pingrmq import IPingRMQEvent
 from eea.notifications.utils import LOGGER
+from zope.interface import implementer
 
 
 def add_or_update_in_catalog(obj, event):
@@ -48,3 +50,11 @@ def object_removed(obj, event):
     """
     remove_from_catalog(obj, event)
     LOGGER.info("ZZZ Content was removed.")
+
+
+@implementer(IPingRMQEvent)
+class PingRMQEvent(object):
+    """ Event triggered when a ping RMQ is sent
+    """
+    def __init__(self, context, **kwargs):
+        self.object = context
