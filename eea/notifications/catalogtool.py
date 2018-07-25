@@ -7,6 +7,8 @@ from Globals import InitializeClass
 from Products.CMFCore.permissions import ManagePortal
 from Products.CMFPlone.CatalogTool import CatalogTool
 from Products.ZCatalog.ZCatalog import ZCatalog
+from eea.notifications.config import ANNOT_EVENTS_KEY
+from eea.notifications.config import ANNOT_TAGS_KEY
 from eea.notifications.interfaces.catalog import IEEANotificationsCatalogTool
 from eea.notifications.utils import LOGGER
 from eea.notifications.utils import list_content_types
@@ -16,10 +18,6 @@ from plone import api
 from zope.annotation import IAnnotations
 from zope.interface import implements
 import transaction
-
-
-TAGS_KEY = "eea.notifications.tags"
-EVENTS_KEY = "eea.notifications.events"
 
 
 def get_catalog():
@@ -95,10 +93,10 @@ class EEANotificationsCatalogTool(CatalogTool):
             or for given user
         """
         tags_annot = IAnnotations(api.portal.get()).setdefault(
-            TAGS_KEY, PersistentDict({}))
+            ANNOT_TAGS_KEY, PersistentDict({}))
 
         events_annot = IAnnotations(api.portal.get()).setdefault(
-            EVENTS_KEY, PersistentDict({}))
+            ANNOT_EVENTS_KEY, PersistentDict({}))
 
         md = api.portal.get_tool("portal_memberdata")
         _members = md._members
@@ -166,7 +164,7 @@ class EEANotificationsCatalogTool(CatalogTool):
     def selected_tags(self, user_id):
         """ The list of user selected tags
         """
-        tags_annot = IAnnotations(api.portal.get()).get(TAGS_KEY, None)
+        tags_annot = IAnnotations(api.portal.get()).get(ANNOT_TAGS_KEY, None)
         if tags_annot is None:
             return []
 
@@ -196,7 +194,8 @@ class EEANotificationsCatalogTool(CatalogTool):
     def selected_events(self, user_id):
         """ The list of user selected events
         """
-        events_annot = IAnnotations(api.portal.get()).get(EVENTS_KEY, None)
+        events_annot = IAnnotations(api.portal.get()).get(
+            ANNOT_EVENTS_KEY, None)
         if events_annot is None:
             return []
 
@@ -220,10 +219,10 @@ class EEANotificationsCatalogTool(CatalogTool):
                   and - only users subscribed to all given events and tags
         """
         tags_annot = IAnnotations(api.portal.get()).setdefault(
-            TAGS_KEY, PersistentDict({}))
+            ANNOT_TAGS_KEY, PersistentDict({}))
 
         events_annot = IAnnotations(api.portal.get()).setdefault(
-            EVENTS_KEY, PersistentDict({}))
+            ANNOT_EVENTS_KEY, PersistentDict({}))
 
         mode = mode.lower()
         if mode == "and":

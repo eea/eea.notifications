@@ -19,3 +19,6 @@ ENV_HOST_NAME = ENVPATH(
 
 ENV_PLONE_NAME = ENVPATH(
     'EEA_NOTIFICATIONS_ENV_PLONE_NAME', '/cca')
+
+ANNOT_TAGS_KEY = "eea.notifications.tags"
+ANNOT_EVENTS_KEY = "eea.notifications.events"
