@@ -37,6 +37,11 @@
       factory=".pingrmq.PingRMQAction"
       />
 
+  <interface
+    interface="eea.notifications.interfaces.pingrmq.IPingRMQEvent"
+    type="plone.contentrules.rule.interfaces.IRuleEventType"
+    name="EEA Notifications: Ping RabbitMQ Event (content changed)" />
+
   <subscriber
     for="Products.CMFCore.interfaces.IContentish
          zope.lifecycleevent.interfaces.IObjectModifiedEvent"
