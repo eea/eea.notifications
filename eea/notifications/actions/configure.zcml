@@ -1,7 +1,48 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:five="http://namespaces.zope.org/five"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="eea.notifications">
+
+  <!-- Ping RabbitMQ action -->
+  <include package="plone.contentrules" file="meta.zcml" />
+  <include package="plone.app.contentrules" />
+
+  <adapter factory=".pingrmq.PingRMQActionExecutor" />
+
+  <browser:page
+      for="*"
+      name="ping_rmq"
+      class=".pingrmq.PingRMQView"
+      permission="cmf.ModifyPortalContent"
+    />
+
+  <browser:page
+      for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
+      name="eea.notifications.actions.PingRMQ"
+      class=".pingrmq.PingRMQAddForm"
+      permission="plone.app.contentrules.ManageContentRules"
+    />
+
+  <browser:page
+      for="eea.notifications.actions.pingrmq.IPingRMQAction"
+      name="edit"
+      class=".pingrmq.PingRMQEditForm"
+      permission="plone.app.contentrules.ManageContentRules"
+    />
+
+  <plone:ruleAction
+      name="eea.notifications.actions.PingRMQ"
+      title="Ping RMQ"
+      description="Ping RMQ"
+      for="*"
+      event="*"
+      addview="eea.notification.actions.PingRMQ"
+      editview="edit"
+      schema=".pingrmq.IPingRMQAction"
+      factory=".pingrmq.PingRMQAction"
+      />
 
   <subscriber
     for="Products.CMFCore.interfaces.IContentish

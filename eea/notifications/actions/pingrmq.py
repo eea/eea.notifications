@@ -58,14 +58,14 @@ class PingRMQActionExecutor(object):
         print(event, test_setting, obj, container, noasync_msg)
 
         def pingRMQ(test_setting, obj_url, create):
-            """ Ping the CR/SDS service
+            """ Ping the RabbitMQ service
             """
             LOGGER.info("ZZZ Ping done")
 
         # create = IObjectAddedEvent.providedBy(event)
 
 
-class PingRMQ(AddForm):
+class PingRMQAddForm(AddForm):
     """ Ping action addform
     """
     form_fields = form.FormFields(IPingRMQAction)
