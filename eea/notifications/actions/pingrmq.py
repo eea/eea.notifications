@@ -2,25 +2,15 @@
 """
 
 from OFS.SimpleItem import SimpleItem
+from eea.notifications.interfaces.pingrmq import IPingRMQAction
 from plone.app.contentrules.browser.formhelper import AddForm
 from plone.app.contentrules.browser.formhelper import EditForm
 from plone.contentrules.rule.interfaces import IExecutable
 from plone.contentrules.rule.interfaces import IRuleElementData
-from zope import schema
 from zope.component import adapts
 from zope.formlib import form
 from zope.interface import Interface
 from zope.interface import implements
-
-
-class IPingRMQAction(Interface):
-    """ Ping action settings schema
-    """
-    test_setting = schema.TextLine(
-        title=u"Setting",
-        description=u"Setting description.",
-        required=True
-    )
 
 
 class PingRMQAction(SimpleItem):
@@ -52,8 +42,9 @@ class PingRMQActionExecutor(object):
         obj = self.event.object
         container = obj.getParentNode()
 
-        print(event, test_setting, obj, container)
-
+        print("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ")
+        print("TODO: Send ping for:",  event, test_setting, obj, container)
+        print("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ")
         # create = IObjectAddedEvent.providedBy(event)
 
 
