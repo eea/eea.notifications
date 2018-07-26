@@ -22,3 +22,9 @@ ENV_PLONE_NAME = ENVPATH(
 
 ANNOT_TAGS_KEY = "eea.notifications.tags"
 ANNOT_EVENTS_KEY = "eea.notifications.events"
+
+OBJECT_EVENTS = [
+    'added',
+    'edited',
+    'deleted',
+]

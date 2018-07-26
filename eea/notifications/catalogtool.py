@@ -9,6 +9,7 @@ from Products.CMFPlone.CatalogTool import CatalogTool
 from Products.ZCatalog.ZCatalog import ZCatalog
 from eea.notifications.config import ANNOT_EVENTS_KEY
 from eea.notifications.config import ANNOT_TAGS_KEY
+from eea.notifications.config import OBJECT_EVENTS
 from eea.notifications.interfaces import IEEANotificationsCatalogTool
 from eea.notifications.utils import LOGGER
 from eea.notifications.utils import list_content_types
@@ -184,12 +185,7 @@ class EEANotificationsCatalogTool(CatalogTool):
     def all_events(self):
         """ The list of available content events
         """
-        # [TODO] WIP
-        return [
-            ('added', 'Added'),
-            ('edited', 'Edited'),
-            ('deleted', 'Deleted'),
-        ]
+        return [(x, x.capitalize()) for x in OBJECT_EVENTS]
 
     def selected_events(self, user_id):
         """ The list of user selected events
