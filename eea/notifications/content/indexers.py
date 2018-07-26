@@ -1,5 +1,6 @@
 from Products.CMFCore.interfaces import IContentish
 from Products.CMFCore.interfaces import IMemberData
+from eea.notifications.utils import get_tags
 from plone.indexer.decorator import indexer
 
 
@@ -7,11 +8,7 @@ from plone.indexer.decorator import indexer
 def getTags(obj):
     """ To be improved if we want to include other fields
     """
-    try:
-        tags = obj.subject
-    except Exception:
-        tags = ()
-    return tags
+    return get_tags(obj)
 
 
 @indexer(IMemberData)

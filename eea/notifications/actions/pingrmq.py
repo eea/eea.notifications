@@ -3,6 +3,7 @@
 
 from OFS.SimpleItem import SimpleItem
 from eea.notifications.interfaces.pingrmq import IPingRMQAction
+from eea.notifications.utils import get_tags
 from plone.app.contentrules.browser.formhelper import AddForm
 from plone.app.contentrules.browser.formhelper import EditForm
 from plone.contentrules.rule.interfaces import IExecutable
@@ -37,12 +38,13 @@ class PingRMQActionExecutor(object):
         self.event = event
 
     def __call__(self):
-        import pdb; pdb.set_trace()
         event = self.event
         test_setting = self.element.test_setting
         obj = self.event.object
         container = obj.getParentNode()
 
+        tags = get_tags(obj)
+        import pdb; pdb.set_trace()
         print("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ")
         print("TODO: Send ping for:",  event, test_setting, obj, container)
         print("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ")
