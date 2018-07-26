@@ -37,6 +37,7 @@ class PingRMQActionExecutor(object):
         self.event = event
 
     def __call__(self):
+        import pdb; pdb.set_trace()
         event = self.event
         test_setting = self.element.test_setting
         obj = self.event.object
