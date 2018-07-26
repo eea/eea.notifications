@@ -29,34 +29,35 @@ def object_modified(obj, evt):
     """ Content was modified
     """
     add_or_update_in_catalog(obj, evt)
-    event.notify(PingRMQEvent(obj))
+    event.notify(PingRMQEvent(obj, evt))
 
 
 def object_moved(obj, evt):
     """ Content was moved
     """
     add_or_update_in_catalog(obj, evt)
-    event.notify(PingRMQEvent(obj))
+    event.notify(PingRMQEvent(obj, evt))
 
 
 def object_added(obj, evt):
     """ Content was added
     """
     add_or_update_in_catalog(obj, evt)
-    event.notify(PingRMQEvent(obj))
+    event.notify(PingRMQEvent(obj, evt))
 
 
 def object_removed(obj, evt):
     """ Content was removed
     """
     remove_from_catalog(obj, evt)
-    event.notify(PingRMQEvent(obj))
+    event.notify(PingRMQEvent(obj, evt))
 
 
 @implementer(IPingRMQEvent)
 class PingRMQEvent(object):
     """ Event triggered when a ping RMQ is sent
     """
-    def __init__(self, context, **kwargs):
+    def __init__(self, context, evt, **kwargs):
         self.object = context
-        LOGGER.info("PingRMQEvent ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZz")
+        self.event = evt
+        import pdb; pdb.set_trace()
