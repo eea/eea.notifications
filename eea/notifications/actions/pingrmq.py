@@ -2,6 +2,7 @@
 """
 
 from OFS.SimpleItem import SimpleItem
+from eea.notifications.catalogtool import get_catalog
 from eea.notifications.interfaces.pingrmq import IPingRMQAction
 from eea.notifications.utils import get_tags
 from plone.app.contentrules.browser.formhelper import AddForm
@@ -43,7 +44,12 @@ class PingRMQActionExecutor(object):
         obj = self.event.object
         container = obj.getParentNode()
 
+        catalog = get_catalog()
         tags = get_tags(obj)
+        events = [x[0] for x in catalog.all_events()]  # TODO use current event
+        users = catalog.search_users_by_preferences(
+            tags=tags, events=events, mode="or")
+
         import pdb; pdb.set_trace()
         print("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ")
         print("TODO: Send ping for:",  event, test_setting, obj, container)
