@@ -9,7 +9,7 @@ from Products.CMFPlone.CatalogTool import CatalogTool
 from Products.ZCatalog.ZCatalog import ZCatalog
 from eea.notifications.config import ANNOT_EVENTS_KEY
 from eea.notifications.config import ANNOT_TAGS_KEY
-from eea.notifications.interfaces.catalog import IEEANotificationsCatalogTool
+from eea.notifications.interfaces import IEEANotificationsCatalogTool
 from eea.notifications.utils import LOGGER
 from eea.notifications.utils import list_content_types
 from persistent.dict import PersistentDict

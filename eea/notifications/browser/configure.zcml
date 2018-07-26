@@ -9,7 +9,7 @@
     name="notifications_center"
     template="templates/notifications_center.pt"
     class=".notifications_center.NotificationsCenter"
-    layer="eea.notifications.interfaces.layers.IEEANotificationsInstalled"
+    layer="eea.notifications.interfaces.IEEANotificationsInstalled"
     permission="cmf.ManagePortal"
     />
 
@@ -18,7 +18,7 @@
     name="user_preferences"
     template="templates/user_preferences_form.pt"
     class=".user_preferences_form.UserPreferencesForm"
-    layer="eea.notifications.interfaces.layers.IEEANotificationsInstalled"
+    layer="eea.notifications.interfaces.IEEANotificationsInstalled"
     permission="cmf.SetOwnProperties"
     />
 </configure>

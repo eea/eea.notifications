@@ -3,7 +3,8 @@
 
 from OFS.SimpleItem import SimpleItem
 from eea.notifications.catalogtool import get_catalog
-from eea.notifications.interfaces.pingrmq import IPingRMQAction
+from eea.notifications.interfaces import IPingRMQAction
+from eea.notifications.utils import LOGGER
 from eea.notifications.utils import get_tags
 from plone.app.contentrules.browser.formhelper import AddForm
 from plone.app.contentrules.browser.formhelper import EditForm
@@ -50,11 +51,10 @@ class PingRMQActionExecutor(object):
         users = catalog.search_users_by_preferences(
             tags=tags, events=events, mode="or")
 
-        import pdb; pdb.set_trace()
-        print("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ")
-        print("TODO: Send ping for:",  event, test_setting, obj, container)
-        print("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ")
-        # create = IObjectAddedEvent.providedBy(event)
+        # TODO Ping RabbitMQ with following info:
+        info = [event, obj, container, tags, events, users, test_setting]
+        info = info
+        LOGGER.info(obj)
 
 
 class PingRMQAddForm(AddForm):
