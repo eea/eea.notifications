@@ -38,9 +38,9 @@
       />
 
   <interface
-    interface="eea.notifications.interfaces.pingrmq.IPingRMQEvent"
+    interface="eea.notifications.interfaces.events.IAnyContentChangesEvent"
     type="plone.contentrules.rule.interfaces.IRuleEventType"
-    name="EEA Notifications: Ping RabbitMQ Event (content changed)" />
+    name="EEA Notifications: any content changes event." />
 
   <subscriber
     for="Products.CMFCore.interfaces.IContentish
