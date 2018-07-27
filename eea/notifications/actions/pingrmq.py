@@ -81,9 +81,16 @@ class PingRMQActionExecutor(object):
         info = info
         LOGGER.info(obj)
         # TODO Then notification center will send notifications:
+        try:
+            url = obj.absolute_url()
+        except Exception:
+            url = "ZZZ URL"
         for user_id in users:
             send_email_notification(
-                user_id, notification_subject, notification_action)
+                user_id=user_id,
+                notification_subject=notification_subject,
+                notification_action=notification_action,
+                content_url=url)
 
 
 class PingRMQAddForm(AddForm):
