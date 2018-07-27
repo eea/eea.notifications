@@ -25,6 +25,6 @@ ANNOT_EVENTS_KEY = "eea.notifications.events"
 
 OBJECT_EVENTS = [
     'added',
-    'edited',
+    'modified',
     'deleted',
 ]

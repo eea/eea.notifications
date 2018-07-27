@@ -3,6 +3,7 @@
 
 from OFS.SimpleItem import SimpleItem
 from eea.notifications.catalogtool import get_catalog
+from eea.notifications.config import OBJECT_EVENTS
 from eea.notifications.interfaces import IPingRMQAction
 from eea.notifications.utils import LOGGER
 from eea.notifications.utils import get_tags
@@ -47,12 +48,22 @@ class PingRMQActionExecutor(object):
 
         catalog = get_catalog()
         tags = get_tags(obj)
-        events = [x[0] for x in catalog.all_events()]  # TODO use current event
+
+        def get_actions(event):
+            """ Return human readable actions done on this event
+            """
+            return [action for action in OBJECT_EVENTS if action in ' '.join(
+                [interface.__name__.lower() for interface in list(
+                    set(event.__provides__.__iro__))]
+                )]
+
+        actions = get_actions(event)
         users = catalog.search_users_by_preferences(
-            tags=tags, events=events, mode="or")
+            tags=tags, events=actions, mode="or")
 
         # TODO Ping RabbitMQ with following info:
-        info = [event, obj, container, tags, events, users, test_setting]
+        import pdb; pdb.set_trace()
+        info = [event, obj, container, tags, actions, users, test_setting]
         info = info
         LOGGER.info(obj)
 
