@@ -23,7 +23,7 @@ Hello {0},
 The content was {1}.
 
 Kind regards,
-Someone""".format(user_id)
+Someone""".format(user_id, notification_action)
 
     LOGGER.info("ZZZZZ {0}, {1}, {2}, {3}".format(
         email, mfrom, subject, mail_text))
