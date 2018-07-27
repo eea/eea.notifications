@@ -5,6 +5,7 @@ from OFS.SimpleItem import SimpleItem
 from eea.notifications.catalogtool import get_catalog
 from eea.notifications.config import OBJECT_EVENTS
 from eea.notifications.interfaces import IPingRMQAction
+from eea.notifications.notifications import send_email_notification
 from eea.notifications.utils import LOGGER
 from eea.notifications.utils import get_tags
 from plone.app.contentrules.browser.formhelper import AddForm
@@ -71,10 +72,13 @@ class PingRMQActionExecutor(object):
             tags=tags, events=actions, mode="or")
 
         # TODO Ping RabbitMQ with following info:
-        import pdb; pdb.set_trace()
+
         info = [event, obj, container, tags, actions, users, related_actions]
         info = info
         LOGGER.info(obj)
+        # TODO Then notification center will send notifications:
+        for user_id in users:
+            send_email_notification(user_id)
 
 
 class PingRMQAddForm(AddForm):
