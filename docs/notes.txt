@@ -9,7 +9,7 @@ OK - Do we want to offer a user the possibility to filter based on portal
   gets extra emails, he can filter (maybe we express some specific info in
   mail subject such as “New Indicator created”)
 
-TODO - based on content rule(s), when a content item is edited (or published etc.)
+WIP - based on content rule(s), when a content item is edited (or published etc.)
   a ping (RabbitMQ) will be generated containing the url of edited object,
   the recorded action (edited, published etc.) and other needed info
   (tags, title, author, change of diff, date, etc.)
@@ -31,7 +31,7 @@ OK - Global persistent utility that holds the catalog.
 OK - use memberdata to store user's preferences (tags, events)
 OK - when a memberdata is updated -> the values reindexed in custom catalog
 
-TODO - Based on the result processing, the async script extracts a list of user
+WIP - Based on the result processing, the async script extracts a list of user
   emails. It then triggers a new custom event (which will be processed by a
   content rule), to allow customization of notification mechanism.
   So, for example, if there are 20 users subscribed to a tag “water”,
@@ -49,3 +49,22 @@ TODO
 - configure RabbitMQ
 - content actions / events as vocabulary?
 - custom events and notifications
+
+Usage:
+  User:
+    In /user_preferences:
+      Select tags and events and subscribe
+  Admin:
+    In Site Setup - Content rules:
+      Add content rule
+        Title: EEA Notifications: ping RabbitMQ on added content
+        Description: EEA Notifications: ping RabbitMQ on added content
+        Triggering event: Object added to this container
+          Save
+          Add action:
+            Ping RMQ
+              Related actions: added created
+              Notification subject: Content created
+              Notifications action: added
+          Apply rule on the whole site
+        Analog for other events: edit, delete etc.
