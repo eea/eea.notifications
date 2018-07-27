@@ -10,6 +10,7 @@ from eea.notifications.utils import LOGGER
 from eea.notifications.utils import get_tags
 from plone.app.contentrules.browser.formhelper import AddForm
 from plone.app.contentrules.browser.formhelper import EditForm
+from plone.app.layout.viewlets.content import ContentHistoryView
 from plone.contentrules.rule.interfaces import IExecutable
 from plone.contentrules.rule.interfaces import IRuleElementData
 from zope.component import adapts
@@ -85,12 +86,21 @@ class PingRMQActionExecutor(object):
             url = obj.absolute_url()
         except Exception:
             url = "ZZZ URL"
+        try:
+            actor = ContentHistoryView(
+                    obj, self.context.REQUEST).fullHistory()[0][
+                            'actor']['username']
+        except Exception:
+            actor = ""
+
         for user_id in users:
             send_email_notification(
                 user_id=user_id,
                 notification_subject=notification_subject,
                 notification_action=notification_action,
-                content_url=url)
+                content_url=url,
+                actor=actor
+            )
 
 
 class PingRMQAddForm(AddForm):

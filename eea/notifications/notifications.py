@@ -7,7 +7,8 @@ from smtplib import SMTPRecipientsRefused
 
 
 def send_email_notification(user_id, notification_subject='Notification',
-                            notification_action='updated', content_url=''):
+                            notification_action='updated', content_url='',
+                            actor='admin'):
     """ Notify user
     """
     site = api.portal.get()
@@ -20,10 +21,10 @@ def send_email_notification(user_id, notification_subject='Notification',
     subject = notification_subject
     mail_text = u"""
 Hello {0},
-The content {1} was {2}.
+The content {1} was {2} by {3}.
 
 Kind regards,
-Someone""".format(user_id, content_url, notification_action)
+Someone""".format(user_id, content_url, notification_action, actor)
 
     LOGGER.info("ZZZZZ {0}, {1}, {2}, {3}".format(
         email, mfrom, subject, mail_text))
