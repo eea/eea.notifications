@@ -6,7 +6,8 @@ from plone import api
 from smtplib import SMTPRecipientsRefused
 
 
-def send_email_notification(user_id):
+def send_email_notification(user_id, notification_subject='Notification',
+                            notification_action='updated'):
     """ Notify user
     """
     site = api.portal.get()
@@ -16,10 +17,10 @@ def send_email_notification(user_id):
     email_from_name = site.getProperty('email_from_name', '')
     email_from_address = site.getProperty('email_from_address', '')
     mfrom = "{0} <{1}>".format(email_from_name, email_from_address)
-    subject = u"Subject here"
+    subject = notification_subject
     mail_text = u"""
 Hello {0},
-This is a notification.
+The content was {1}.
 
 Kind regards,
 Someone""".format(user_id)

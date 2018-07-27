@@ -24,9 +24,9 @@ class PingRMQAction(SimpleItem):
     implements(IPingRMQAction, IRuleElementData)
 
     related_actions = ''
-
+    notification_subject = ''
+    notification_action = ''
     element = 'eea.notifications.actions.PingRMQ'
-
     summary = u'Ping RabbitMQ'
 
 
@@ -44,6 +44,9 @@ class PingRMQActionExecutor(object):
     def __call__(self):
         event = self.event
         related_actions = self.element.related_actions
+        notification_subject = self.element.notification_subject
+        notification_action = self.element.notification_action
+
         obj = self.event.object
         container = obj.getParentNode()
 
@@ -73,12 +76,14 @@ class PingRMQActionExecutor(object):
 
         # TODO Ping RabbitMQ with following info:
 
-        info = [event, obj, container, tags, actions, users, related_actions]
+        info = [event, obj, container, tags, actions, notification_subject,
+                notification_action, users, related_actions]
         info = info
         LOGGER.info(obj)
         # TODO Then notification center will send notifications:
         for user_id in users:
-            send_email_notification(user_id)
+            send_email_notification(
+                user_id, notification_subject, notification_action)
 
 
 class PingRMQAddForm(AddForm):
