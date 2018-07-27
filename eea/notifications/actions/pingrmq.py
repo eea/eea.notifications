@@ -22,7 +22,7 @@ class PingRMQAction(SimpleItem):
     """
     implements(IPingRMQAction, IRuleElementData)
 
-    test_setting = ''
+    related_actions = ''
 
     element = 'eea.notifications.actions.PingRMQ'
 
@@ -42,14 +42,14 @@ class PingRMQActionExecutor(object):
 
     def __call__(self):
         event = self.event
-        test_setting = self.element.test_setting
+        related_actions = self.element.related_actions
         obj = self.event.object
         container = obj.getParentNode()
 
         catalog = get_catalog()
         tags = get_tags(obj)
 
-        def get_actions(event):
+        def get_actions_by_interface_names(event):
             """ Return human readable actions done on this event
             """
             return [action for action in OBJECT_EVENTS if action in ' '.join(
@@ -57,13 +57,22 @@ class PingRMQActionExecutor(object):
                     set(event.__provides__.__iro__))]
                 )]
 
-        actions = get_actions(event)
+        def get_actions():
+            """ return related user preferred events types
+            """
+            return [action for action in OBJECT_EVENTS if action in
+                    related_actions]
+
+        actions = get_actions()
+        if len(actions) == 0:
+            actions = get_actions_by_interface_names(event)
+
         users = catalog.search_users_by_preferences(
             tags=tags, events=actions, mode="or")
 
         # TODO Ping RabbitMQ with following info:
         import pdb; pdb.set_trace()
-        info = [event, obj, container, tags, actions, users, test_setting]
+        info = [event, obj, container, tags, actions, users, related_actions]
         info = info
         LOGGER.info(obj)
 
