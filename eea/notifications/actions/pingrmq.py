@@ -4,10 +4,13 @@
 from OFS.SimpleItem import SimpleItem
 from eea.notifications.catalogtool import get_catalog
 from eea.notifications.config import OBJECT_EVENTS
+from eea.notifications.config import RABBIT_CONFIG
+from eea.notifications.config import RABBIT_QUEUE
 from eea.notifications.interfaces import IPingRMQAction
 from eea.notifications.notifications import send_email_notification
 from eea.notifications.utils import LOGGER
 from eea.notifications.utils import get_tags
+from eea.rabbitmq.client import RabbitMQConnector
 from plone.app.contentrules.browser.formhelper import AddForm
 from plone.app.contentrules.browser.formhelper import EditForm
 from plone.app.layout.viewlets.content import ContentHistoryView
@@ -81,6 +84,13 @@ class PingRMQActionExecutor(object):
                 notification_action, users, related_actions]
         info = info
         LOGGER.info(obj)
+
+        rabbit = RabbitMQConnector(**RABBIT_CONFIG)
+        rabbit.open_connection()
+        rabbit.declare_queue(RABBIT_QUEUE)
+        rabbit.send_message(RABBIT_QUEUE, "ZZZ body text")
+        rabbit.close_connection()
+
         # TODO Then notification center will send notifications:
         try:
             url = obj.absolute_url()
