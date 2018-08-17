@@ -80,12 +80,50 @@ class PingRMQActionExecutor(object):
 
         # TODO Ping RabbitMQ with following info:
 
+        RABBIT_CONFIG = {
+            'rabbit_port': 5672,  # 5672
+            'rabbit_username': 'guest',
+            'rabbit_host': '0.0.0.0',
+            'rabbit_password': 'guest'
+        }
+
+        # 0.0.0.0:15672
+        # 'CONNECTING to RabbitMQ at %s:%s FAILED with error: %s',
+        # (Pdb) err
+        # The AMQP connection was closed: ()
+
+        # (Pdb) self
+        # <eea.rabbitmq.client.rabbitmq.RabbitMQConnector object at 0x7eff637d8f90>
+        # (Pdb) self.__rabbit_connection = pika.BlockingConnection(pika.ConnectionParameters(host=self.__rabbit_host,port=self.__rabbit_port,credentials=self.__rabbit_credentials,
+        # *** SyntaxError: unexpected EOF while parsing (<stdin>, line 1)
+        # (Pdb) self.__rabbit_connection = pika.BlockingConnection(pika.ConnectionParameters(host=self.__rabbit_host,port=self.__rabbit_port,credentials=self.__rabbit_credentials,heartbeat_interval=0))
+        # *** AttributeError: 'RabbitMQConnector' object has no attribute '__rabbit_host'
+        # (Pdb) self.__init__
+        # <bound method RabbitMQConnector.__init__ of <eea.rabbitmq.client.rabbitmq.RabbitMQConnector object at 0x7eff637d8f90>>
+        # (Pdb) self.__init__()
+        # *** TypeError: __init__() takes exactly 5 arguments (1 given)
+        # (Pdb) RABBIT_CONFIG
+        # *** NameError: name 'RABBIT_CONFIG' is not defined
+        # (Pdb) self.__init__(rabbit_host='0.0.0.0', rabbit_port=5672, rabbit_username='guest', rabbit_password='guest')
+        # (Pdb) self.__rabbit_port
+        # *** AttributeError: 'RabbitMQConnector' object has no attribute '__rabbit_port'
+        # (Pdb) self.__rabbit_connection = pika.BlockingConnection(pika.ConnectionParameters(host=self.__rabbit_host,port=self.__rabbit_port,credentials=self.__rabbit_credentials,heartbeat_interval=0))
+        # *** AttributeError: 'RabbitMQConnector' object has no attribute '__rabbit_host'
+        # (Pdb) self.__rabbit_connection = pika.BlockingConnection(pika.ConnectionParameters(host='0.0.0.0',port=5672,credentials=pika.PlainCredentials('guest', 'guest'),heartbeat_interval=0))
+        # 2018-08-17 13:35:25 INFO pika.adapters.base_connection Connecting to 0.0.0.0:5672
+        # 2018-08-17 13:35:25 WARNING pika.adapters.base_connection Connection to 0.0.0.0:5672 failed: [Errno 111] Connection refused
+        # 2018-08-17 13:35:25 WARNING pika.connection Could not connect, 0 attempts left
+
+
         info = [event, obj, container, tags, actions, notification_subject,
                 notification_action, users, related_actions]
         info = info
         LOGGER.info(obj)
 
         rabbit = RabbitMQConnector(**RABBIT_CONFIG)
+
+        import pdb; pdb.set_trace()
+
         rabbit.open_connection()
         rabbit.declare_queue(RABBIT_QUEUE)
         rabbit.send_message(RABBIT_QUEUE, "ZZZ body text")
