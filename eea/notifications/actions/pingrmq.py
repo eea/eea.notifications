@@ -86,8 +86,17 @@ class PingRMQActionExecutor(object):
         LOGGER.info(obj)
 
         from eea.rabbitmq.client.rabbitmq import queue_msg
+        from eea.rabbitmq.client.rabbitmq import send_message
+        from eea.rabbitmq.client.rabbitmq import consume_messages
+
+        def consumer(x):
+            LOGGER.info("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZz")
+            LOGGER.info(x)
+
         import pdb; pdb.set_trace()
         queue_msg("text a b c", "Test")
+        consume_messages(consumer, "Test")
+        # send_message("test x y z", "Test")
 
         # TODO Then notification center will send notifications:
         try:
