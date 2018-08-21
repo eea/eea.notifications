@@ -6,7 +6,6 @@ from eea.notifications.catalogtool import get_catalog
 from eea.notifications.config import OBJECT_EVENTS
 from eea.notifications.config import RABBIT_QUEUE
 from eea.notifications.interfaces import IPingRMQAction
-from eea.notifications.utils import LOGGER
 from eea.notifications.utils import get_rabbit_config
 from eea.notifications.utils import get_tags
 from eea.rabbitmq.client import RabbitMQConnector
@@ -52,7 +51,7 @@ class PingRMQActionExecutor(object):
         notification_action = self.element.notification_action
 
         obj = self.event.object
-        container = obj.getParentNode()
+        # container = obj.getParentNode()
 
         catalog = get_catalog()
         tags = get_tags(obj)
@@ -89,12 +88,10 @@ class PingRMQActionExecutor(object):
         except Exception:
             actor = ""
 
-        # TODO Ping RabbitMQ with following info:
-
-        info = [event, obj, container, tags, actions, notification_subject,
-                notification_action, users, related_actions, url, actor]
-        info = info
-        LOGGER.info(obj)
+        # info = [event, obj, container, tags, actions, notification_subject,
+        #         notification_action, users, related_actions, url, actor]
+        # info = info
+        # LOGGER.info(obj)
 
         rabbit_config = get_rabbit_config()
         rabbit = RabbitMQConnector(**rabbit_config)

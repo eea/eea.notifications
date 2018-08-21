@@ -11,6 +11,7 @@ from eea.notifications.utils import LOGGER
 from eea.notifications.utils import get_rabbit_config
 from eea.rabbitmq.client import RabbitMQConnector
 from plone import api
+import json
 
 
 def get_plone_site():
@@ -44,6 +45,7 @@ def notifications_center_operations(site):
     """ All the operations of Notifications Center happen here
         Callable by both: browser view and script
     """
+    # For testing:
     catalog = get_catalog()
     catalog.set_tags(tags=['Austria'], user_id='tibiadmin')
     catalog.set_events(events=['deleted'], user_id='tibiadmin')
@@ -52,15 +54,22 @@ def notifications_center_operations(site):
         tags=['Austria'],
         mode="or"
     )
-    print users
-    print "ZZZ Notified 1"
-    print "ZZZ Notified 2"
-    print "ZZZ Notified 3"
+    users = users
 
-    def operations(x):
-        print x
+    def operations(message):
+        msg = json.loads(message)
+
+        print message
+        send_email_notification(
+            user_id=msg['user_id'],
+            notification_subject=msg['notification_subject'],
+            notification_action=msg['notification_action'],
+            content_url=msg['content_url'],
+            actor=msg['actor']
+        )
         return True
 
+    # Consume messages from queue
     rabbit_config = get_rabbit_config()
     rabbit = RabbitMQConnector(**rabbit_config)
     LOGGER.info('START consuming from \'%s\'', RABBIT_QUEUE)
@@ -78,20 +87,6 @@ def notifications_center_operations(site):
 
     rabbit.close_connection()
     LOGGER.info('DONE consuming from \'%s\'', RABBIT_QUEUE)
-
-    # notification_subject = None
-    # notification_action = None
-    # url = "/site"
-    # actor = "testuser"
-    #
-    # for user_id in users:
-    #     send_email_notification(
-    #         user_id=user_id,
-    #         notification_subject=notification_subject,
-    #         notification_action=notification_action,
-    #         content_url=url,
-    #         actor=actor
-    #     )
 
 
 def notifications_center():
