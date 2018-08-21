@@ -105,53 +105,44 @@ class PingRMQActionExecutor(object):
 
         def operations(x):
             print x
-            LOGGER.info("ZZZZZZZZZZZZZZZZZZZZZZZZZZZ")
             return True
 
         LOGGER.info('START consuming from \'%s\'', RABBIT_QUEUE)
         rabbit.open_connection()
         rabbit.declare_queue(RABBIT_QUEUE)
-        processed_messages = {}
+
         while True:
             method, properties, body = rabbit.get_message(RABBIT_QUEUE)
             if method is None and properties is None and body is None:
                 LOGGER.info('Queue is empty \'%s\'.', RABBIT_QUEUE)
                 break
-            if body not in processed_messages:
-                flg = operations(body)
-                # flg = message_callback(
-                #     rabbit.get_channel(), method, properties, body)
-                if flg:
-                    processed_messages[body] = 1
-            else:
-                # duplicate message, acknowledge to skip
-                rabbit.get_channel().basic_ack(
-                        delivery_tag=method.delivery_tag)
-                LOGGER.info('DUPLICATE skipping message \'%s\' in \'%s\'',
-                            body, RABBIT_QUEUE)
+
+            operations(body)
+            rabbit.get_channel().basic_ack(delivery_tag=method.delivery_tag)
+
         rabbit.close_connection()
         LOGGER.info('DONE consuming from \'%s\'', RABBIT_QUEUE)
 
         # TODO Then notification center will send notifications:
-        try:
-            url = obj.absolute_url()
-        except Exception:
-            url = "ZZZ URL"
-        try:
-            actor = ContentHistoryView(
-                    obj, self.context.REQUEST).fullHistory()[0][
-                            'actor']['username']
-        except Exception:
-            actor = ""
-
-        for user_id in users:
-            send_email_notification(
-                user_id=user_id,
-                notification_subject=notification_subject,
-                notification_action=notification_action,
-                content_url=url,
-                actor=actor
-            )
+        # try:
+        #     url = obj.absolute_url()
+        # except Exception:
+        #     url = "ZZZ URL"
+        # try:
+        #     actor = ContentHistoryView(
+        #             obj, self.context.REQUEST).fullHistory()[0][
+        #                     'actor']['username']
+        # except Exception:
+        #     actor = ""
+        #
+        # for user_id in users:
+        #     send_email_notification(
+        #         user_id=user_id,
+        #         notification_subject=notification_subject,
+        #         notification_action=notification_action,
+        #         content_url=url,
+        #         actor=actor
+        #     )
 
 
 class PingRMQAddForm(AddForm):
