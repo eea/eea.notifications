@@ -5,6 +5,11 @@ from Products.Five.browser import BrowserView
 from eea.notifications.catalogtool import get_catalog
 from eea.notifications.config import ENV_HOST_NAME
 from eea.notifications.config import ENV_PLONE_NAME
+from eea.notifications.config import RABBIT_QUEUE
+from eea.notifications.notifications import send_email_notification
+from eea.notifications.utils import LOGGER
+from eea.notifications.utils import get_rabbit_config
+from eea.rabbitmq.client import RabbitMQConnector
 from plone import api
 
 
@@ -51,6 +56,42 @@ def notifications_center_operations(site):
     print "ZZZ Notified 1"
     print "ZZZ Notified 2"
     print "ZZZ Notified 3"
+
+    def operations(x):
+        print x
+        return True
+
+    rabbit_config = get_rabbit_config()
+    rabbit = RabbitMQConnector(**rabbit_config)
+    LOGGER.info('START consuming from \'%s\'', RABBIT_QUEUE)
+    rabbit.open_connection()
+    rabbit.declare_queue(RABBIT_QUEUE)
+
+    while True:
+        method, properties, body = rabbit.get_message(RABBIT_QUEUE)
+        if method is None and properties is None and body is None:
+            LOGGER.info('Queue is empty \'%s\'.', RABBIT_QUEUE)
+            break
+
+        operations(body)
+        rabbit.get_channel().basic_ack(delivery_tag=method.delivery_tag)
+
+    rabbit.close_connection()
+    LOGGER.info('DONE consuming from \'%s\'', RABBIT_QUEUE)
+
+    # notification_subject = None
+    # notification_action = None
+    # url = "/site"
+    # actor = "testuser"
+    #
+    # for user_id in users:
+    #     send_email_notification(
+    #         user_id=user_id,
+    #         notification_subject=notification_subject,
+    #         notification_action=notification_action,
+    #         content_url=url,
+    #         actor=actor
+    #     )
 
 
 def notifications_center():
