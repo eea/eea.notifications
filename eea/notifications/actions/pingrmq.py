@@ -101,8 +101,7 @@ class PingRMQActionExecutor(object):
         rabbit.open_connection()
         rabbit.declare_queue(RABBIT_QUEUE)
 
-        # for user in users:
-        for user in ['testuser1', 'testuser2', 'testuser3']:
+        for user in users:
             json_notification = {
                 'user_id': user,
                 'notification_subject': notification_subject,
