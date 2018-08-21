@@ -4,11 +4,11 @@
 from OFS.SimpleItem import SimpleItem
 from eea.notifications.catalogtool import get_catalog
 from eea.notifications.config import OBJECT_EVENTS
-from eea.notifications.config import RABBIT_CONFIG
 from eea.notifications.config import RABBIT_QUEUE
 from eea.notifications.interfaces import IPingRMQAction
 from eea.notifications.notifications import send_email_notification
 from eea.notifications.utils import LOGGER
+from eea.notifications.utils import get_rabbit_config
 from eea.notifications.utils import get_tags
 from eea.rabbitmq.client import RabbitMQConnector
 from plone.app.contentrules.browser.formhelper import AddForm
@@ -85,18 +85,52 @@ class PingRMQActionExecutor(object):
         info = info
         LOGGER.info(obj)
 
-        from eea.rabbitmq.client.rabbitmq import queue_msg
-        from eea.rabbitmq.client.rabbitmq import send_message
-        from eea.rabbitmq.client.rabbitmq import consume_messages
+        rabbit_config = get_rabbit_config()
+        rabbit = RabbitMQConnector(**rabbit_config)
+        rabbit.open_connection()
+        rabbit.declare_queue(RABBIT_QUEUE)
 
-        def consumer(x):
-            LOGGER.info("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZz")
-            LOGGER.info(x)
+        def random_msg():
+            import string
+            import random
+            return ''.join(
+                random.choice(
+                    string.ascii_uppercase + string.digits) for _ in range(8)
+                )
 
-        import pdb; pdb.set_trace()
-        queue_msg("text a b c", "Test")
-        consume_messages(consumer, "Test")
-        # send_message("test x y z", "Test")
+        rabbit.send_message(RABBIT_QUEUE, random_msg())
+        rabbit.send_message(RABBIT_QUEUE, random_msg())
+        rabbit.send_message(RABBIT_QUEUE, random_msg())
+        rabbit.close_connection()
+
+        def operations(x):
+            print x
+            LOGGER.info("ZZZZZZZZZZZZZZZZZZZZZZZZZZZ")
+            return True
+
+        LOGGER.info('START consuming from \'%s\'', RABBIT_QUEUE)
+        rabbit.open_connection()
+        rabbit.declare_queue(RABBIT_QUEUE)
+        processed_messages = {}
+        while True:
+            method, properties, body = rabbit.get_message(RABBIT_QUEUE)
+            if method is None and properties is None and body is None:
+                LOGGER.info('Queue is empty \'%s\'.', RABBIT_QUEUE)
+                break
+            if body not in processed_messages:
+                flg = operations(body)
+                # flg = message_callback(
+                #     rabbit.get_channel(), method, properties, body)
+                if flg:
+                    processed_messages[body] = 1
+            else:
+                # duplicate message, acknowledge to skip
+                rabbit.get_channel().basic_ack(
+                        delivery_tag=method.delivery_tag)
+                LOGGER.info('DUPLICATE skipping message \'%s\' in \'%s\'',
+                            body, RABBIT_QUEUE)
+        rabbit.close_connection()
+        LOGGER.info('DONE consuming from \'%s\'', RABBIT_QUEUE)
 
         # TODO Then notification center will send notifications:
         try:

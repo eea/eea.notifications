@@ -29,11 +29,4 @@ OBJECT_EVENTS = [
     'deleted',
 ]
 
-RABBIT_CONFIG = {
-    'rabbit_host': os.environ.get('RABBITMQ_HOST'),
-    'rabbit_port': os.environ.get('RABBITMQ_PORT'),
-    'rabbit_username': os.environ.get('RABBITMQ_USERNAME'),
-    'rabbit_password': os.environ.get('RABBITMQ_PASSWORD')
-    }
-
 RABBIT_QUEUE = "EEANotificationsRabbitQueue"
