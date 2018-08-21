@@ -19,6 +19,7 @@ from zope.component import adapts
 from zope.formlib import form
 from zope.interface import Interface
 from zope.interface import implements
+import json
 
 
 class PingRMQAction(SimpleItem):
@@ -100,18 +101,18 @@ class PingRMQActionExecutor(object):
         rabbit.open_connection()
         rabbit.declare_queue(RABBIT_QUEUE)
 
-        def random_msg():
-            import string
-            import random
-            return ''.join(
-                random.choice(
-                    string.ascii_uppercase + string.digits) for _ in range(8)
-                )
+        # for user in users:
+        for user in ['testuser1', 'testuser2', 'testuser3']:
+            json_notification = {
+                'user_id': user,
+                'notification_subject': notification_subject,
+                'notification_action': notification_action,
+                'content_url': url,
+                'actor': actor
+            }
+            message = json.dumps(json_notification)
 
-        rabbit.send_message(RABBIT_QUEUE, random_msg())
-        rabbit.send_message(RABBIT_QUEUE, random_msg())
-        rabbit.send_message(RABBIT_QUEUE, random_msg())
-        rabbit.close_connection()
+            rabbit.send_message(RABBIT_QUEUE, message)
 
 
 class PingRMQAddForm(AddForm):
