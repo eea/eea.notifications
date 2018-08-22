@@ -6,8 +6,13 @@
   metal:use-macro="context/main_template/macros/master">
   <body>
     <div metal:fill-slot="content-core">
+      <style>@import url("./eea-notifications-styles.css/");</style>
+
       <div class="notifications-center-container">
         <h2>Notifications Center</h2>
+        <p>[for testing] This view simulates the async script.
+           Check RabbitMQ and application logs.
+        </p>
       </div>
     </div>
   </body>

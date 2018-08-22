@@ -9,7 +9,7 @@ OK - Do we want to offer a user the possibility to filter based on portal
   gets extra emails, he can filter (maybe we express some specific info in
   mail subject such as “New Indicator created”)
 
-WIP - based on content rule(s), when a content item is edited (or published etc.)
+OK - based on content rule(s), when a content item is edited (or published etc.)
   a ping (RabbitMQ) will be generated containing the url of edited object,
   the recorded action (edited, published etc.) and other needed info
   (tags, title, author, change of diff, date, etc.)
@@ -43,16 +43,13 @@ TODO
 - Add LICENSE file.
 - Add documentation on configuring ENV vars and running the notifications
   center script.
-- improve texts in user preferences form
-- improve UI in user preferences form
 - content rules
 - content actions / events as vocabulary?
 - custom events and notifications
 
+- Create documentation based on this:
 Usage:
-  User:
-    In /user_preferences:
-      Select tags and events and subscribe
+  User: manage subscriptions using /user_preferences form
   Admin:
     In Site Setup - Content rules:
       Add content rule

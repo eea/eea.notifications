@@ -1,3 +1,12 @@
+/* --- Notifications center (browser view) ---------------------------------- */
+body.template-notifications_center h1.documentFirstHeading,
+body.template-notifications_center div#plone-document-byline,
+body.template-notifications_center div.documentDescription.description {
+  display: none;
+}
+
+
+/* --- User preferences ---------------------------------------------------- */
 body.template-user_preferences h1.documentFirstHeading,
 body.template-user_preferences div#plone-document-byline,
 body.template-user_preferences div.documentDescription.description {
