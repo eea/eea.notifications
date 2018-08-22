@@ -27,9 +27,9 @@
                   <li tal:attributes="class python:'selected' if is_selected else ''">
                     <input type="checkbox" name="tags-list"
                            tal:attributes="id python:tag[0];
-                                           value python:tag[1];
+                                           value python:tag[0];
                                            checked python:is_selected"/>
-                    <label tal:attributes="for python:tag[0]"
+                    <label tal:attributes="for python:tag[1]"
                            tal:content="python:tag[1]">Education</label>
                   </li>
                 </tal:option>
@@ -47,13 +47,13 @@
 
             <ul class="events-list">
               <tal:options tal:repeat="tag python:events">
-                <tal:option tal:define="is_selected python:tag[1] in selected_events">
+                <tal:option tal:define="is_selected python:tag[0] in selected_events">
                   <li tal:attributes="class python:'selected' if is_selected else ''">
                     <input type="checkbox" name="events-list"
                            tal:attributes="id python:tag[0];
-                                           value python:tag[1];
+                                           value python:tag[0];
                                            checked python:is_selected"/>
-                    <label tal:attributes="for python:tag[0]"
+                    <label tal:attributes="for python:tag[1]"
                            tal:content="python:tag[1]">Education</label>
                   </li>
                 </tal:option>

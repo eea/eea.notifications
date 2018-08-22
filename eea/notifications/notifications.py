@@ -34,4 +34,5 @@ Someone""".format(user_id, content_url, notification_action, actor)
             mto=email, mfrom=mfrom, subject=subject,
             body=mail_text, immediate=True)
     except SMTPRecipientsRefused:
-        raise SMTPRecipientsRefused('Recipient rejected by server')
+        # raise SMTPRecipientsRefused('Recipient rejected by server')
+        pass
