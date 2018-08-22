@@ -25,19 +25,25 @@
             display: none;
           }
 
-          form#subscriptions-form div.tags-list-container ul.tags-list {
-            max-height: 250px;
-            overflow-y: auto;
-            border: 1px solid #999999;
-            padding: 10px;
-            margin-left: 0px;
-          }
-
           form#subscriptions-form p.form-help {
             color: #999999;
           }
 
-          form#subscriptions-form div.tags-list-container ul.tags-list li {
+          form#subscriptions-form div.form-group {
+            padding-top: 30px;
+          }
+
+          form#subscriptions-form div.tags-list-container ul.tags-list,
+          form#subscriptions-form div.events-list-container ul.events-list {
+            max-height: 250px;
+            overflow-y: auto;
+            border: 1px solid #CCCCCC;
+            padding: 10px;
+            margin-left: 0px;
+          }
+
+          form#subscriptions-form div.tags-list-container ul.tags-list li,
+          form#subscriptions-form div.events-list-container ul.events-list li {
             display: inline-block !important;
             width: 19%;
           }
@@ -45,11 +51,12 @@
 
         <form method="post" id="subscriptions-form">
           <div class="form-group tags-list-container">
-            <label for="tags-list"><h3>Select the content tags you are interested in:</h3></label>
+            <label for="tags-list"><h3>1. Select the content tags you are interested in:</h3></label>
             <p class="form-help">
-              <em>Example: if you want to be notified when an item related to education is changed
+              <em><b>Example:</b> if you want to be notified when an item related to education is changed
                you will subscribe to "education" tag.</em>
             </p>
+
             <ul class="tags-list">
               <tal:options tal:repeat="tag python:tags">
                 <tal:option tal:define="is_selected python:tag[0] in selected_tags">
@@ -66,26 +73,28 @@
             </ul>
           </div>
 
-          <div class="form-group">
-            <label for="events-list">Events list</label>
-            <select multiple name="events-list">
+          <div class="form-group events-list-container">
+            <label for="events-list"><h3>2. Select the type of events you want to be notified about:</label>
+            <p class="form-help">
+              <em><b>Example:</b> the item was deleted. You will receive a notification
+                  when an item (tagged with a tag you are interested in) is deleted.
+              </em>
+            </p>
+
+            <ul class="events-list">
               <tal:options tal:repeat="tag python:events">
-                <tal:option tal:define="is_selected python:tag[0] in selected_events">
-                  <option tal:condition="python:is_selected is True"
-                          tal:attributes="value python:tag[0];"
-                          tal:content="python:tag[1]"
-                          selected>
-                    Added
-                  </option>
-                  <option tal:condition="python:is_selected is False"
-                          tal:attributes="value python:tag[0]"
-                          tal:content="python:tag[1]">
-                    Added
-                  </option>
+                <tal:option tal:define="is_selected python:tag[1] in selected_events">
+                  <li>
+                    <input type="checkbox" name="events-list"
+                           tal:attributes="id python:tag[0];
+                                           value python:tag[1];
+                                           checked python:is_selected"/>
+                    <label tal:attributes="for python:tag[0]"
+                           tal:content="python:tag[1]">Education</label>
+                  </li>
                 </tal:option>
               </tal:options>
-            </select>
-            <p>Select multiple content events types.</p>
+            </ul>
           </div>
           <button name="submit" type="submit" class="btn btn-default">
             Subscribe
