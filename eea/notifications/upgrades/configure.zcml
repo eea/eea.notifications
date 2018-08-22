@@ -24,4 +24,16 @@
       />
 
   </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+    source="1.1"
+    destination="1.2"
+    profile="eea.notifications:default">
+
+    <genericsetup:upgradeDepends
+      title="Upgrade step for eea.notifications: import skins"
+      import_steps="skins"
+      />
+
+  </genericsetup:upgradeSteps>
 </configure>

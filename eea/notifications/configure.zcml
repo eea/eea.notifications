@@ -12,6 +12,12 @@
   <include package=".content" />
   <include package=".upgrades" />
 
+  <cmf:registerDirectory
+      name="skins"
+      directory="skins"
+      recursive="True"
+      />
+
   <include file="permissions.zcml" />
 
   <genericsetup:registerProfile
