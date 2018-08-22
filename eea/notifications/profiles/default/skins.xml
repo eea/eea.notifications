@@ -4,4 +4,7 @@
   <object name="eea_notifications" meta_type="Filesystem Directory View"
     directory="eea.notifications:skins/eea_notifications" />
 
+  <skin-path name="*">
+    <layer name="eea_notifications" insert-after="custom" />
+  </skin-path>
 </object>

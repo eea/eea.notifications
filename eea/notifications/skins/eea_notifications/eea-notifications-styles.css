@@ -1,3 +1,28 @@
-* {
-  color: red !important;
+body.template-user_preferences h1.documentFirstHeading,
+body.template-user_preferences div#plone-document-byline,
+body.template-user_preferences div.documentDescription.description {
+  display: none;
+}
+
+form#subscriptions-form p.form-help {
+  color: #999999;
+}
+
+form#subscriptions-form div.form-group {
+  padding-top: 30px;
+}
+
+form#subscriptions-form div.tags-list-container ul.tags-list,
+form#subscriptions-form div.events-list-container ul.events-list {
+  max-height: 250px;
+  overflow-y: auto;
+  border: 1px solid #CCCCCC;
+  padding: 10px;
+  margin-left: 0px;
+}
+
+form#subscriptions-form div.tags-list-container ul.tags-list li,
+form#subscriptions-form div.events-list-container ul.events-list li {
+  display: inline-block !important;
+  width: 19%;
 }
