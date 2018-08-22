@@ -24,7 +24,7 @@
         <style>
             form#subscriptions-form div.tags-list-container ul.tags-list li {
               display: inline-block !important;
-              width: 24%;
+              width: 19%;
             }
         </style>
 
