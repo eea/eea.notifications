@@ -46,7 +46,6 @@ TODO
 - improve texts in user preferences form
 - improve UI in user preferences form
 - content rules
-- configure RabbitMQ
 - content actions / events as vocabulary?
 - custom events and notifications
 
