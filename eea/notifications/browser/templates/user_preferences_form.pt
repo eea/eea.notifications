@@ -14,6 +14,12 @@
                        events python:notifications_catalog.all_events();
                        selected_events python:notifications_catalog.selected_events(user_id);">
         <h2>Subscription preferences</h2>
+
+        <p>Manage your <b>subscriptions</b> by selecting the <b>content tags</b> you are interested in.
+           <em>Example: if you want to be notified when an item related to education is changed
+           you will subscribe to "education" tag.</em>
+        </p>
+
         <form method="post">
           <div class="form-group">
             <label for="tags-list">Tags list</label>
