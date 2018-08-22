@@ -17,10 +17,8 @@
         <h2>Manage subscriptions</h2>
 
         <style>
-          /* #999999 #777777 #555555 #333333 #111111 */
-
           body.template-user_preferences h1.documentFirstHeading,
-          body.template-user_preferences div.plone-document-byline,
+          body.template-user_preferences div#plone-document-byline,
           body.template-user_preferences div.documentDescription.description {
             display: none;
           }
