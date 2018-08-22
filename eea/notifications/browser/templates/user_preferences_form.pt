@@ -14,23 +14,42 @@
                        events python:notifications_catalog.all_events();
                        selected_events python:notifications_catalog.selected_events(user_id);">
 
-        <h2>Subscription preferences</h2>
-
-        <p>Manage your <b>subscriptions</b> by selecting the <b>content tags</b> you are interested in.
-           <em>Example: if you want to be notified when an item related to education is changed
-           you will subscribe to "education" tag.</em>
-        </p>
+        <h2>Manage subscriptions</h2>
 
         <style>
-            form#subscriptions-form div.tags-list-container ul.tags-list li {
-              display: inline-block !important;
-              width: 19%;
-            }
+          /* #999999 #777777 #555555 #333333 #111111 */
+
+          body.template-user_preferences h1.documentFirstHeading,
+          body.template-user_preferences div.plone-document-byline,
+          body.template-user_preferences div.documentDescription.description {
+            display: none;
+          }
+
+          form#subscriptions-form div.tags-list-container ul.tags-list {
+            max-height: 250px;
+            overflow-y: auto;
+            border: 1px solid #999999;
+            padding: 10px;
+            margin-left: 0px;
+          }
+
+          form#subscriptions-form p.form-help {
+            color: #999999;
+          }
+
+          form#subscriptions-form div.tags-list-container ul.tags-list li {
+            display: inline-block !important;
+            width: 19%;
+          }
         </style>
 
         <form method="post" id="subscriptions-form">
           <div class="form-group tags-list-container">
-            <label for="tags-list">The list of existing content tags:</label>
+            <label for="tags-list"><h3>Select the content tags you are interested in:</h3></label>
+            <p class="form-help">
+              <em>Example: if you want to be notified when an item related to education is changed
+               you will subscribe to "education" tag.</em>
+            </p>
             <ul class="tags-list">
               <tal:options tal:repeat="tag python:tags">
                 <tal:option tal:define="is_selected python:tag[0] in selected_tags">
