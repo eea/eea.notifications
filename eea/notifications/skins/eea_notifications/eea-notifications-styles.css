@@ -26,3 +26,7 @@ form#subscriptions-form div.events-list-container ul.events-list li {
   display: inline-block !important;
   width: 19%;
 }
+
+form#subscriptions-form button[name='submit'] {
+  padding: 5px 30px;
+}
