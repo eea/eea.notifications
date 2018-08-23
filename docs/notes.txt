@@ -73,7 +73,10 @@ parts +=
 [test]
 recipe = zc.recipe.testrunner
 defaults = ['--auto-color', '--auto-progress']
-eggs = eea.notifications
+eggs =
+    eea.notifications [test]
+    plone.testing [test]
+    plone.app.testing [test]
 
 Run the tests using:
 ./bin/test -s eea.notifications

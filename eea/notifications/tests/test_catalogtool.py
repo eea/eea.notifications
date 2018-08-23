@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
-from eea.notifications.testing import NOTIFICATIONS_INTEGRATION_TESTING
+from eea.notifications.tests.utils import NOTIFICATIONS_INTEGRATION_TESTING
 from eea.notifications.tests.utils import log
 from plone import api
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
-import unittest2 as unittest
+import unittest
 
 
-class MeetingIntegrationTest(unittest.TestCase):
+class CatalogToolIntegrationTest(unittest.TestCase):
 
     layer = NOTIFICATIONS_INTEGRATION_TESTING
 
@@ -18,6 +18,7 @@ class MeetingIntegrationTest(unittest.TestCase):
         self.installer = api.portal.get_tool('portal_quickinstaller')
 
     def test_catalogtool(self):
+        import pdb; pdb.set_trace()
         log("test_catalogtool", "ZZZ.")
 
 
