@@ -64,3 +64,18 @@ Usage:
               Notifications action: added
           Apply rule on the whole site
         Analog for other events: edit, delete etc.
+
+Tests:
+Add in buildout.cfg:
+parts +=
+    test
+
+[test]
+recipe = zc.recipe.testrunner
+defaults = ['--auto-color', '--auto-progress']
+eggs = eea.notifications
+
+Run the tests using:
+./bin/test -s eea.notifications
+
+Learn more: https://docs.plone.org/4/en/manage/deploying/testing_tuning/testing_and_debugging/unit_testing.html
