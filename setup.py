@@ -28,12 +28,13 @@ setup(
     zip_safe=False,
     install_requires=[
         'setuptools',
-        'plone.app.dexterity',
         'eea.rabbitmq.client',
     ],
     extras_require={
         'test': [
             'plone.app.testing',
+            'setuptools',
+            'eea.rabbitmq.client',
         ],
     },
     entry_points="""
