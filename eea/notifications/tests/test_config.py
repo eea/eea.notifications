@@ -1,13 +1,12 @@
-import unittest
 from eea.notifications.tests.utils import log
+import unittest
 
 
 class TestConfig(unittest.TestCase):
-    """Unit test for the Program type
-    """
 
     def test_env_vars(self):
-        log("test_env_vars", "Non empty env vars in configuration.")
+        log("config", "Non empty env vars in configuration.")
+
         from eea.notifications.config import ENV_HOST_NAME
         from eea.notifications.config import ENV_PLONE_NAME
         from eea.notifications.config import ANNOT_TAGS_KEY
