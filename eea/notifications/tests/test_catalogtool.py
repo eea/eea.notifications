@@ -21,13 +21,17 @@ class CatalogToolIntegrationTest(unittest.TestCase):
         from eea.notifications.catalogtool import get_catalog
         try:
             catalog = get_catalog()
+            catalog = catalog  # happy PEP
+            exists = True
         except Exception:
-            catalog = None
+            exists = False
 
-        if catalog is not None:
+        if exists:
             log("test_catalogtool", "Custom catalog exists.")
+            self.assertTrue(exists)
         else:
             log("test_catalogtool", "Custom catalog is missing.", "error")
+            self.assertTrue(exists)
 
 
 class TestCatalogTool(unittest.TestCase):
