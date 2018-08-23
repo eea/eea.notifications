@@ -18,8 +18,16 @@ class CatalogToolIntegrationTest(unittest.TestCase):
         self.installer = api.portal.get_tool('portal_quickinstaller')
 
     def test_catalogtool(self):
-        import pdb; pdb.set_trace()
-        log("test_catalogtool", "ZZZ.")
+        from eea.notifications.catalogtool import get_catalog
+        try:
+            catalog = get_catalog()
+        except Exception:
+            catalog = None
+
+        if catalog is not None:
+            log("test_catalogtool", "Custom catalog exists.")
+        else:
+            log("test_catalogtool", "Custom catalog is missing.", "error")
 
 
 class TestCatalogTool(unittest.TestCase):
