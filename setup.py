@@ -31,6 +31,11 @@ setup(
         'plone.app.dexterity',
         'eea.rabbitmq.client',
     ],
+    extras_require={
+        'test': [
+            'plone.app.testing',
+        ],
+    },
     entry_points="""
     # -*- Entry points: -*-
     [console_scripts]
