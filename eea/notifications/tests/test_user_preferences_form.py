@@ -18,17 +18,27 @@ class UserPreferencesFormIntegrationTest(unittest.TestCase):
         self.installer = api.portal.get_tool('portal_quickinstaller')
 
     def test_user_preferences_form(self):
-        # import pdb; pdb.set_trace()
-        log("user_preferences_form", "WIP.")
-        self.assertTrue(True)
+        try:
+            form = api.portal.get().unrestrictedTraverse("user_preferences")
+            log("browser/user_preferences_form", "Form exists.")
+        except Exception:
+            form = None
+            log("browser/user_preferences_form", "Problems related to form.")
+        self.assertTrue("SimpleViewClass" in str(form))
+        self.assertTrue("/templates/user_preferences_form" in str(form))
 
 
 class TestUserPreferencesForm(unittest.TestCase):
 
     def test_user_preferences_form(self):
-        log("user_preferences_form", "WIP.")
-
-        self.assertTrue(True)
+        try:
+            from eea.notifications.browser.user_preferences_form import \
+                UserPreferencesForm
+            log("browser/user_preferences_form", "Form is defined.")
+        except Exception:
+            UserPreferencesForm = None
+            log("browser/user_preferences_form", "Form is missing.", "error")
+        self.assertTrue(UserPreferencesForm is not None)
 
 
 def test_suite():
