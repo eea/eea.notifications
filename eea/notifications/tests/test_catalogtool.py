@@ -27,17 +27,17 @@ class CatalogToolIntegrationTest(unittest.TestCase):
             exists = False
 
         if exists:
-            log("test_catalogtool", "Custom catalog exists.")
+            log("catalogtool", "Custom catalog exists.")
             self.assertTrue(exists)
         else:
-            log("test_catalogtool", "Custom catalog is missing.", "error")
+            log("catalogtool", "Custom catalog is missing.", "error")
             self.assertTrue(exists)
 
 
 class TestCatalogTool(unittest.TestCase):
 
     def test_catalogtool(self):
-        log("test_catalogtool", "get_catalog function is defined.")
+        log("catalogtool", "get_catalog function is defined.")
 
         from eea.notifications.catalogtool import get_catalog
         self.assertTrue('function' in str(type(get_catalog)))
