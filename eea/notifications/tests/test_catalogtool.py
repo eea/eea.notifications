@@ -37,7 +37,7 @@ class CatalogToolIntegrationTest(unittest.TestCase):
 class TestCatalogTool(unittest.TestCase):
 
     def test_catalogtool(self):
-        log("test_catalogtool", "get_catalog function exists.")
+        log("test_catalogtool", "get_catalog function is defined.")
 
         from eea.notifications.catalogtool import get_catalog
         self.assertTrue('function' in str(type(get_catalog)))
