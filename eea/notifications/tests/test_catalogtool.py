@@ -141,6 +141,38 @@ class CatalogToolIntegrationTest(unittest.TestCase):
         else:
             log("catalogtool", "Wrong behaviour setting tags.", "error")
 
+    def test_catalogtool_search_users_by_preferences(self):
+        from eea.notifications.catalogtool import get_catalog
+
+        events = ['modified_custom', 'deleted_custom']
+        events_no = ['event 1', 'event 2']
+
+        catalog = get_catalog()
+        catalog.set_events(user_id=TEST_USER_ID, events=events)
+
+        tags = ['subject 1', 'subject 2']
+        tags_no = ['other 1', 'other 2']
+
+        catalog.set_tags(user_id=TEST_USER_ID, tags=tags)
+
+        users = catalog.search_users_by_preferences(
+                events=events, tags=tags, mode="or")
+
+        self.assertTrue(TEST_USER_ID in users)
+        if TEST_USER_ID in users:
+            log("catalogtool", "User found by preferences as expected.")
+        else:
+            log("catalogtool", "User not found by preferences.", "error")
+
+        users = catalog.search_users_by_preferences(
+                events=events_no, tags=tags_no, mode="or")
+
+        self.assertTrue(TEST_USER_ID not in users)
+        if TEST_USER_ID not in users:
+            log("catalogtool", "Search results seems ok.")
+        else:
+            log("catalogtool", "Wrong search results.", "error")
+
 
 class TestCatalogTool(unittest.TestCase):
 
