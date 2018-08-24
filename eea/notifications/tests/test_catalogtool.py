@@ -87,6 +87,60 @@ class CatalogToolIntegrationTest(unittest.TestCase):
         else:
             log("catalogtool", "Wrong behaviour setting events.", "error")
 
+    def test_catalogtool_tags_in_user_preferences(self):
+        from eea.notifications.catalogtool import get_catalog
+
+        # Try with a single tag
+        tag = "a subject I like"
+        tag_no = "not important"
+
+        catalog = get_catalog()
+        catalog.set_tags(user_id=TEST_USER_ID, tags=[tag])
+        selected = catalog.selected_tags(user_id=TEST_USER_ID)
+        if (tag in selected) and (tag_no not in selected):
+            log("catalogtool",
+                "Set tags and get user selected ones is working.")
+        else:
+            log("catalogtool",
+                "Set tags and get user selected ones is not working.",
+                "error")
+
+        self.assertTrue(tag in selected)
+        self.assertTrue(tag_no not in selected)
+
+        # Try with multiple tags
+        tags = ['subject 1', 'subject 2']
+        tags_no = ['other 1', 'other 2']
+
+        catalog.set_tags(user_id=TEST_USER_ID, tags=tags)
+        selected = catalog.selected_tags(user_id=TEST_USER_ID)
+        ok = True
+        for tag in tags:
+            if tag not in selected:
+                ok = False
+
+            self.assertTrue(tag in selected)
+
+        if ok:
+            log("catalogtool",
+                "Set multiple tags and get user selected ones is working.")
+        else:
+            log("catalogtool",
+                "Set multiple tags and get user selected ones not working.",
+                "error")
+
+        ok = True
+        for tag_no in tags_no:
+            if tag_no in selected:
+                ok = False
+
+            self.assertTrue(tag_no not in selected)
+
+        if ok:
+            log("catalogtool", "Only set tags are present.")
+        else:
+            log("catalogtool", "Wrong behaviour setting tags.", "error")
+
 
 class TestCatalogTool(unittest.TestCase):
 
