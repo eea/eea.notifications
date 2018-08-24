@@ -33,6 +33,25 @@ class CatalogToolIntegrationTest(unittest.TestCase):
             log("catalogtool", "Custom catalog is missing.", "error")
             self.assertTrue(exists)
 
+    def test_catalogtool_functionality(self):
+        from eea.notifications.catalogtool import get_catalog
+        event = "something happened with this content"
+        event_no = "something else happened"
+
+        catalog = get_catalog()
+        catalog.set_events(user_id=TEST_USER_ID, events=[event])
+        selected = catalog.selected_events(user_id=TEST_USER_ID)
+        if (event in selected) and (event_no not in selected):
+            log("catalogtool",
+                "Set events and get user selected ones is working.")
+        else:
+            log("catalogtool",
+                "Set events and get user selected ones is not working.",
+                "error")
+
+        self.assertTrue(event in selected)
+        self.assertTrue(event_no not in selected)
+
 
 class TestCatalogTool(unittest.TestCase):
 
