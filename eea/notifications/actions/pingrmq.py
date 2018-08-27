@@ -6,6 +6,7 @@ from eea.notifications.catalogtool import get_catalog
 from eea.notifications.config import OBJECT_EVENTS
 from eea.notifications.config import RABBIT_QUEUE
 from eea.notifications.interfaces import IPingRMQAction
+from eea.notifications.utils import LOGGER
 from eea.notifications.utils import get_rabbit_config
 from eea.notifications.utils import get_tags
 from eea.rabbitmq.client import RabbitMQConnector
@@ -80,7 +81,7 @@ class PingRMQActionExecutor(object):
         try:
             url = obj.absolute_url()
         except Exception:
-            url = "ZZZ URL"
+            url = ""
         try:
             actor = ContentHistoryView(
                     obj, self.context.REQUEST).fullHistory()[0][
@@ -88,27 +89,28 @@ class PingRMQActionExecutor(object):
         except Exception:
             actor = ""
 
-        # info = [event, obj, container, tags, actions, notification_subject,
-        #         notification_action, users, related_actions, url, actor]
-        # info = info
-        # LOGGER.info(obj)
-
         rabbit_config = get_rabbit_config()
         rabbit = RabbitMQConnector(**rabbit_config)
-        rabbit.open_connection()
-        rabbit.declare_queue(RABBIT_QUEUE)
+        try:
+            rabbit.open_connection()
+            rabbit.declare_queue(RABBIT_QUEUE)
 
-        for user in users:
-            json_notification = {
-                'user_id': user,
-                'notification_subject': notification_subject,
-                'notification_action': notification_action,
-                'content_url': url,
-                'actor': actor
-            }
-            message = json.dumps(json_notification)
+            for user in users:
+                json_notification = {
+                    'user_id': user,
+                    'notification_subject': notification_subject,
+                    'notification_action': notification_action,
+                    'content_url': url,
+                    'actor': actor
+                }
+                message = json.dumps(json_notification)
 
-            rabbit.send_message(RABBIT_QUEUE, message)
+                rabbit.send_message(RABBIT_QUEUE, message)
+        except Exception:
+            LOGGER.error(
+                "RabbitMQ connection problem. "
+                "Check client configuration: /@@rabbitmq-client-controlpanel."
+                " See example in documentation.")
 
 
 class PingRMQAddForm(AddForm):

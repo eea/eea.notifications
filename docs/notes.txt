@@ -82,3 +82,17 @@ Run the tests using:
 ./bin/test -s eea.notifications
 
 Learn more: https://docs.plone.org/4/en/manage/deploying/testing_tuning/testing_and_debugging/unit_testing.html
+
+RabbitMQ Client Settings: (/@@rabbitmq-client-controlpanel)
+Example:
+  Server Address: 172.26.0.2
+    Get if from:
+    $ docker inspect 8b51d27e0306 | grep "IPAddress"                                                                                    4016ms  Mon 27 Aug 2018 12:08:18 PM EEST
+            "SecondaryIPAddresses": null,
+            "IPAddress": "",
+                    "IPAddress": "172.26.0.2"
+
+    Instead of 8b51d27e0306 you will use the ID of rabbitmq docker container.
+  Server port: 5,672
+  Username: guest
+  Password: guest
