@@ -20,6 +20,12 @@
 
   <include file="permissions.zcml" />
 
+ <interface
+      interface="eea.notifications.interfaces.ISendEEANotificationEvent"
+      type="plone.contentrules.rule.interfaces.IRuleEventType"
+      name="EEA Notifications: send notification event."
+      />
+
   <genericsetup:registerProfile
       name="default"
       title="eea.notifications"

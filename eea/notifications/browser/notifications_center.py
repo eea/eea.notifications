@@ -55,6 +55,8 @@ def notifications_center_operations(site):
 
         print message
         # TODO notify custom event -> content rule send email
+        # notify(SendEEANotification(?? obj))
+
         send_email_notification(
             user_id=msg['user_id'],
             notification_subject=msg['notification_subject'],
