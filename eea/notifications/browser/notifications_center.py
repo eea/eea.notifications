@@ -40,6 +40,11 @@ def get_plone_site():
     return site
 
 
+# TODO custom variable substitution
+# current_tag = "sadas"
+# current_url = "asdasd"
+
+
 def notifications_center_operations(site):
     """ All the operations of Notifications Center happen here
         Callable by both: browser view and script
@@ -49,6 +54,7 @@ def notifications_center_operations(site):
         msg = json.loads(message)
 
         print message
+        # TODO notify custom event -> content rule send email
         send_email_notification(
             user_id=msg['user_id'],
             notification_subject=msg['notification_subject'],

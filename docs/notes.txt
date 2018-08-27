@@ -44,8 +44,12 @@ TODO
 - Add documentation on configuring ENV vars and running the notifications
   center script.
 - content rules
-- content actions / events as vocabulary?
+- content actions / events as vocabulary
 - custom events and notifications
+- the user preferences form: use z3c.form, example: http://dpaste.com/1X2714Q
+- NC -> notify custom event (a custom content rule will send email:
+  editable template using custom substitution variables) instead of sending
+  emails
 
 - Create documentation based on this:
 Usage:
