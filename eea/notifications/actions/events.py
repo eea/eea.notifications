@@ -1,6 +1,13 @@
 """ Events
 """
 from eea.notifications.catalogtool import get_catalog
+from eea.notifications.interfaces import ISendEEANotificationEvent
+from zope.component.interfaces import ObjectEvent
+from zope.interface import implements
+
+
+class SendEEANotificationEvent(ObjectEvent):
+    implements(ISendEEANotificationEvent)
 
 
 def add_or_update_in_catalog(obj, evt):
