@@ -34,6 +34,7 @@ setup(
         'test': [
             'plone.app.testing',
             'setuptools',
+            'plone.app.z3cform',
             'eea.rabbitmq.client',
         ],
     },
