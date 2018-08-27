@@ -40,7 +40,6 @@ WIP - Based on the result processing, the async script extracts a list of user
   (email, slack message, etc).
 
 TODO
-- Add LICENSE file.
 - Add documentation on configuring ENV vars and running the notifications
   center script.
 - content rules
