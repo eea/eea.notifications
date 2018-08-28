@@ -109,6 +109,9 @@ class PingRMQActionExecutor(object):
                 }
                 message = json.dumps(json_notification)
 
+                # TODO set the value for substitution vars
+                # IAnnotations(self.request)[ANNOT_SUBS_KEY] = msg
+
                 rabbit.send_message(RABBIT_QUEUE, message)
         except Exception:
             LOGGER.error(

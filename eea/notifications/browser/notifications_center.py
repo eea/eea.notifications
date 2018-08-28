@@ -59,6 +59,7 @@ class eea_notifications_user_id(BaseSubstitution):
     description = u"Content of message set in workflow form."
 
     def safe_call(self):
+        import pdb; pdb.set_trace()
         return "WIP USER ID"
         # req = getRequest()
         # return IAnnotations(req).get(ANNOT_SUBS_KEY)
