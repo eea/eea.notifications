@@ -106,5 +106,8 @@ Add in your docker-compose:
     image: eaudeweb/mailtrap
     ports:
       - "8081:80"
+In mail settings (@@mail-controlpanel):
+  SMTP server: postfix
+  SMTP port: 25
 
 then http://localhost:8081 u: mailtrap p: mailtrap
