@@ -5,11 +5,13 @@ from Products.Five.browser import BrowserView
 from eea.notifications.config import ENV_HOST_NAME
 from eea.notifications.config import ENV_PLONE_NAME
 from eea.notifications.config import RABBIT_QUEUE
+from eea.notifications.events import SendEEANotification
 from eea.notifications.notifications import send_email_notification
 from eea.notifications.utils import LOGGER
 from eea.notifications.utils import get_rabbit_config
 from eea.rabbitmq.client import RabbitMQConnector
 from plone import api
+from zope.event import notify
 import json
 
 
@@ -54,9 +56,9 @@ def notifications_center_operations(site):
         msg = json.loads(message)
 
         print message
-        # TODO notify custom event -> content rule send email
-        # notify(SendEEANotification(?? obj))
+        notify(SendEEANotification(message))
 
+        # TODO Remove this:
         send_email_notification(
             user_id=msg['user_id'],
             notification_subject=msg['notification_subject'],
