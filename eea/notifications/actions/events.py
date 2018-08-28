@@ -2,12 +2,17 @@
 """
 from eea.notifications.catalogtool import get_catalog
 from eea.notifications.interfaces import ISendEEANotificationEvent
+from plone.app.contentrules.handlers import execute_rules
 from zope.component.interfaces import ObjectEvent
 from zope.interface import implements
 
 
 class SendEEANotificationEvent(ObjectEvent):
     implements(ISendEEANotificationEvent)
+
+
+def trigger_contentrules(event):
+    execute_rules(event)
 
 
 def add_or_update_in_catalog(obj, evt):

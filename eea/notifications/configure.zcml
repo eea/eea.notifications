@@ -20,11 +20,14 @@
 
   <include file="permissions.zcml" />
 
- <interface
+  <interface
       interface="eea.notifications.interfaces.ISendEEANotificationEvent"
       type="plone.contentrules.rule.interfaces.IRuleEventType"
-      name="EEA Notifications: send notification event."
+      name="EEA Notifications: send notification event"
       />
+
+    <subscriber for="eea.notifications.interfaces.ISendEEANotificationEvent"
+                handler="eea.notifications.actions.events.trigger_contentrules" />
 
   <adapter
       for="*"

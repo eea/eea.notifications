@@ -68,20 +68,22 @@ def notifications_center_operations(site):
         Callable by both: browser view and script
     """
 
-    def operations(message):
+    def operations(message, site):
         msg = json.loads(message)
 
         print message
-        notify(SendEEANotificationEvent(message))
+        notify(SendEEANotificationEvent(site))  # TODO fix this: it seems
+        # working only with an obj != site
+        # example site['test'] - test folder
 
         # TODO Remove this:
-        send_email_notification(
-            user_id=msg['user_id'],
-            notification_subject=msg['notification_subject'],
-            notification_action=msg['notification_action'],
-            content_url=msg['content_url'],
-            actor=msg['actor']
-        )
+        # send_email_notification(
+        #     user_id=msg['user_id'],
+        #     notification_subject=msg['notification_subject'],
+        #     notification_action=msg['notification_action'],
+        #     content_url=msg['content_url'],
+        #     actor=msg['actor']
+        # )
         return True
 
     # Consume messages from queue
@@ -97,7 +99,7 @@ def notifications_center_operations(site):
             LOGGER.info('Queue is empty \'%s\'.', RABBIT_QUEUE)
             break
 
-        operations(body)
+        operations(body, site)
         rabbit.get_channel().basic_ack(delivery_tag=method.delivery_tag)
 
     rabbit.close_connection()
