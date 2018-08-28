@@ -52,6 +52,9 @@ class PingRMQActionExecutor(object):
         notification_action = self.element.notification_action
 
         obj = self.event.object
+
+        path = "/".join(obj.getPhysicalPath())
+
         # container = obj.getParentNode()
 
         catalog = get_catalog()
@@ -101,7 +104,8 @@ class PingRMQActionExecutor(object):
                     'notification_subject': notification_subject,
                     'notification_action': notification_action,
                     'content_url': url,
-                    'actor': actor
+                    'actor': actor,
+                    'path': path,
                 }
                 message = json.dumps(json_notification)
 

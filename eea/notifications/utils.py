@@ -20,6 +20,16 @@ def get_tags(obj):
     return tags
 
 
+def get_object_having_path(path):
+    """ Usage: path = "/".join(obj.getPhysicalPath())
+    """
+    try:
+        return api.portal.get().portal_catalog(
+            path={"query": path, "depth": 0})[0].getObject()
+    except Exception:
+        return None
+
+
 def get_rabbit_config():
     rabbit_client_settings = get_rabbitmq_client_settings()
     rabbit_config = {

@@ -10,6 +10,7 @@ from eea.notifications.config import ENV_PLONE_NAME
 from eea.notifications.config import RABBIT_QUEUE
 from eea.notifications.notifications import send_email_notification
 from eea.notifications.utils import LOGGER
+from eea.notifications.utils import get_object_having_path
 from eea.notifications.utils import get_rabbit_config
 from eea.rabbitmq.client import RabbitMQConnector
 from plone import api
@@ -72,9 +73,11 @@ def notifications_center_operations(site):
         msg = json.loads(message)
 
         print message
-        notify(SendEEANotificationEvent(site))  # TODO fix this: it seems
-        # working only with an obj != site
-        # example site['test'] - test folder
+        obj = get_object_having_path(msg['path'])
+        if obj is not None:
+            notify(SendEEANotificationEvent(obj))
+        else:
+            LOGGER.error("Object with path {0} not found.".msg['path'])
 
         # TODO Remove this:
         # send_email_notification(
