@@ -99,3 +99,12 @@ Example:
   Server port: 5,672
   Username: guest
   Password: guest
+
+For testing mails (dev):
+Add in your docker-compose:
+  postfix:
+    image: eaudeweb/mailtrap
+    ports:
+      - "8081:80"
+
+then http://localhost:8081 u: mailtrap p: mailtrap
