@@ -2,10 +2,10 @@
 """
 
 from Products.Five.browser import BrowserView
+from eea.notifications.actions.events import SendEEANotificationEvent
 from eea.notifications.config import ENV_HOST_NAME
 from eea.notifications.config import ENV_PLONE_NAME
 from eea.notifications.config import RABBIT_QUEUE
-from eea.notifications.events import SendEEANotification
 from eea.notifications.notifications import send_email_notification
 from eea.notifications.utils import LOGGER
 from eea.notifications.utils import get_rabbit_config
@@ -56,7 +56,7 @@ def notifications_center_operations(site):
         msg = json.loads(message)
 
         print message
-        notify(SendEEANotification(message))
+        notify(SendEEANotificationEvent(message))
 
         # TODO Remove this:
         send_email_notification(
