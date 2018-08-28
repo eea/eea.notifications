@@ -1,8 +1,10 @@
 """ Notifications Center - the script and the browser view
 """
 
+from Products.CMFCore.interfaces import IContentish
 from Products.Five.browser import BrowserView
 from eea.notifications.actions.events import SendEEANotificationEvent
+from eea.notifications.config import ANNOT_SUBS_KEY
 from eea.notifications.config import ENV_HOST_NAME
 from eea.notifications.config import ENV_PLONE_NAME
 from eea.notifications.config import RABBIT_QUEUE
@@ -11,7 +13,11 @@ from eea.notifications.utils import LOGGER
 from eea.notifications.utils import get_rabbit_config
 from eea.rabbitmq.client import RabbitMQConnector
 from plone import api
+from plone.stringinterp.adapters import BaseSubstitution
+from zope.annotation.interfaces import IAnnotations
+from zope.component import adapts
 from zope.event import notify
+from zope.globalrequest import getRequest
 import json
 
 
@@ -45,6 +51,16 @@ def get_plone_site():
 # TODO custom variable substitution
 # current_tag = "sadas"
 # current_url = "asdasd"
+class eea_notifications_user_id(BaseSubstitution):
+    adapts(IContentish)
+
+    category = u'EEA Notifications Utils'
+    description = u"Content of message set in workflow form."
+
+    def safe_call(self):
+        return "WIP USER ID"
+        # req = getRequest()
+        # return IAnnotations(req).get(ANNOT_SUBS_KEY)
 
 
 def notifications_center_operations(site):
