@@ -1,24 +1,17 @@
 """ Notifications Center - the script and the browser view
 """
 
-from Products.CMFCore.interfaces import IContentish
 from Products.Five.browser import BrowserView
 from eea.notifications.actions.events import SendEEANotificationEvent
-from eea.notifications.config import ANNOT_SUBS_KEY
 from eea.notifications.config import ENV_HOST_NAME
 from eea.notifications.config import ENV_PLONE_NAME
 from eea.notifications.config import RABBIT_QUEUE
-# from eea.notifications.notifications import send_email_notification
 from eea.notifications.utils import LOGGER
 from eea.notifications.utils import get_object_having_path
 from eea.notifications.utils import get_rabbit_config
 from eea.rabbitmq.client import RabbitMQConnector
 from plone import api
-from plone.stringinterp.adapters import BaseSubstitution
-from zope.annotation.interfaces import IAnnotations
-from zope.component import adapts
 from zope.event import notify
-from zope.globalrequest import getRequest
 import json
 
 
@@ -49,84 +42,6 @@ def get_plone_site():
     return site
 
 
-def msg_part(req, key):
-    """ return the value of given key for a notification
-    """
-    msg = json.loads(IAnnotations(req).get(ANNOT_SUBS_KEY))
-    return msg.get(key, "")
-
-
-class subs_user_id(BaseSubstitution):
-    adapts(IContentish)
-
-    category = u'EEA Notifications'
-    description = u"The user_id of notified person."
-
-    def safe_call(self):
-        req = getRequest()
-        return msg_part(req, "user_id")
-
-
-class subs_user_email(BaseSubstitution):
-    adapts(IContentish)
-
-    category = u'EEA Notifications'
-    description = u"The email of notified person."
-
-    def safe_call(self):
-        req = getRequest()
-        user_id = msg_part(req, "user_id")
-
-        membership_tool = api.portal.get_tool('portal_membership')
-        user = membership_tool.getMemberById(user_id)
-        email = user.getProperty('email')
-        return email
-
-
-class subs_notification_subject(BaseSubstitution):
-    adapts(IContentish)
-
-    category = u'EEA Notifications'
-    description = u"The subject as defined in pingRMQ form."
-
-    def safe_call(self):
-        req = getRequest()
-        return msg_part(req, "notification_subject")
-
-
-class subs_notification_action(BaseSubstitution):
-    adapts(IContentish)
-
-    category = u'EEA Notifications'
-    description = u"The action on that content (example: edited)."
-
-    def safe_call(self):
-        req = getRequest()
-        return msg_part(req, "notification_action")
-
-
-class subs_content_url(BaseSubstitution):
-    adapts(IContentish)
-
-    category = u'EEA Notifications'
-    description = u"The url of content related to this event."
-
-    def safe_call(self):
-        req = getRequest()
-        return msg_part(req, "content_url")
-
-
-class subs_actor(BaseSubstitution):
-    adapts(IContentish)
-
-    category = u'EEA Notifications'
-    description = u"The user_id of the event's actor."
-
-    def safe_call(self):
-        req = getRequest()
-        return msg_part(req, "actor")
-
-
 def notifications_center_operations(site):
     """ All the operations of Notifications Center happen here
         Callable by both: browser view and script
@@ -142,14 +57,6 @@ def notifications_center_operations(site):
         else:
             LOGGER.error("Object with path {0} not found.".msg['path'])
 
-        # TODO Remove this:
-        # send_email_notification(
-        #     user_id=msg['user_id'],
-        #     notification_subject=msg['notification_subject'],
-        #     notification_action=msg['notification_action'],
-        #     content_url=msg['content_url'],
-        #     actor=msg['actor']
-        # )
         return True
 
     # Consume messages from queue
