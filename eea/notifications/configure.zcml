@@ -39,6 +39,13 @@
   <adapter
       for="*"
       provides="plone.stringinterp.interfaces.IStringSubstitution"
+      factory="eea.notifications.browser.notifications_center.subs_user_email"
+      name="eea_notifications_user_email"
+      />
+
+  <adapter
+      for="*"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
       factory="eea.notifications.browser.notifications_center.subs_notification_subject"
       name="eea_notifications_notification_subject"
       />

@@ -59,7 +59,7 @@ def msg_part(req, key):
 class subs_user_id(BaseSubstitution):
     adapts(IContentish)
 
-    category = u'EEA Notifications Utils'
+    category = u'EEA Notifications'
     description = u"The user_id of notified person."
 
     def safe_call(self):
@@ -67,10 +67,26 @@ class subs_user_id(BaseSubstitution):
         return msg_part(req, "user_id")
 
 
+class subs_user_email(BaseSubstitution):
+    adapts(IContentish)
+
+    category = u'EEA Notifications'
+    description = u"The email of notified person."
+
+    def safe_call(self):
+        req = getRequest()
+        user_id = msg_part(req, "user_id")
+
+        membership_tool = api.portal.get_tool('portal_membership')
+        user = membership_tool.getMemberById(user_id)
+        email = user.getProperty('email')
+        return email
+
+
 class subs_notification_subject(BaseSubstitution):
     adapts(IContentish)
 
-    category = u'EEA Notifications Utils'
+    category = u'EEA Notifications'
     description = u"The subject as defined in pingRMQ form."
 
     def safe_call(self):
@@ -81,7 +97,7 @@ class subs_notification_subject(BaseSubstitution):
 class subs_notification_action(BaseSubstitution):
     adapts(IContentish)
 
-    category = u'EEA Notifications Utils'
+    category = u'EEA Notifications'
     description = u"The action on that content (example: edited)."
 
     def safe_call(self):
@@ -92,7 +108,7 @@ class subs_notification_action(BaseSubstitution):
 class subs_content_url(BaseSubstitution):
     adapts(IContentish)
 
-    category = u'EEA Notifications Utils'
+    category = u'EEA Notifications'
     description = u"The url of content related to this event."
 
     def safe_call(self):
@@ -103,7 +119,7 @@ class subs_content_url(BaseSubstitution):
 class subs_actor(BaseSubstitution):
     adapts(IContentish)
 
-    category = u'EEA Notifications Utils'
+    category = u'EEA Notifications'
     description = u"The user_id of the event's actor."
 
     def safe_call(self):
