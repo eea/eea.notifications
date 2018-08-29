@@ -67,6 +67,13 @@
   <adapter
       for="*"
       provides="plone.stringinterp.interfaces.IStringSubstitution"
+      factory="eea.notifications.notifications.subs_content_title"
+      name="eea_notifications_content_title"
+      />
+
+  <adapter
+      for="*"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
       factory="eea.notifications.notifications.subs_actor"
       name="eea_notifications_actor"
       />

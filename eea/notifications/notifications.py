@@ -77,6 +77,17 @@ class subs_content_url(BaseSubstitution):
         return msg_part(req, "content_url")
 
 
+class subs_content_title(BaseSubstitution):
+    adapts(IContentish)
+
+    category = u'EEA Notifications'
+    description = u"The title of content related to this event."
+
+    def safe_call(self):
+        req = getRequest()
+        return msg_part(req, "content_title")
+
+
 class subs_actor(BaseSubstitution):
     adapts(IContentish)
 

@@ -52,10 +52,7 @@ class PingRMQActionExecutor(object):
         notification_action = self.element.notification_action
 
         obj = self.event.object
-
         path = "/".join(obj.getPhysicalPath())
-
-        # container = obj.getParentNode()
 
         catalog = get_catalog()
         tags = get_tags(obj)
@@ -85,6 +82,12 @@ class PingRMQActionExecutor(object):
             url = obj.absolute_url()
         except Exception:
             url = ""
+
+        try:
+            content_title = obj.Title()
+        except Exception:
+            content_title = ""
+
         try:
             actor = ContentHistoryView(
                     obj, self.context.REQUEST).fullHistory()[0][
@@ -104,6 +107,7 @@ class PingRMQActionExecutor(object):
                     'notification_subject': notification_subject,
                     'notification_action': notification_action,
                     'content_url': url,
+                    'content_title': content_title,
                     'actor': actor,
                     'path': path,
                 }
