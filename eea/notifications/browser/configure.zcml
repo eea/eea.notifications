@@ -21,4 +21,13 @@
     layer="eea.notifications.interfaces.IEEANotificationsInstalled"
     permission="cmf.SetOwnProperties"
     />
+
+  <browser:page
+    for="plone.app.layout.navigation.interfaces.INavigationRoot"
+    name="manage_subscriptions"
+    class=".user_preferences_form.ManageSubscriptionsForm"
+    layer="eea.notifications.interfaces.IEEANotificationsInstalled"
+    permission="cmf.SetOwnProperties"
+    />
+
 </configure>

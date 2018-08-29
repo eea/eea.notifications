@@ -1,8 +1,49 @@
 """ The user's form for managing tags and events subscriptions
 """
+
 from Products.Five.browser import BrowserView
 from eea.notifications.catalogtool import get_catalog
 from plone import api
+from plone.directives import form
+from z3c.form import button
+from zope import schema
+
+
+class IManageSubscriptionsForm(form.Schema):
+    test_value = schema.TextLine(
+            title=u"Test value",
+        )
+
+
+class ManageSubscriptionsForm(form.SchemaForm):
+    """ The user preferences related to notifications form
+    """
+
+    schema = IManageSubscriptionsForm
+    ignoreContext = True
+
+    label = u"Manage subscriptions"
+    description = u"""
+        1. Select the content tags you are interested in.
+        2. Select the type of events you want to be notified about."""
+
+    @button.buttonAndHandler(u'Update subscriptions')
+    def handleApply(self, action):
+        data, errors = self.extractData()
+        if errors:
+            self.status = self.formErrorsMessage
+            return
+
+        # Do something
+
+        self.status = "Your preferences have been updated: {0}".format(
+            data['test_value']
+        )
+
+    @button.buttonAndHandler(u"Cancel")
+    def handleCancel(self, action):
+        """User cancelled. Redirect back to the front page.
+        """
 
 
 class UserPreferencesForm(BrowserView):
