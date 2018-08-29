@@ -49,9 +49,13 @@ def get_plone_site():
     return site
 
 
-# TODO custom variable substitution
-# current_tag = "sadas"
-# current_url = "asdasd"
+def msg_part(req, key):
+    """ return the value of given key for a notification
+    """
+    msg = json.loads(IAnnotations(req).get(ANNOT_SUBS_KEY))
+    return msg.get(key, "")
+
+
 class eea_notifications_user_id(BaseSubstitution):
     adapts(IContentish)
 
@@ -60,7 +64,13 @@ class eea_notifications_user_id(BaseSubstitution):
 
     def safe_call(self):
         req = getRequest()
-        return IAnnotations(req).get(ANNOT_SUBS_KEY)
+        return msg_part(req, "user_id")
+
+        #     user_id=msg['user_id'],
+        #     notification_subject=msg['notification_subject'],
+        #     notification_action=msg['notification_action'],
+        #     content_url=msg['content_url'],
+        #     actor=msg['actor']
 
 
 def notifications_center_operations(site):
@@ -74,9 +84,7 @@ def notifications_center_operations(site):
         print message
         obj = get_object_having_path(msg['path'])
         if obj is not None:
-            # IAnnotations(self.request)[ANNOT_SUBS_KEY] = msg
-            notify(SendEEANotificationEvent(obj, "test_value"))
-            # notify(SendEEANotificationEvent(obj))
+            notify(SendEEANotificationEvent(obj, message))
         else:
             LOGGER.error("Object with path {0} not found.".msg['path'])
 

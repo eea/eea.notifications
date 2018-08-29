@@ -13,11 +13,11 @@ from zope.interface import implements
 class SendEEANotificationEvent(ObjectEvent):
     implements(ISendEEANotificationEvent)
 
-    def __init__(self, context, test_value):
+    def __init__(self, context, message):
         self.object = context
 
         req = getRequest()
-        IAnnotations(req)[ANNOT_SUBS_KEY] = test_value
+        IAnnotations(req)[ANNOT_SUBS_KEY] = message
 
 
 def trigger_contentrules(event):
