@@ -6,13 +6,24 @@ from eea.notifications.catalogtool import get_catalog
 from plone import api
 from plone.directives import form
 from z3c.form import button
+from z3c.form.browser.checkbox import CheckBoxFieldWidget
+from z3c.form.field import Fields
 from zope import schema
+from zope.schema import Choice
+from zope.schema import List
 
 
 class IManageSubscriptionsForm(form.Schema):
+
     test_value = schema.TextLine(
-            title=u"Test value",
-        )
+        title=u"Test value",
+    )
+
+    test_list = List(
+        title=u"Test list",
+        value_type=Choice(vocabulary="test_list_vocab"),
+        required=False,
+    )
 
 
 class ManageSubscriptionsForm(form.SchemaForm):
@@ -27,6 +38,9 @@ class ManageSubscriptionsForm(form.SchemaForm):
         1. Select the content tags you are interested in.
         2. Select the type of events you want to be notified about."""
 
+    fields = Fields(IManageSubscriptionsForm)
+    fields['test_list'].widgetFactory = CheckBoxFieldWidget
+
     @button.buttonAndHandler(u'Update subscriptions')
     def handleApply(self, action):
         data, errors = self.extractData()
@@ -35,6 +49,8 @@ class ManageSubscriptionsForm(form.SchemaForm):
             return
 
         # Do something
+
+        import pdb; pdb.set_trace()
 
         self.status = "Your preferences have been updated: {0}".format(
             data['test_value']

@@ -20,6 +20,11 @@
 
   <include file="permissions.zcml" />
 
+  <utility
+      component="eea.notifications.vocabulary.get_test_list_vocab"
+      name="test_list_vocab"
+      />
+
   <interface
       interface="eea.notifications.interfaces.ISendEEANotificationEvent"
       type="plone.contentrules.rule.interfaces.IRuleEventType"
