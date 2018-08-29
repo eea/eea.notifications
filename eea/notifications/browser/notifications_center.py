@@ -55,18 +55,24 @@ def notifications_center_operations(site):
         if obj is not None:
             notify(SendEEANotificationEvent(obj, message))
         else:
-            LOGGER.error("Object with path {0} not found.".msg['path'])
+            LOGGER.error("Object with path {0} not found.", msg['path'])
 
         return True
 
     # Consume messages from queue
     rabbit_config = get_rabbit_config()
     rabbit = RabbitMQConnector(**rabbit_config)
+
+    ok_configuration = True
     try:
         LOGGER.info('START consuming from \'%s\'', RABBIT_QUEUE)
         rabbit.open_connection()
         rabbit.declare_queue(RABBIT_QUEUE)
+    except AttributeError:
+        LOGGER.error("Wrong configuration for RabbitMQ client.")
+        ok_configuration = False
 
+    if ok_configuration:
         while True:
             method, properties, body = rabbit.get_message(RABBIT_QUEUE)
             if method is None and properties is None and body is None:
@@ -78,8 +84,6 @@ def notifications_center_operations(site):
 
         rabbit.close_connection()
         LOGGER.info('DONE consuming from \'%s\'', RABBIT_QUEUE)
-    except AttributeError:
-        LOGGER.error("Wrong configuration for RabbitMQ client.")
 
 
 def notifications_center():
