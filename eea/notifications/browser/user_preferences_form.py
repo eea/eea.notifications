@@ -12,17 +12,33 @@ from zope.schema import Choice
 from zope.schema import List
 
 
+def default_tags():
+    # import pdb; pdb.set_trace()
+    # from plone import api
+    # api.portal.get()
+    # *** CannotGetPortalError: Unable to get the portal object.
+    # More info on http://docs.plone.org/develop/plone.api/docs/api/exceptions.html#plone.api.exc.CannotGetPortalError
+    # TODO autofill the form with current user preferences
+    return ['Austria']
+
+
+def default_events():
+    return ['added']
+
+
 class IManageSubscriptionsForm(form.Schema):
 
     tags = List(
         title=u"Tags",
         value_type=Choice(vocabulary="tags_vocab"),
+        default=default_tags(),
         required=False,
     )
 
     events = List(
         title=u"Events",
         value_type=Choice(vocabulary="events_vocab"),
+        default=default_events(),
         required=False,
     )
 
