@@ -32,8 +32,36 @@
   <adapter
       for="*"
       provides="plone.stringinterp.interfaces.IStringSubstitution"
-      factory="eea.notifications.browser.notifications_center.eea_notifications_user_id"
+      factory="eea.notifications.browser.notifications_center.subs_user_id"
       name="eea_notifications_user_id"
+      />
+
+  <adapter
+      for="*"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      factory="eea.notifications.browser.notifications_center.subs_notification_subject"
+      name="eea_notifications_notification_subject"
+      />
+
+  <adapter
+      for="*"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      factory="eea.notifications.browser.notifications_center.subs_notification_action"
+      name="eea_notifications_notification_action"
+      />
+
+  <adapter
+      for="*"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      factory="eea.notifications.browser.notifications_center.subs_content_url"
+      name="eea_notifications_content_url"
+      />
+
+  <adapter
+      for="*"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      factory="eea.notifications.browser.notifications_center.subs_actor"
+      name="eea_notifications_actor"
       />
 
   <genericsetup:registerProfile

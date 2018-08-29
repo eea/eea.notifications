@@ -56,21 +56,59 @@ def msg_part(req, key):
     return msg.get(key, "")
 
 
-class eea_notifications_user_id(BaseSubstitution):
+class subs_user_id(BaseSubstitution):
     adapts(IContentish)
 
     category = u'EEA Notifications Utils'
-    description = u"Content of message set in workflow form."
+    description = u"The user_id of notified person."
 
     def safe_call(self):
         req = getRequest()
         return msg_part(req, "user_id")
 
-        #     user_id=msg['user_id'],
-        #     notification_subject=msg['notification_subject'],
-        #     notification_action=msg['notification_action'],
-        #     content_url=msg['content_url'],
-        #     actor=msg['actor']
+
+class subs_notification_subject(BaseSubstitution):
+    adapts(IContentish)
+
+    category = u'EEA Notifications Utils'
+    description = u"The subject as defined in pingRMQ form."
+
+    def safe_call(self):
+        req = getRequest()
+        return msg_part(req, "notification_subject")
+
+
+class subs_notification_action(BaseSubstitution):
+    adapts(IContentish)
+
+    category = u'EEA Notifications Utils'
+    description = u"The action on that content (example: edited)."
+
+    def safe_call(self):
+        req = getRequest()
+        return msg_part(req, "notification_action")
+
+
+class subs_content_url(BaseSubstitution):
+    adapts(IContentish)
+
+    category = u'EEA Notifications Utils'
+    description = u"The url of content related to this event."
+
+    def safe_call(self):
+        req = getRequest()
+        return msg_part(req, "content_url")
+
+
+class subs_actor(BaseSubstitution):
+    adapts(IContentish)
+
+    category = u'EEA Notifications Utils'
+    description = u"The user_id of the event's actor."
+
+    def safe_call(self):
+        req = getRequest()
+        return msg_part(req, "actor")
 
 
 def notifications_center_operations(site):
