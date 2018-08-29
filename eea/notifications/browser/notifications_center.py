@@ -93,21 +93,24 @@ def notifications_center_operations(site):
     # Consume messages from queue
     rabbit_config = get_rabbit_config()
     rabbit = RabbitMQConnector(**rabbit_config)
-    LOGGER.info('START consuming from \'%s\'', RABBIT_QUEUE)
-    rabbit.open_connection()
-    rabbit.declare_queue(RABBIT_QUEUE)
+    try:
+        LOGGER.info('START consuming from \'%s\'', RABBIT_QUEUE)
+        rabbit.open_connection()
+        rabbit.declare_queue(RABBIT_QUEUE)
 
-    while True:
-        method, properties, body = rabbit.get_message(RABBIT_QUEUE)
-        if method is None and properties is None and body is None:
-            LOGGER.info('Queue is empty \'%s\'.', RABBIT_QUEUE)
-            break
+        while True:
+            method, properties, body = rabbit.get_message(RABBIT_QUEUE)
+            if method is None and properties is None and body is None:
+                LOGGER.info('Queue is empty \'%s\'.', RABBIT_QUEUE)
+                break
 
-        operations(body, site)
-        rabbit.get_channel().basic_ack(delivery_tag=method.delivery_tag)
+            operations(body, site)
+            rabbit.get_channel().basic_ack(delivery_tag=method.delivery_tag)
 
-    rabbit.close_connection()
-    LOGGER.info('DONE consuming from \'%s\'', RABBIT_QUEUE)
+        rabbit.close_connection()
+        LOGGER.info('DONE consuming from \'%s\'', RABBIT_QUEUE)
+    except AttributeError:
+        LOGGER.error("Wrong configuration for RabbitMQ client.")
 
 
 def notifications_center():
