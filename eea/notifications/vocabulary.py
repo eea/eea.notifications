@@ -1,7 +1,8 @@
-from zope.schema.vocabulary import SimpleTerm
-from zope.schema.vocabulary import SimpleVocabulary
+from eea.notifications.catalogtool import get_catalog
 from zope.interface import provider
 from zope.schema.interfaces import IVocabularyFactory
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
 
 
 LABELS = {}
@@ -21,7 +22,8 @@ def vocab_from_values(values):
 
 @provider(IVocabularyFactory)
 def get_tags_vocab(context):
-    res = ['tag1', 'tag2', 'tag3']
+    catalog = get_catalog()
+    res = [x[0] for x in catalog.all_tags()]
     vocab = vocab_from_values(res)
 
     return vocab
@@ -29,7 +31,8 @@ def get_tags_vocab(context):
 
 @provider(IVocabularyFactory)
 def get_events_vocab(context):
-    res = ['test1', 'test2', 'test3']
+    catalog = get_catalog()
+    res = [x[0] for x in catalog.all_events()]
     vocab = vocab_from_values(res)
 
     return vocab
