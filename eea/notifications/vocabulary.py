@@ -20,7 +20,15 @@ def vocab_from_values(values):
 
 
 @provider(IVocabularyFactory)
-def get_test_list_vocab(context):
+def get_tags_vocab(context):
+    res = ['tag1', 'tag2', 'tag3']
+    vocab = vocab_from_values(res)
+
+    return vocab
+
+
+@provider(IVocabularyFactory)
+def get_events_vocab(context):
     res = ['test1', 'test2', 'test3']
     vocab = vocab_from_values(res)
 

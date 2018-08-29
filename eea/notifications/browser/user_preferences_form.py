@@ -8,20 +8,21 @@ from plone.directives import form
 from z3c.form import button
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from z3c.form.field import Fields
-from zope import schema
 from zope.schema import Choice
 from zope.schema import List
 
 
 class IManageSubscriptionsForm(form.Schema):
 
-    test_value = schema.TextLine(
-        title=u"Test value",
+    tags = List(
+        title=u"Tags",
+        value_type=Choice(vocabulary="tags_vocab"),
+        required=False,
     )
 
-    test_list = List(
-        title=u"Test list",
-        value_type=Choice(vocabulary="test_list_vocab"),
+    events = List(
+        title=u"Events",
+        value_type=Choice(vocabulary="events_vocab"),
         required=False,
     )
 
@@ -39,7 +40,18 @@ class ManageSubscriptionsForm(form.SchemaForm):
         2. Select the type of events you want to be notified about."""
 
     fields = Fields(IManageSubscriptionsForm)
-    fields['test_list'].widgetFactory = CheckBoxFieldWidget
+    fields['tags'].widgetFactory = CheckBoxFieldWidget
+    fields['events'].widgetFactory = CheckBoxFieldWidget
+
+    @property
+    def notifications_catalog(self):
+        return get_catalog()
+
+    @property
+    def user_id(self):
+        """ The current user's id
+        """
+        return api.user.get_current().getId()
 
     @button.buttonAndHandler(u'Update subscriptions')
     def handleApply(self, action):
@@ -48,17 +60,13 @@ class ManageSubscriptionsForm(form.SchemaForm):
             self.status = self.formErrorsMessage
             return
 
-        # Do something
-
-        import pdb; pdb.set_trace()
-
-        self.status = "Your preferences have been updated: {0}".format(
-            data['test_value']
-        )
+        self.notifications_catalog.set_tags(data['tags'], self.user_id)
+        self.notifications_catalog.set_events(data['events'], self.user_id)
+        self.status = "Your preferences have been updated."
 
     @button.buttonAndHandler(u"Cancel")
     def handleCancel(self, action):
-        """User cancelled. Redirect back to the front page.
+        """ User cancelled. Redirect back to the front page.
         """
 
 

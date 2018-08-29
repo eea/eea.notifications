@@ -21,8 +21,13 @@
   <include file="permissions.zcml" />
 
   <utility
-      component="eea.notifications.vocabulary.get_test_list_vocab"
-      name="test_list_vocab"
+      component="eea.notifications.vocabulary.get_tags_vocab"
+      name="tags_vocab"
+      />
+
+  <utility
+      component="eea.notifications.vocabulary.get_events_vocab"
+      name="events_vocab"
       />
 
   <interface
