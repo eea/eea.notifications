@@ -1,14 +1,23 @@
 """ Events
 """
 from eea.notifications.catalogtool import get_catalog
+from eea.notifications.config import ANNOT_SUBS_KEY
 from eea.notifications.interfaces import ISendEEANotificationEvent
 from plone.app.contentrules.handlers import execute_rules
+from zope.annotation.interfaces import IAnnotations
 from zope.component.interfaces import ObjectEvent
+from zope.globalrequest import getRequest
 from zope.interface import implements
 
 
 class SendEEANotificationEvent(ObjectEvent):
     implements(ISendEEANotificationEvent)
+
+    def __init__(self, context, test_value):
+        self.object = context
+
+        req = getRequest()
+        IAnnotations(req)[ANNOT_SUBS_KEY] = test_value
 
 
 def trigger_contentrules(event):

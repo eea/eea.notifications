@@ -8,7 +8,7 @@ from eea.notifications.config import ANNOT_SUBS_KEY
 from eea.notifications.config import ENV_HOST_NAME
 from eea.notifications.config import ENV_PLONE_NAME
 from eea.notifications.config import RABBIT_QUEUE
-from eea.notifications.notifications import send_email_notification
+# from eea.notifications.notifications import send_email_notification
 from eea.notifications.utils import LOGGER
 from eea.notifications.utils import get_object_having_path
 from eea.notifications.utils import get_rabbit_config
@@ -59,10 +59,8 @@ class eea_notifications_user_id(BaseSubstitution):
     description = u"Content of message set in workflow form."
 
     def safe_call(self):
-        import pdb; pdb.set_trace()
-        return "WIP USER ID"
-        # req = getRequest()
-        # return IAnnotations(req).get(ANNOT_SUBS_KEY)
+        req = getRequest()
+        return IAnnotations(req).get(ANNOT_SUBS_KEY)
 
 
 def notifications_center_operations(site):
@@ -76,7 +74,9 @@ def notifications_center_operations(site):
         print message
         obj = get_object_having_path(msg['path'])
         if obj is not None:
-            notify(SendEEANotificationEvent(obj))
+            # IAnnotations(self.request)[ANNOT_SUBS_KEY] = msg
+            notify(SendEEANotificationEvent(obj, "test_value"))
+            # notify(SendEEANotificationEvent(obj))
         else:
             LOGGER.error("Object with path {0} not found.".msg['path'])
 
