@@ -2,8 +2,15 @@
 form.kssattr-formname-manage_subscriptions div#formfield-form-widgets-tags span#form-widgets-tags,
 form.kssattr-formname-manage_subscriptions div#formfield-form-widgets-events span#form-widgets-events {
   float: left;
-  max-width: 90%;
+  width: 100%;
 }
+
+form.kssattr-formname-manage_subscriptions div#formfield-form-widgets-tags span#form-widgets-tags span.option,
+form.kssattr-formname-manage_subscriptions div#formfield-form-widgets-events span#form-widgets-events span.option {
+  float: left;
+  min-width: 20%;
+}
+
 
 /* --- Notifications center (browser view) --------------------------------- */
 
