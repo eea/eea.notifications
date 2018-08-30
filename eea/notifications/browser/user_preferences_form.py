@@ -28,7 +28,7 @@ def default_events(context):
 class IManageSubscriptionsForm(form.Schema):
 
     tags = List(
-        title=u"Tags",
+        title=u"1. Select the content tags you are interested in.",
         description=u"""
             Example: if you want to be notified when an item related to
             education is changed you will subscribe to "education" tag.
@@ -39,7 +39,7 @@ class IManageSubscriptionsForm(form.Schema):
     )
 
     events = List(
-        title=u"Events",
+        title=u"2. Select the type of events you want to be notified about.",
         description=u"""
             Example: the item was deleted. You will receive a notification
             when an item (tagged with a tag you are interested in) is deleted.
@@ -59,8 +59,7 @@ class ManageSubscriptionsForm(form.SchemaForm):
 
     label = u"Manage subscriptions"
     description = u"""
-        1. Select the content tags you are interested in.
-        2. Select the type of events you want to be notified about."""
+    Use this form to manage your subscriptions to content changes."""
 
     fields = Fields(IManageSubscriptionsForm)
     fields['tags'].widgetFactory = CheckBoxFieldWidget
