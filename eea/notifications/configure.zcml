@@ -40,8 +40,8 @@
       name="EEA Notifications: send notification event"
       />
 
-    <subscriber for="eea.notifications.interfaces.ISendEEANotificationEvent"
-                handler="eea.notifications.actions.events.trigger_contentrules" />
+  <subscriber for="eea.notifications.interfaces.ISendEEANotificationEvent"
+              handler="eea.notifications.actions.events.trigger_contentrules" />
 
   <adapter
       for="*"
