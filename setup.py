@@ -27,15 +27,17 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'setuptools',
         'eea.rabbitmq.client',
+        'plone.app.z3cform',
+        'plone.directives.form',
+        'setuptools',
     ],
     extras_require={
         'test': [
-            'plone.app.testing',
-            'setuptools',
-            'plone.app.z3cform',
             'eea.rabbitmq.client',
+            'plone.app.testing',
+            'plone.app.z3cform',
+            'setuptools',
         ],
     },
     entry_points="""
