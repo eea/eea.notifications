@@ -55,7 +55,7 @@ def notifications_center_operations(site):
         if obj is not None:
             notify(SendEEANotificationEvent(obj, message))
         else:
-            LOGGER.error("Object with path {0} not found.", msg['path'])
+            LOGGER.error("Object with path {0} not found.".format(msg['path']))
 
         return True
 
