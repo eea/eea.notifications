@@ -52,7 +52,7 @@ TODO
 
 - Create documentation based on this:
 Usage:
-  User: manage subscriptions using /user_preferences form
+  User: manage subscriptions using /manage_subscriptions form
   Admin:
     In Site Setup - Content rules:
       Add content rule

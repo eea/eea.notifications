@@ -35,52 +35,8 @@ form.kssattr-formname-manage_subscriptions div.formControls #form-buttons-cancel
 
 
 /* --- Notifications center (browser view) --------------------------------- */
-
 body.template-notifications_center h1.documentFirstHeading,
 body.template-notifications_center div#plone-document-byline,
 body.template-notifications_center div.documentDescription.description {
   display: none;
-}
-
-
-/* --- User preferences ---------------------------------------------------- */
-body.template-user_preferences h1.documentFirstHeading,
-body.template-user_preferences div#plone-document-byline,
-body.template-user_preferences div.documentDescription.description {
-  display: none;
-}
-
-form#subscriptions-form p.form-help {
-  color: #999999;
-}
-
-
-form#subscriptions-form div.form-group {
-  padding-top: 30px;
-}
-
-form#subscriptions-form div.tags-list-container ul.tags-list,
-form#subscriptions-form div.events-list-container ul.events-list {
-  max-height: 250px;
-  overflow-y: auto;
-  border: 1px solid #CCCCCC;
-  padding: 10px;
-  margin-left: 0px;
-}
-
-form#subscriptions-form div.tags-list-container ul.tags-list li,
-form#subscriptions-form div.events-list-container ul.events-list li {
-  display: inline-block !important;
-  width: 19%;
-}
-
-form#subscriptions-form div.tags-list-container ul.tags-list li.selected label,
-form#subscriptions-form div.events-list-container ul.events-list li.selected label {
-  border: 1px solid #CCCCCC;
-  padding-left: 2px;
-  padding-right: 2px;
-}
-
-form#subscriptions-form button[name='submit'] {
-  padding: 5px 30px;
 }
