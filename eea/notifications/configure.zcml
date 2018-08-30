@@ -18,6 +18,10 @@
       recursive="True"
       />
 
+    <browser:resource
+      name="eea-notifications-styles.css"
+      file="skins/eea_notifications/eea-notifications-styles.css" />
+
   <include file="permissions.zcml" />
 
   <utility
