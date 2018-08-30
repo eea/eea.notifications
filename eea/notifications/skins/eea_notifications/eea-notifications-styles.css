@@ -11,6 +11,28 @@ form.kssattr-formname-manage_subscriptions div#formfield-form-widgets-events spa
   min-width: 20%;
 }
 
+form.kssattr-formname-manage_subscriptions div#formfield-form-widgets-tags,
+form.kssattr-formname-manage_subscriptions div#formfield-form-widgets-events {
+  max-height: 250px;
+  overflow-y: auto;
+  border: 1px solid #CCCCCC;
+  padding: 10px;
+  margin-left: 0px;
+}
+
+form.kssattr-formname-manage_subscriptions div#formfield-form-widgets-events,
+form.kssattr-formname-manage_subscriptions div.formControls {
+  margin-top: 30px;
+}
+
+form.kssattr-formname-manage_subscriptions div.formControls input {
+  padding: 5px 30px;
+}
+
+form.kssattr-formname-manage_subscriptions div.formControls #form-buttons-cancel {
+  float: right;
+}
+
 
 /* --- Notifications center (browser view) --------------------------------- */
 
