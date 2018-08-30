@@ -8,22 +8,22 @@ from plone.directives import form
 from z3c.form import button
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from z3c.form.field import Fields
+from zope.interface import provider
 from zope.schema import Choice
 from zope.schema import List
+from zope.schema.interfaces import IContextAwareDefaultFactory
 
 
-def default_tags():
-    # import pdb; pdb.set_trace()
-    # from plone import api
-    # api.portal.get()
-    # *** CannotGetPortalError: Unable to get the portal object.
-    # More info on http://docs.plone.org/develop/plone.api/docs/api/exceptions.html#plone.api.exc.CannotGetPortalError
-    # TODO autofill the form with current user preferences
-    return ['Austria']
+@provider(IContextAwareDefaultFactory)
+def default_tags(context):
+    return [x for x in get_catalog().selected_tags(
+        user_id=api.user.get_current().id)]
 
 
-def default_events():
-    return ['added']
+@provider(IContextAwareDefaultFactory)
+def default_events(context):
+    return [x for x in get_catalog().selected_events(
+        user_id=api.user.get_current().id)]
 
 
 class IManageSubscriptionsForm(form.Schema):
@@ -31,14 +31,14 @@ class IManageSubscriptionsForm(form.Schema):
     tags = List(
         title=u"Tags",
         value_type=Choice(vocabulary="tags_vocab"),
-        default=default_tags(),
+        defaultFactory=default_tags,
         required=False,
     )
 
     events = List(
         title=u"Events",
         value_type=Choice(vocabulary="events_vocab"),
-        default=default_events(),
+        defaultFactory=default_events,
         required=False,
     )
 
