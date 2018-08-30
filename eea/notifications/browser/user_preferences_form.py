@@ -59,7 +59,8 @@ class ManageSubscriptionsForm(form.SchemaForm):
 
     label = u"Manage subscriptions"
     description = u"""
-    Use this form to manage your subscriptions to content changes."""
+    Notify me on content (changes) that is tagged with selected tags.
+    """
 
     fields = Fields(IManageSubscriptionsForm)
     fields['tags'].widgetFactory = CheckBoxFieldWidget

@@ -1,37 +1,40 @@
-OK - An user creates a subscription and manages his/hers subscriptions.
-OK - A subscription is "notify me on new content created that is tagged ..."
+An user creates a subscription and manages his/hers subscriptions.
+  (in /@@manage_subscriptions)
+
+A subscription is "notify me on new content created that is tagged ..."
   (which includes both new content with interest tag, or old content that gets
   the interest tag),
   "notify me on any changes that affect content with interest tag".
 
-OK - Do we want to offer a user the possibility to filter based on portal
+Do we want to offer a user the possibility to filter based on portal
   location or content type? I think these are too low level and even if a user
   gets extra emails, he can filter (maybe we express some specific info in
   mail subject such as “New Indicator created”)
 
-OK - based on content rule(s), when a content item is edited (or published etc.)
+Based on content rule(s), when a content item is edited (or published etc.)
   a ping (RabbitMQ) will be generated containing the url of edited object,
   the recorded action (edited, published etc.) and other needed info
   (tags, title, author, change of diff, date, etc.)
 
-OK - Why a ping based on a content rule? The site administrator can decide for
+Why a ping based on a content rule? The site administrator can decide for
   which content types this notification mechanism applies, thus applying
   a “sane default” for the users
 
-WIP - an asynchronous script will process the pings (retrieve them from RabbitMQ)
+An asynchronous script will process the pings (retrieve them from RabbitMQ)
   in order to send notification for all subscribed users in that case
   (tag + action).
+    bin/zeo_client run bin/notifications_center
 
-OK - Global persistent utility that holds the catalog.
+Global persistent utility that holds the catalog.
   https://community.plone.org/t/index-simple-data-in-a-custom-catalog/6911/3
     Result = catalog.query(tag=’education’, event=’created’)
     Result = [list of brains]
     Brain = userid, email address, etc.
 
-OK - use memberdata to store user's preferences (tags, events)
-OK - when a memberdata is updated -> the values reindexed in custom catalog
+use memberdata to store user's preferences (tags, events)
+when a memberdata is updated -> the values reindexed in custom catalog
 
-WIP - Based on the result processing, the async script extracts a list of user
+Based on the result processing, the async script extracts a list of user
   emails. It then triggers a new custom event (which will be processed by a
   content rule), to allow customization of notification mechanism.
   So, for example, if there are 20 users subscribed to a tag “water”,
@@ -42,13 +45,6 @@ WIP - Based on the result processing, the async script extracts a list of user
 TODO
 - Add documentation on configuring ENV vars and running the notifications
   center script.
-- content rules
-- content actions / events as vocabulary
-- custom events and notifications
-- the user preferences form: use z3c.form, example: http://dpaste.com/1X2714Q
-- NC -> notify custom event (a custom content rule will send email:
-  editable template using custom substitution variables) instead of sending
-  emails
 
 - Create documentation based on this:
 Usage:
