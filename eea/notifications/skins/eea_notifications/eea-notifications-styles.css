@@ -1,4 +1,12 @@
-/* --- Notifications center (browser view) ---------------------------------- */
+/* --- Manage subscriptions ------------------------------------------------ */
+form.kssattr-formname-manage_subscriptions div#formfield-form-widgets-tags span#form-widgets-tags,
+form.kssattr-formname-manage_subscriptions div#formfield-form-widgets-events span#form-widgets-events {
+  float: left;
+  max-width: 90%;
+}
+
+/* --- Notifications center (browser view) --------------------------------- */
+
 body.template-notifications_center h1.documentFirstHeading,
 body.template-notifications_center div#plone-document-byline,
 body.template-notifications_center div.documentDescription.description {
