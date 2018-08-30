@@ -24,8 +24,9 @@ def get_object_having_path(path):
     """ Usage: path = "/".join(obj.getPhysicalPath())
     """
     try:
-        return api.portal.get().portal_catalog(
-            path={"query": path, "depth": 0})[0].getObject()
+        return api.portal.get().unrestrictedTraverse(
+            str("/".join(path.split("/")[2:]))  # exclude site root
+        )
     except Exception:
         return None
 
