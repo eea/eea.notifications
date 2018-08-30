@@ -29,6 +29,10 @@ class IManageSubscriptionsForm(form.Schema):
 
     tags = List(
         title=u"Tags",
+        description=u"""
+            Example: if you want to be notified when an item related to
+            education is changed you will subscribe to "education" tag.
+        """,
         value_type=Choice(vocabulary="tags_vocab"),
         defaultFactory=default_tags,
         required=False,
@@ -36,6 +40,10 @@ class IManageSubscriptionsForm(form.Schema):
 
     events = List(
         title=u"Events",
+        description=u"""
+            Example: the item was deleted. You will receive a notification
+            when an item (tagged with a tag you are interested in) is deleted.
+        """,
         value_type=Choice(vocabulary="events_vocab"),
         defaultFactory=default_events,
         required=False,
