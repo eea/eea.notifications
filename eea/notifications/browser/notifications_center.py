@@ -13,6 +13,7 @@ from eea.rabbitmq.client import RabbitMQConnector
 from plone import api
 from zope.event import notify
 import json
+# from Acquisition import Implicit
 
 
 def get_plone_site():
@@ -42,6 +43,11 @@ def get_plone_site():
     return site
 
 
+# class TestObj(Implicit):
+#     def __init__(self, message=None):
+#         self.message = message
+
+
 def notifications_center_operations(site):
     """ All the operations of Notifications Center happen here
         Callable by both: browser view and script
@@ -51,6 +57,15 @@ def notifications_center_operations(site):
         msg = json.loads(message)
 
         print message
+
+        # obj = TestObj(message=message)
+        # # obj = obj.__of__(self.context)
+        # notify(SendEEANotificationEvent(obj, message))
+
+        # TODO check
+        # https://play.pixelblaster.ro/blog/2016/08/31/abusing-plone-content-rules-to-allow-site-admin-customizations-of-sent-emails/
+        # fix this to work for multiple users / multiple notify of custom event
+
         obj = get_object_having_path(msg['path'])
         if obj is not None:
             notify(SendEEANotificationEvent(obj, message))
