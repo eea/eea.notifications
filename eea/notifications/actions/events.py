@@ -4,7 +4,6 @@ from eea.notifications.catalogtool import get_catalog
 from eea.notifications.config import ANNOT_SUBS_KEY
 from eea.notifications.interfaces import ISendEEANotificationEvent
 from plone.app.contentrules.handlers import execute
-# from plone.app.contentrules.handlers import execute_rules
 from zope.annotation.interfaces import IAnnotations
 from zope.component.interfaces import ObjectEvent
 from zope.globalrequest import getRequest
@@ -22,7 +21,6 @@ class SendEEANotificationEvent(ObjectEvent):
 
 
 def trigger_contentrules(event):
-    # execute_rules(event)
     execute(event.object, event)
 
 
