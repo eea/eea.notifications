@@ -49,11 +49,36 @@ def notifications_center_operations(site):
     """
 
     def operations(message, site):
+        def get_object(site, path):
+            """ Return the object at given path
+                or its first existing parent
+            """
+            obj = get_object_having_path(path)
+            if obj is None:
+                try:
+                    path = "/".join(path.split("/")[:-1])
+                    return get_object(site, path)
+                except Exception:
+                    return None
+            else:
+                if obj == site:
+                    return None
+                return obj
+            return None
+
         msg = json.loads(message)
 
         print message
 
-        obj = get_object_having_path(msg['path'])
+        """ This object is the object related to notification we want to send.
+            Sometimes it is missing (example: on deleted items) so a parent
+            will be used for that case.
+
+            But the content_url is not changed, basically we just make sure
+            the notification is sent.
+        """
+        obj = get_object(site, msg['path'])
+
         if obj is not None:
             evt = SendEEANotificationEvent(obj, message)
             notify(evt)
