@@ -6,9 +6,6 @@ Let your users to be notified about the content they are interested in.
 </kbd>
 
 
->![mockup](https://github.com/eea/eea.notifications/blob/master/docs/mockup.png "Mockup")
-
-
 ## :book: Usage
 
 ### :baby: Simple user
