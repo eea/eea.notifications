@@ -69,6 +69,19 @@ as listed in this table.
   <img src="https://github.com/eea/eea.notifications/blob/master/docs/rabbitmq-client-settings.png" title="RabbitMQ client settings" alt="RabbitMQ client settings" />
 </kbd>
 
+## :book: Demonstration
+When we edit a folder with title "Nice folder title here" tagged with "Austria" tag, the RabbitMQ receives pings for each user that has a subscription for this tag and "edited" action.
+
+<kbd>
+  <img src="https://github.com/eea/eea.notifications/blob/master/docs/rabbitmq.png" title="RabbitMQ" alt="RabbitMQ" />
+</kbd>
+
+Then the notification center will send the notifications to users.
+
+<kbd>
+  <img src="https://github.com/eea/eea.notifications/blob/master/docs/mailtrap.png" title="Mailtrap" alt="Mailtrap" />
+</kbd>
+
 ## :star: Source code
 
 Latest source code (Plone 4 compatible): https://github.com/eea/eea.notifications/
