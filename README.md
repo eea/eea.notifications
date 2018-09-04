@@ -43,4 +43,22 @@ Defined something like:
 
 #### :mailbox_with_no_mail: Content rules for sending notifications
 
-WIP
+You can choose to send email notifications. In this case you will set a content rule with Event trigger: EEA Notifications: send notification event and this details:
+
+<kbd>
+  <img src="https://github.com/eea/eea.notifications/blob/master/docs/manage-content-rules-b-1.png" title="Manage content rules b 1" alt="Manage content rules b 1">
+</kbd>
+Action: send email.
+<kbd>
+  <img src="https://github.com/eea/eea.notifications/blob/master/docs/manage-content-rules-b-2.png" title="Manage content rules b 2" alt="Manage content rules b 2">
+</kbd>
+
+In email notification you can use the substitution variables:
+<kbd>
+  <img src="https://github.com/eea/eea.notifications/blob/master/docs/manage-content-rules-b-3.png" title="Manage content rules b 3" alt="Manage content rules b 3">
+</kbd>
+
+as listed in this table.
+<kbd>
+  <img src="https://github.com/eea/eea.notifications/blob/master/docs/manage-content-rules-b-4.png" title="Manage content rules b 4" alt="Manage content rules b 4">
+</kbd>
