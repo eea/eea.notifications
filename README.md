@@ -68,3 +68,16 @@ as listed in this table.
 <kbd>
   <img src="https://github.com/eea/eea.notifications/blob/master/docs/rabbitmq-client-settings.png" title="RabbitMQ client settings" alt="RabbitMQ client settings" />
 </kbd>
+
+## :star: Source code
+
+Latest source code (Plone 4 compatible): https://github.com/eea/eea.notifications/
+
+## :copyright: Copyright and license
+The Initial Owner of the Original Code is [European Environment Agency (EEA)](https://www.eea.europa.eu/). All Rights Reserved.
+
+More details: [LICENSE file](https://github.com/eea/eea.notifications/blob/master/LICENSE).
+
+## :moneybag: Funding
+
+EEA - European Environment Agency (EU)
