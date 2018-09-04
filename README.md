@@ -48,6 +48,7 @@ You can choose to send email notifications. In this case you will set a content 
 <kbd>
   <img src="https://github.com/eea/eea.notifications/blob/master/docs/manage-content-rules-b-1.png" title="Manage content rules b 1" alt="Manage content rules b 1" />
 </kbd>
+
 Action: send email.
 <kbd>
   <img src="https://github.com/eea/eea.notifications/blob/master/docs/manage-content-rules-b-2.png" title="Manage content rules b 2" alt="Manage content rules b 2" />
