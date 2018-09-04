@@ -3,7 +3,6 @@
 
 from OFS.SimpleItem import SimpleItem
 from eea.notifications.catalogtool import get_catalog
-from eea.notifications.config import OBJECT_EVENTS
 from eea.notifications.config import RABBIT_QUEUE
 from eea.notifications.interfaces import IPingRMQAction
 from eea.notifications.utils import LOGGER
@@ -27,7 +26,7 @@ class PingRMQAction(SimpleItem):
     """
     implements(IPingRMQAction, IRuleElementData)
 
-    related_actions = ''
+    related_action = ''
     notification_subject = ''
     notification_action = ''
     element = 'eea.notifications.actions.PingRMQ'
@@ -46,8 +45,7 @@ class PingRMQActionExecutor(object):
         self.event = event
 
     def __call__(self):
-        event = self.event
-        related_actions = self.element.related_actions
+        related_action = self.element.related_action
         notification_subject = self.element.notification_subject
         notification_action = self.element.notification_action
 
@@ -57,26 +55,8 @@ class PingRMQActionExecutor(object):
         catalog = get_catalog()
         tags = get_tags(obj)
 
-        def get_actions_by_interface_names(event):
-            """ Return human readable actions done on this event
-            """
-            return [action for action in OBJECT_EVENTS if action in ' '.join(
-                [interface.__name__.lower() for interface in list(
-                    set(event.__provides__.__iro__))]
-                )]
-
-        def get_actions():
-            """ return related user preferred events types
-            """
-            return [action for action in OBJECT_EVENTS if action in
-                    related_actions]
-
-        actions = get_actions()
-        if len(actions) == 0:
-            actions = get_actions_by_interface_names(event)
-
         users = catalog.search_users_by_preferences(
-            tags=tags, events=actions, mode="or")
+            tags=tags, events=[related_action], mode="or")
 
         try:
             url = obj.absolute_url()
