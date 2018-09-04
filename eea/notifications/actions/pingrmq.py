@@ -61,19 +61,22 @@ class PingRMQActionExecutor(object):
         try:
             url = obj.absolute_url()
         except Exception:
-            url = ""
+            url = "N/A"
 
         try:
             content_title = obj.Title()
         except Exception:
-            content_title = ""
+            content_title = "N/A"
 
         try:
             actor = ContentHistoryView(
                     obj, self.context.REQUEST).fullHistory()[0][
                             'actor']['username']
         except Exception:
-            actor = ""
+            try:
+                actor = obj.Creator()
+            except Exception:
+                actor = "N/A"
 
         rabbit_config = get_rabbit_config()
         rabbit = RabbitMQConnector(**rabbit_config)
