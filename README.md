@@ -24,9 +24,11 @@ An example subscription is "notify me on new content created that is tagged ..."
 Administator sets content rules to ping RabbitMQ on content changes.
 
 This means in /@@rules-controlpanel you will add a rule for each case. Examples: when an object is added, or modified, or removed...
+
 <kbd>
   <img src="https://github.com/eea/eea.notifications/blob/master/docs/manage-content-rules-1.png" title="Manage content rules 1" alt="Manage content rules 1">
 </kbd>
+
 the performed action is Ping RMQ.
 <kbd>
   <img src="https://github.com/eea/eea.notifications/blob/master/docs/manage-content-rules-2.png" title="Manage content rules 2" alt="Manage content rules 2">
