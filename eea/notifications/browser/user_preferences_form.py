@@ -62,7 +62,7 @@ class ManageSubscriptionsForm(form.SchemaForm):
     Notify me on content (changes) that is tagged with selected tags.
     """
 
-    css_class = "manage_subscriptions_form"
+    css_class = "manage-subscriptions-form"
 
     fields = Fields(IManageSubscriptionsForm)
     fields['tags'].widgetFactory = CheckBoxFieldWidget

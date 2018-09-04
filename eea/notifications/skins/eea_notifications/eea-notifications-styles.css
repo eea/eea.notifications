@@ -1,18 +1,18 @@
 /* --- Manage subscriptions ------------------------------------------------ */
-form.kssattr-formname-manage_subscriptions div#formfield-form-widgets-tags span#form-widgets-tags,
-form.kssattr-formname-manage_subscriptions div#formfield-form-widgets-events span#form-widgets-events {
+form.manage-subscriptions-form div#formfield-form-widgets-tags span#form-widgets-tags,
+form.manage-subscriptions-form div#formfield-form-widgets-events span#form-widgets-events {
   float: left;
   width: 100%;
 }
 
-form.kssattr-formname-manage_subscriptions div#formfield-form-widgets-tags span#form-widgets-tags span.option,
-form.kssattr-formname-manage_subscriptions div#formfield-form-widgets-events span#form-widgets-events span.option {
+form.manage-subscriptions-form div#formfield-form-widgets-tags span#form-widgets-tags span.option,
+form.manage-subscriptions-form div#formfield-form-widgets-events span#form-widgets-events span.option {
   float: left;
   min-width: 20%;
 }
 
-form.kssattr-formname-manage_subscriptions div#formfield-form-widgets-tags,
-form.kssattr-formname-manage_subscriptions div#formfield-form-widgets-events {
+form.manage-subscriptions-form div#formfield-form-widgets-tags,
+form.manage-subscriptions-form div#formfield-form-widgets-events {
   max-height: 250px;
   overflow-y: auto;
   border: 1px solid #CCCCCC;
@@ -20,20 +20,20 @@ form.kssattr-formname-manage_subscriptions div#formfield-form-widgets-events {
   margin-left: 0px;
 }
 
-form.kssattr-formname-manage_subscriptions div#formfield-form-widgets-events,
-form.kssattr-formname-manage_subscriptions div.formControls {
+form.manage-subscriptions-form div#formfield-form-widgets-events,
+form.manage-subscriptions-form div.formControls {
   margin-top: 30px;
 }
 
-form.kssattr-formname-manage_subscriptions div.formControls input {
+form.manage-subscriptions-form div.formControls input {
   padding: 5px 30px;
 }
 
-form.kssattr-formname-manage_subscriptions div.formControls #form-buttons-cancel {
+form.manage-subscriptions-form div.formControls #form-buttons-cancel {
   float: right;
 }
 
-form.kssattr-formname-manage_subscriptions .formHelp {
+form.manage-subscriptions-form .formHelp {
   color: #A6A6A6;
 }
 
