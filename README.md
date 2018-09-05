@@ -153,4 +153,4 @@ More details: [LICENSE file](https://github.com/eea/eea.notifications/blob/maste
 
 ## :moneybag: Funding
 
-EEA - European Environment Agency (EU)
+[EEA - European Environment Agency (EU)](https://www.eea.europa.eu/)
