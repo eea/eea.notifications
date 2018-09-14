@@ -130,13 +130,13 @@ In mail settings (@@mail-controlpanel):
 then http://localhost:8081 u: mailtrap p: mailtrap
 
 ## :book: Demonstration
-When we edit a folder with title "Nice folder title here" tagged with "Austria" tag, the RabbitMQ receives pings for each user that has a subscription for this tag and "edited" action.
+When we edit a folder with title "Nice folder title here" tagged with "Austria" tag, the RabbitMQ receive a ping with related details.
 
 <kbd>
   <img src="https://github.com/eea/eea.notifications/blob/master/docs/rabbitmq.png" title="RabbitMQ" alt="RabbitMQ" />
 </kbd>
 
-Then the notification center will send the notifications to users.
+Then the notification center will search the users subscribed to this type of notifications and it will send the notifications to users.
 
 <kbd>
   <img src="https://github.com/eea/eea.notifications/blob/master/docs/mailtrap.png" title="Mailtrap" alt="Mailtrap" />
