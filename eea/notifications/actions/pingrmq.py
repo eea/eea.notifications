@@ -2,7 +2,6 @@
 """
 
 from OFS.SimpleItem import SimpleItem
-from eea.notifications.catalogtool import get_catalog
 from eea.notifications.config import RABBIT_QUEUE
 from eea.notifications.interfaces import IPingRMQAction
 from eea.notifications.utils import LOGGER
@@ -52,11 +51,7 @@ class PingRMQActionExecutor(object):
         obj = self.event.object
         path = "/".join(obj.getPhysicalPath())
 
-        catalog = get_catalog()
         tags = get_tags(obj)
-
-        users = catalog.search_users_by_preferences(
-            tags=tags, events=[related_action], mode="or")
 
         try:
             url = obj.absolute_url()
@@ -84,21 +79,19 @@ class PingRMQActionExecutor(object):
             rabbit.open_connection()
             rabbit.declare_queue(RABBIT_QUEUE)
 
-            # TODO: a single ping, users to be found by notifications center
-            for user in users:
-                json_notification = {
-                    'user_id': user,
-                    'notification_subject': notification_subject,
-                    'notification_action': notification_action,
-                    'content_url': url,
-                    'content_title': content_title,
-                    'actor': actor,
-                    'path': path,
-                    'tags': tags
-                }
-                message = json.dumps(json_notification)
+            json_notification = {
+                'notification_subject': notification_subject,
+                'notification_action': notification_action,
+                'content_url': url,
+                'content_title': content_title,
+                'actor': actor,
+                'path': path,
+                'tags': tags,
+                'events': related_action,
+            }
+            message = json.dumps(json_notification)
 
-                rabbit.send_message(RABBIT_QUEUE, message)
+            rabbit.send_message(RABBIT_QUEUE, message)
         except Exception:
             LOGGER.error(
                 "RabbitMQ connection problem. "

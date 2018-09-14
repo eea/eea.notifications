@@ -3,6 +3,7 @@
 
 from Products.Five.browser import BrowserView
 from eea.notifications.actions.events import SendEEANotificationEvent
+from eea.notifications.catalogtool import get_catalog
 from eea.notifications.config import ENV_HOST_NAME
 from eea.notifications.config import ENV_PLONE_NAME
 from eea.notifications.config import RABBIT_QUEUE
@@ -68,8 +69,6 @@ def notifications_center_operations(site):
 
         msg = json.loads(message)
 
-        print message
-
         """ This object is the object related to notification we want to send.
             Sometimes it is missing (example: on deleted items) so a parent
             will be used for that case.
@@ -80,9 +79,15 @@ def notifications_center_operations(site):
         obj = get_object(site, msg['path'])
 
         if obj is not None:
-            evt = SendEEANotificationEvent(obj, message)
-            notify(evt)
-            close(evt)  # make sure it will work for multiple notify(
+            catalog = get_catalog()
+            users = catalog.search_users_by_preferences(
+                tags=msg['tags'],
+                events=[msg.get('events', '')], mode="or")
+            for user_id in users:
+                msg['user_id'] = user_id
+                evt = SendEEANotificationEvent(obj, json.dumps(msg))
+                notify(evt)
+                close(evt)  # make sure it will work for multiple notify(
         else:
             LOGGER.error("Object with path {0} not found.".format(msg['path']))
 
