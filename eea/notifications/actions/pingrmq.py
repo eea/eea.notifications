@@ -84,6 +84,7 @@ class PingRMQActionExecutor(object):
             rabbit.open_connection()
             rabbit.declare_queue(RABBIT_QUEUE)
 
+            # TODO: a single ping, users to be found by notifications center
             for user in users:
                 json_notification = {
                     'user_id': user,
@@ -93,6 +94,7 @@ class PingRMQActionExecutor(object):
                     'content_title': content_title,
                     'actor': actor,
                     'path': path,
+                    'tags': tags
                 }
                 message = json.dumps(json_notification)
 
