@@ -1,7 +1,7 @@
 """ Utils
 """
 
-from eea.rabbitmq_plone.rabbitmq import get_rabbitmq_client_settings
+from eea.rabbitmq.plone.rabbitmq import get_rabbitmq_client_settings
 from plone import api
 import logging
 
