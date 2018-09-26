@@ -28,7 +28,7 @@ setup(
     zip_safe=False,
     install_requires=[
         'eea.rabbitmq.client',
-        'eea.rabbitmq_plone',
+        'eea.rabbitmq.plone',
         'plone.app.z3cform',
         'plone.directives.form',
         'setuptools',
