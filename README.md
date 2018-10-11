@@ -21,6 +21,12 @@ An example subscription is "notify me on new content created that is tagged ..."
 
 ### :man: Admin user
 
+#### :factory: Installation
+
+Add `eea.notifications` in your buildout.
+Don't forget to Activate it.
+Also activate `eea.rabbitmq.plone` else you will receive `KeyError: 'Interface eea.rabbitmq.plone.rabbitmq.IRabbitMQClientSettings defines a field username, for which there is no record.'`
+
 #### Administator sets content rules to ping RabbitMQ on content changes.
 
 #### :mailbox_with_mail: Content rules for RabbitMQ pings
