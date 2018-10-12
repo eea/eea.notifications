@@ -160,7 +160,11 @@ class EEANotificationsCatalogTool(CatalogTool):
         """
         tags = self.uniqueValuesFor("getTags")
 
-        return [(x, x) for x in sorted(tags)]
+        res = [
+            (x, x) for x in sorted(tags)
+            if self.searchResults({"getTags": x})  # only non empty
+            ]
+        return res
 
     def selected_tags(self, user_id):
         """ The list of user selected tags
@@ -169,7 +173,10 @@ class EEANotificationsCatalogTool(CatalogTool):
         if tags_annot is None:
             return []
 
-        return tags_annot.get(user_id, [])
+        return [
+            x for x in tags_annot.get(user_id, [])
+            if self.searchResults({"getTags": x})  # only non empty
+        ]
         # The same with:
         # user = api.user.get(user_id)
         # return user.getProperty("eea_notifications_tags")
