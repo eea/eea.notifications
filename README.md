@@ -135,6 +135,42 @@ In mail settings (@@mail-controlpanel):
 
 then http://localhost:8081 u: mailtrap p: mailtrap
 
+#### Development: Testing RabbitMQ (docker)
+In your docker-compose:
+````
+rabbitmq:
+    image: rabbitmq:3-management
+    hostname: eea-rabbit
+    restart: always
+    ports:
+        - 5672:5672 # port for the daemon API, can be exposed to public.
+        - 15672:15672 # port for the Management interface
+    env_file:
+        - .secret
+    volumes:
+        - /etc/localtime:/etc/localtime:ro
+    volumes_from:
+        - rabbitmqdata
+
+  rabbitmqdata:
+    image: busybox
+    tty: true
+    command: chown -v -R 999:999 /var/lib/rabbitmq
+    volumes:
+        - /var/lib/rabbitmq
+    stdin_open: true
+````
+In your secret file:
+````
+RABBITMQ_DEFAULT_USER=admin
+RABBITMQ_DEFAULT_PASS=admin
+````
+(^ Probably just to skip some errors. I don't use it.)
+
+Then:
+http://0.0.0.0:15672
+u: guest p: guest
+
 ## :book: Demonstration
 When we edit a folder with title "Nice folder title here" tagged with "Austria" tag, the RabbitMQ receive a ping with related details.
 
