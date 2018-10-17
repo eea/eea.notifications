@@ -43,6 +43,8 @@ Based on the result processing, the async script extracts a list of user
   (email, slack message, etc).
 
 TODO
+- Try AjaxSelectFieldWidget in manage subscriptions form. Check version conflict
+  for plone.app.z3cform.
 - Add documentation on configuring ENV vars and running the notifications
   center script.
 
