@@ -3,6 +3,8 @@
 
 from eea.notifications.catalogtool import get_catalog
 from plone import api
+# from plone.app.widgets.dx import AjaxSelectFieldWidget
+# from plone.autoform import directives
 from plone.directives import form
 from z3c.form import button
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
@@ -11,9 +13,6 @@ from zope.interface import provider
 from zope.schema import Choice
 from zope.schema import List
 from zope.schema.interfaces import IContextAwareDefaultFactory
-from plone.app.widgets.dx import AjaxSelectFieldWidget
-from zope import schema
-from plone.autoform import directives
 
 
 @provider(IContextAwareDefaultFactory)
@@ -30,29 +29,22 @@ def default_events(context):
 
 class IManageSubscriptionsForm(form.Schema):
 
-    # tags = List(
-    #     title=u"1. Select the content tags you are interested in.",
-    #     description=u"""
-    #         Example: if you want to be notified when an item related to
-    #         education is changed you will subscribe to "education" tag.
-    #     """,
-    #     value_type=Choice(vocabulary="tags_vocab"),
-    #     defaultFactory=default_tags,
-    #     required=False,
-    # )
-    #
-    tags = schema.Tuple(
-        title=u'label_tags',
-        description=u'help_tags',
-        value_type=schema.TextLine(),
+    tags = List(
+        title=u"1. Select the content tags you are interested in.",
+        description=u"""
+            Example: if you want to be notified when an item related to
+            education is changed you will subscribe to "education" tag.
+        """,
+        value_type=Choice(vocabulary="tags_vocab"),
+        defaultFactory=default_tags,
         required=False,
-        missing_value=(),
     )
-    directives.widget(
-        'tags',
-        AjaxSelectFieldWidget,
-        vocabulary='tags_vocab'
-    )
+
+    # directives.widget(
+    #     'tags',
+    #     AjaxSelectFieldWidget,
+    #     vocabulary='tags_vocab'
+    # )
 
     events = List(
         title=u"2. Select the type of events you want to be notified about.",
