@@ -15,6 +15,7 @@ from plone import api
 from plone.app.contentrules.handlers import close
 from zope.event import notify
 import json
+from plone.app.widgets.dx import AjaxSelectWidget
 
 
 def get_plone_site():

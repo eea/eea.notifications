@@ -11,6 +11,9 @@ from zope.interface import provider
 from zope.schema import Choice
 from zope.schema import List
 from zope.schema.interfaces import IContextAwareDefaultFactory
+from plone.app.widgets.dx import AjaxSelectFieldWidget
+from zope import schema
+from plone.autoform import directives
 
 
 @provider(IContextAwareDefaultFactory)
@@ -27,15 +30,28 @@ def default_events(context):
 
 class IManageSubscriptionsForm(form.Schema):
 
-    tags = List(
-        title=u"1. Select the content tags you are interested in.",
-        description=u"""
-            Example: if you want to be notified when an item related to
-            education is changed you will subscribe to "education" tag.
-        """,
-        value_type=Choice(vocabulary="tags_vocab"),
-        defaultFactory=default_tags,
+    # tags = List(
+    #     title=u"1. Select the content tags you are interested in.",
+    #     description=u"""
+    #         Example: if you want to be notified when an item related to
+    #         education is changed you will subscribe to "education" tag.
+    #     """,
+    #     value_type=Choice(vocabulary="tags_vocab"),
+    #     defaultFactory=default_tags,
+    #     required=False,
+    # )
+    #
+    tags = schema.Tuple(
+        title=u'label_tags',
+        description=u'help_tags',
+        value_type=schema.TextLine(),
         required=False,
+        missing_value=(),
+    )
+    directives.widget(
+        'tags',
+        AjaxSelectFieldWidget,
+        vocabulary='tags_vocab'
     )
 
     events = List(
@@ -65,7 +81,8 @@ class ManageSubscriptionsForm(form.SchemaForm):
     css_class = "manage-subscriptions-form"
 
     fields = Fields(IManageSubscriptionsForm)
-    fields['tags'].widgetFactory = CheckBoxFieldWidget
+    # fields['tags'].widgetFactory = AjaxSelectFieldWidget
+    # fields['tags'].widgetFactory = CheckBoxFieldWidget
     fields['events'].widgetFactory = CheckBoxFieldWidget
 
     @property
