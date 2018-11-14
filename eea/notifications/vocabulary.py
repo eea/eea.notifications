@@ -1,11 +1,12 @@
-from Products.CMFPlone.utils import safe_unicode
 from binascii import b2a_qp
-from eea.notifications.catalogtool import get_catalog
+
+import six
 from zope.interface import provider
 from zope.schema.interfaces import IVocabularyFactory
-from zope.schema.vocabulary import SimpleTerm
-from zope.schema.vocabulary import SimpleVocabulary
-import six
+from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
+
+from eea.notifications.catalogtool import get_catalog
+from Products.CMFPlone.utils import safe_unicode
 
 
 def safe_encode(value):
@@ -13,6 +14,7 @@ def safe_encode(value):
         # no need to use portal encoding for transitional encoding from
         # unicode to ascii. utf-8 should be fine.
         value = value.encode('utf-8')
+
     return value
 
 
@@ -29,16 +31,25 @@ def vocab_from_values(values):
         pass
 
     vocab = SimpleVocabulary(terms)
+
     return vocab
+
+
+_VOCAB = None
 
 
 @provider(IVocabularyFactory)
 def get_tags_vocab(context):
+    global _VOCAB       # just a quick dirty cache
     catalog = get_catalog()
     res = [x[0] for x in catalog.all_tags()]
-    vocab = vocab_from_values(res)
 
-    return vocab
+    if _VOCAB:
+        return _VOCAB
+    else:
+        _VOCAB = vocab_from_values(res)
+
+    return _VOCAB
 
 
 @provider(IVocabularyFactory)
